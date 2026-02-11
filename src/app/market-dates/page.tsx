@@ -53,28 +53,23 @@ const marketDates: MarketCity[] = [
 
 export default function MarketDatesPage() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
-      <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-end">
-        <div className="space-y-4">
-          <p className="eyebrow">2026 Market Dates</p>
-          <h1 className="font-display text-6xl leading-[0.92] text-[var(--night)] sm:text-7xl">Plan buying windows before market gets crowded.</h1>
-        </div>
-        <div className="panel px-5 py-5 text-sm leading-7 text-[var(--ink-muted)] sm:px-6">
-          Dallas and Atlanta are permanent showrooms. Nashville dates support seasonal planning with Dixie Children&apos;s
-          Show appointments.
-        </div>
+    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+      <div className="max-w-2xl space-y-4">
+        <p className="text-xs font-semibold tracking-[0.18em] text-[var(--ink-muted)]">2026 MARKET DATES</p>
+        <h1 className="font-display text-5xl text-[var(--ink-strong)] sm:text-6xl">Plan your buying calendar.</h1>
       </div>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-3">
         {marketDates.map((market) => (
-          <article key={market.city} className="panel overflow-hidden">
-            <div className="border-b border-[var(--line)] bg-[rgba(255,255,255,0.65)] px-5 py-5 sm:px-6">
-              <h2 className="font-display text-5xl leading-none text-[var(--night)]">{market.city.toUpperCase()}</h2>
-            </div>
-            <ul className="space-y-3 px-5 py-5 sm:px-6">
+          <article
+            key={market.city}
+            className="rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.58)] p-6"
+          >
+            <h2 className="font-display text-4xl text-[var(--ink-strong)]">{market.city.toUpperCase()}</h2>
+            <ul className="mt-4 space-y-3">
               {market.events.map((event) => (
                 <li key={`${market.city}-${event.date}`} className="flex items-start justify-between gap-4 text-sm">
-                  <span className="font-semibold text-[var(--ink)]">{event.date}</span>
+                  <span className="font-medium text-[var(--ink-strong)]">{event.date}</span>
                   <span className="text-right text-[var(--ink-muted)]">{event.show}</span>
                 </li>
               ))}
@@ -83,15 +78,15 @@ export default function MarketDatesPage() {
         ))}
       </div>
 
-      <div className="mt-12 rounded-[1.7rem] border border-[rgba(248,241,228,0.22)] bg-[var(--night)] p-7 text-center sm:p-9">
-        <p className="mb-5 text-sm text-[rgba(248,241,228,0.82)]">Reserve your market appointment now for a focused line review.</p>
+      <div className="mt-12 rounded-2xl border border-[var(--border-soft)] bg-[var(--surface-strong)] p-6 text-center sm:p-8">
+        <p className="mb-4 text-sm text-[var(--ink-muted)]">Reserve your market time in advance for a focused walkthrough.</p>
         <a
           href={BOOKING_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex rounded-full border border-[rgba(248,241,228,0.78)] px-6 py-3 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[var(--panel)] transition hover:bg-[var(--panel)] hover:text-[var(--night)]"
+          className="inline-flex rounded-full bg-[var(--ink-strong)] px-6 py-3 text-xs font-semibold tracking-[0.16em] text-[var(--surface)] transition hover:opacity-90"
         >
-          Book Market Appointment
+          BOOK MARKET APPOINTMENT
         </a>
       </div>
     </section>

@@ -1,22 +1,20 @@
 import type { Metadata } from "next";
-import { Albert_Sans, Bodoni_Moda } from "next/font/google";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
 import "./globals.css";
 
-const albertSans = Albert_Sans({
-  variable: "--font-albert",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
 });
 
-const bodoniModa = Bodoni_Moda({
-  variable: "--font-bodoni",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-  style: ["normal", "italic"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -25,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | Buttercup Bebe",
   },
   description:
-    "Premium wholesale children's showroom in Dallas and Atlanta for boutique retailers.",
+    "Premium wholesale children\'s showroom in Dallas and Atlanta for boutique retailers.",
 };
 
 export default function RootLayout({
@@ -35,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${albertSans.variable} ${bodoniModa.variable} antialiased`}>
+      <body className={`${manrope.variable} ${cormorant.variable} antialiased`}>
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />

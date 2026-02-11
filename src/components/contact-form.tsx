@@ -13,9 +13,6 @@ const inquiryTypes = [
   "Ordering help",
 ] as const;
 
-const fieldClass =
-  "w-full rounded-xl border border-[var(--line)] bg-[rgba(255,255,255,0.76)] px-3 py-2.5 text-sm text-[var(--ink)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[rgba(179,110,61,0.16)]";
-
 export function ContactForm() {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -85,30 +82,55 @@ export function ContactForm() {
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="space-y-2 text-sm text-[var(--ink-muted)]">
           Name
-          <input type="text" name="name" required className={fieldClass} />
+          <input
+            type="text"
+            name="name"
+            required
+            className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
+          />
         </label>
 
         <label className="space-y-2 text-sm text-[var(--ink-muted)]">
           Store name
-          <input type="text" name="storeName" required className={fieldClass} />
+          <input
+            type="text"
+            name="storeName"
+            required
+            className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
+          />
         </label>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="space-y-2 text-sm text-[var(--ink-muted)]">
           Email
-          <input type="email" name="email" required className={fieldClass} />
+          <input
+            type="email"
+            name="email"
+            required
+            className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
+          />
         </label>
 
         <label className="space-y-2 text-sm text-[var(--ink-muted)]">
           Phone
-          <input type="tel" name="phone" required className={fieldClass} />
+          <input
+            type="tel"
+            name="phone"
+            required
+            className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
+          />
         </label>
       </div>
 
       <label className="space-y-2 text-sm text-[var(--ink-muted)]">
         Appointment type
-        <select name="inquiryType" required className={fieldClass} defaultValue="">
+        <select
+          name="inquiryType"
+          required
+          className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
+          defaultValue=""
+        >
           <option value="" disabled>
             Select one
           </option>
@@ -122,13 +144,18 @@ export function ContactForm() {
 
       <label className="space-y-2 text-sm text-[var(--ink-muted)]">
         Message
-        <textarea name="message" required rows={5} className={fieldClass} />
+        <textarea
+          name="message"
+          required
+          rows={5}
+          className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
+        />
       </label>
 
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="submit"
-          className="btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-full bg-[var(--ink-strong)] px-5 py-2.5 text-xs font-semibold tracking-[0.14em] text-[var(--surface)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           disabled={status === "sending"}
         >
           {status === "sending" ? "Sending..." : "Send Inquiry"}
@@ -141,12 +168,12 @@ export function ContactForm() {
       </div>
 
       {status === "sent" ? (
-        <p className="rounded-xl border border-[var(--line)] bg-[rgba(255,255,255,0.66)] px-4 py-3 text-sm text-[var(--ink)]">
+        <p className="rounded-xl border border-[var(--border-soft)] bg-[var(--surface-strong)] px-4 py-3 text-sm text-[var(--ink-strong)]">
           Inquiry ready to send. We&apos;ll follow up as soon as possible.
         </p>
       ) : null}
       {status === "error" ? (
-        <p className="rounded-xl border border-[rgba(153,57,57,0.38)] bg-[rgba(153,57,57,0.08)] px-4 py-3 text-sm text-[rgb(112,42,42)]">
+        <p className="rounded-xl border border-[rgba(153,57,57,0.4)] bg-[rgba(153,57,57,0.08)] px-4 py-3 text-sm text-[rgb(112,42,42)]">
           {errorMessage}
         </p>
       ) : null}
