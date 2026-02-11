@@ -16,14 +16,14 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[var(--surface-overlay)] backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-10">
         <div className="flex items-center justify-between gap-3">
-          <Link href="/" aria-label="Buttercup Bebe home" className="inline-flex items-center">
+          <Link href="/" aria-label="Buttercup Bebe home" className="inline-flex items-center py-1">
             <Image
-              src="/branding/buttercup-bebe-logo.svg"
-              alt="Buttercup Bebe"
-              width={290}
-              height={63}
+              src="/brand/buttercup-bebe-logo.png"
+              alt="Buttercup Bebe Logo"
+              width={1180}
+              height={450}
               priority
-              className="h-auto w-[230px] sm:w-[290px]"
+              className="h-auto w-[190px] sm:w-[240px] lg:w-[280px]"
             />
           </Link>
         </div>
