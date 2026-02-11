@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { Brand } from "@/data/brands";
 import { BOOKING_URL } from "@/lib/constants";
+import { Button, buttonStyles } from "@/components/ui/button";
 
 type BrandsShowcaseProps = {
   brands: Brand[];
@@ -20,9 +21,9 @@ const FOCUSABLE_SELECTOR = [
   "[tabindex]:not([tabindex='-1'])",
 ].join(",");
 
-const visuallyBalancedBrandOrder = (brands: Brand[]) => {
-  const featured = brands.filter((brand) => brand.featured);
-  const standard = brands.filter((brand) => !brand.featured);
+const sortBrandsForShowroom = (items: Brand[]) => {
+  const featured = items.filter((brand) => brand.featured);
+  const standard = items.filter((brand) => !brand.featured);
   return [...featured, ...standard];
 };
 
@@ -32,7 +33,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);
 
-  const orderedBrands = useMemo(() => visuallyBalancedBrandOrder(brands), [brands]);
+  const orderedBrands = useMemo(() => sortBrandsForShowroom(brands), [brands]);
 
   const closeModal = useCallback(() => {
     setActiveBrand(null);
@@ -52,7 +53,6 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     const focusableElements = Array.from(
       modalElement.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
     );
-
     focusableElements[0]?.focus();
 
     const handleKeydown = (event: KeyboardEvent) => {
@@ -80,7 +80,9 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       if (event.shiftKey && document.activeElement === firstElement) {
         event.preventDefault();
         lastElement.focus();
-      } else if (!event.shiftKey && document.activeElement === lastElement) {
+      }
+
+      if (!event.shiftKey && document.activeElement === lastElement) {
         event.preventDefault();
         firstElement.focus();
       }
@@ -106,21 +108,24 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     }
 
     setActiveImageIndex((currentIndex) => {
-      const maxIndex = activeBrand.images.length - 1;
+      const lastIndex = activeBrand.images.length - 1;
       if (direction === "next") {
-        return currentIndex === maxIndex ? 0 : currentIndex + 1;
+        return currentIndex === lastIndex ? 0 : currentIndex + 1;
       }
-      return currentIndex === 0 ? maxIndex : currentIndex - 1;
+      return currentIndex === 0 ? lastIndex : currentIndex - 1;
     });
   };
 
   return (
     <>
-      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {orderedBrands.map((brand) => (
           <article
             key={brand.slug}
-            className="group relative cursor-pointer overflow-hidden rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] shadow-[0_18px_40px_rgba(43,54,54,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_26px_48px_rgba(43,54,54,0.14)]"
+            role="button"
+            tabIndex={0}
+            aria-label={`Open quick view for ${brand.name}`}
+            className="brand-card interactive-card group relative overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]"
             onClick={() => openBrandModal(brand)}
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") {
@@ -128,49 +133,61 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 openBrandModal(brand);
               }
             }}
-            role="button"
-            tabIndex={0}
-            aria-label={`Open quick view for ${brand.name}`}
           >
-            <div className="relative aspect-[4/3] overflow-hidden bg-[var(--surface-strong)]">
+            <div className="relative aspect-[4/5] overflow-hidden bg-[var(--surface-strong)]">
               <Image
                 src={brand.images[0]}
                 alt={`${brand.name} collection preview`}
                 fill
-                className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
               />
             </div>
 
-            <div className="space-y-3 p-5">
-              <h3 className="font-display text-2xl text-[var(--ink-strong)]">{brand.name}</h3>
+            <div className="space-y-2 px-5 pb-6 pt-4">
+              <h3 className="font-display text-3xl leading-tight text-[var(--ink-strong)]">{brand.name}</h3>
               <p className="text-sm leading-6 text-[var(--ink-muted)]">{brand.oneLiner}</p>
             </div>
 
-            <div className="pointer-events-none absolute inset-0 hidden items-end bg-gradient-to-t from-[rgba(12,26,29,0.86)] via-[rgba(12,26,29,0.45)] to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100 md:flex">
+            <div className="brand-card-overlay absolute inset-0 hidden items-end bg-gradient-to-t from-[rgba(12,12,12,0.85)] via-[rgba(12,12,12,0.35)] to-transparent p-4 md:flex">
               <div className="pointer-events-auto flex flex-wrap gap-2">
                 <a
                   href={BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-[var(--surface)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-strong)]"
+                  className={buttonStyles({
+                    variant: "primary",
+                    size: "sm",
+                    className:
+                      "focus-visible:ring-offset-[rgba(12,12,12,0.9)]",
+                  })}
                   onClick={(event) => event.stopPropagation()}
                 >
                   Book
                 </a>
-                <a
-                  href="#contact-section"
-                  className="rounded-full border border-[rgba(255,255,255,0.7)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--surface)]"
+                <Link
+                  href="/contact"
+                  className={buttonStyles({
+                    variant: "secondary",
+                    size: "sm",
+                    className:
+                      "border-white/75 text-white hover:border-white hover:bg-white hover:text-[#101010] focus-visible:ring-offset-[rgba(12,12,12,0.9)]",
+                  })}
                   onClick={(event) => event.stopPropagation()}
                 >
                   Contact
-                </a>
+                </Link>
                 {brand.lineSheetUrl ? (
                   <a
                     href={brand.lineSheetUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full border border-[rgba(255,255,255,0.7)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--surface)]"
+                    className={buttonStyles({
+                      variant: "secondary",
+                      size: "sm",
+                      className:
+                        "border-white/75 text-white hover:border-white hover:bg-white hover:text-[#101010] focus-visible:ring-offset-[rgba(12,12,12,0.9)]",
+                    })}
                     onClick={(event) => event.stopPropagation()}
                   >
                     Line Sheet
@@ -178,43 +195,13 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 ) : null}
               </div>
             </div>
-
-            <div className="flex flex-wrap gap-2 border-t border-[var(--border-soft)] px-4 py-3 md:hidden">
-              <a
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-[var(--ink-strong)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--surface)]"
-                onClick={(event) => event.stopPropagation()}
-              >
-                Book
-              </a>
-              <a
-                href="#contact-section"
-                className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)]"
-                onClick={(event) => event.stopPropagation()}
-              >
-                Contact
-              </a>
-              {brand.lineSheetUrl ? (
-                <a
-                  href={brand.lineSheetUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)]"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  Line Sheet
-                </a>
-              ) : null}
-            </div>
           </article>
         ))}
       </div>
 
       {activeBrand ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(12,26,29,0.6)] p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(10,10,10,0.68)] p-4"
           onClick={closeModal}
         >
           <div
@@ -223,23 +210,23 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             aria-modal="true"
             aria-labelledby="quick-view-title"
             aria-describedby="quick-view-description"
-            className="max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] p-5 shadow-[0_28px_60px_rgba(10,16,22,0.3)] sm:p-7"
+            className="max-h-[92vh] w-full max-w-5xl overflow-y-auto rounded-2xl border border-[var(--line-strong)] bg-[var(--surface)] p-5 shadow-[0_28px_70px_rgba(0,0,0,0.35)] sm:p-7"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-4 flex justify-end">
-              <button
-                type="button"
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={closeModal}
-                className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-sm text-[var(--ink-muted)] transition hover:text-[var(--ink-strong)]"
                 aria-label="Close quick view"
               >
                 Close
-              </button>
+              </Button>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-[1.15fr_1fr]">
-              <div className="space-y-3">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[var(--surface-strong)]">
+            <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
+              <div className="space-y-4">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-[var(--surface-strong)]">
                   <Image
                     src={activeBrand.images[activeImageIndex]}
                     alt={`${activeBrand.name} image ${activeImageIndex + 1}`}
@@ -248,32 +235,47 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     sizes="(max-width: 1024px) 100vw, 55vw"
                   />
                 </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  {activeBrand.images.map((image, imageIndex) => (
+                    <button
+                      key={image}
+                      type="button"
+                      onClick={() => setActiveImageIndex(imageIndex)}
+                      className={`relative aspect-[4/5] overflow-hidden rounded-lg border transition ${
+                        imageIndex === activeImageIndex
+                          ? "border-[var(--ink-strong)]"
+                          : "border-[var(--line)] hover:border-[var(--line-strong)]"
+                      } focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]`}
+                      aria-label={`View image ${imageIndex + 1}`}
+                    >
+                      <Image
+                        src={image}
+                        alt={`${activeBrand.name} thumbnail ${imageIndex + 1}`}
+                        fill
+                        className="object-cover"
+                        sizes="200px"
+                      />
+                    </button>
+                  ))}
+                </div>
+
                 <div className="flex items-center justify-between gap-3">
-                  <button
-                    type="button"
-                    onClick={() => advanceImage("previous")}
-                    className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)] transition hover:text-[var(--ink-strong)]"
-                    aria-label="View previous image"
-                  >
+                  <Button variant="secondary" size="sm" onClick={() => advanceImage("previous")} aria-label="View previous image">
                     Previous
-                  </button>
-                  <p className="text-xs tracking-[0.12em] text-[var(--ink-muted)]">
+                  </Button>
+                  <p className="text-xs tracking-[0.1em] text-[var(--ink-muted)]">
                     {activeImageIndex + 1} / {activeBrand.images.length}
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => advanceImage("next")}
-                    className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)] transition hover:text-[var(--ink-strong)]"
-                    aria-label="View next image"
-                  >
+                  <Button variant="secondary" size="sm" onClick={() => advanceImage("next")} aria-label="View next image">
                     Next
-                  </button>
+                  </Button>
                 </div>
               </div>
 
               <div className="space-y-5">
                 <div className="space-y-3">
-                  <h2 id="quick-view-title" className="font-display text-4xl leading-tight text-[var(--ink-strong)]">
+                  <h2 id="quick-view-title" className="font-display text-5xl leading-tight text-[var(--ink-strong)]">
                     {activeBrand.name}
                   </h2>
                   <p id="quick-view-description" className="text-sm leading-7 text-[var(--ink-muted)]">
@@ -286,14 +288,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     href={BOOKING_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full bg-[var(--ink-strong)] px-4 py-2 text-xs font-semibold tracking-[0.16em] text-[var(--surface)]"
+                    className={buttonStyles({ variant: "primary", size: "md" })}
                   >
                     Book Appointment
                   </a>
-                  <Link
-                    href="/contact"
-                    className="rounded-full border border-[var(--ink-strong)] px-4 py-2 text-xs font-semibold tracking-[0.16em] text-[var(--ink-strong)] transition hover:bg-[var(--ink-strong)] hover:text-[var(--surface)]"
-                  >
+                  <Link href="/contact" className={buttonStyles({ variant: "secondary", size: "md" })}>
                     Contact to Order
                   </Link>
                   {activeBrand.lineSheetUrl ? (
@@ -301,7 +300,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                       href={activeBrand.lineSheetUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-full border border-[var(--border-soft)] px-4 py-2 text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]"
+                      className={buttonStyles({ variant: "secondary", size: "md" })}
                     >
                       View Line Sheet
                     </a>
@@ -313,7 +312,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     href={activeBrand.websiteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block text-xs font-semibold tracking-[0.12em] text-[var(--ink-muted)] underline-offset-4 hover:underline"
+                    className={buttonStyles({ variant: "ghost", size: "sm", className: "px-0" })}
                   >
                     Visit Website
                   </a>
