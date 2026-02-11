@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { BrandsShowcase } from "@/components/brands-showcase";
+import { buttonStyles } from "@/components/ui/button";
 import { brands } from "@/data/brands";
 import {
   BOOKING_URL,
@@ -15,9 +16,7 @@ export default function Home() {
     <div className="pb-20">
       <section className="mx-auto max-w-7xl px-4 pb-16 pt-14 sm:px-6 lg:px-10 lg:pt-20">
         <div className="max-w-3xl space-y-6">
-          <p className="reveal text-xs font-semibold tracking-[0.2em] text-[var(--ink-muted)]">
-            WHOLESALE CHILDREN&apos;S SHOWROOM
-          </p>
+          <p className="section-eyebrow reveal">Wholesale Children&apos;s Showroom</p>
           <h1 className="reveal font-display text-5xl leading-tight text-[var(--ink-strong)] sm:text-6xl">
             Curated children&apos;s lines for modern boutique retailers.
           </h1>
@@ -30,22 +29,19 @@ export default function Home() {
               href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-[var(--ink-strong)] px-6 py-3 text-xs font-semibold tracking-[0.16em] text-[var(--surface)] transition hover:opacity-90"
+              className={buttonStyles({ variant: "primary", size: "lg" })}
             >
-              BOOK NOW
+              Book Now
             </a>
-            <a
-              href="#brands-section"
-              className="rounded-full border border-[var(--ink-strong)] px-6 py-3 text-xs font-semibold tracking-[0.16em] text-[var(--ink-strong)] transition hover:bg-[var(--ink-strong)] hover:text-[var(--surface)]"
-            >
-              BROWSE BRANDS
+            <a href="#brands-section" className={buttonStyles({ variant: "secondary", size: "lg" })}>
+              Browse Brands
             </a>
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div className="grid gap-3 rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.5)] p-5 text-sm text-[var(--ink-strong)] sm:grid-cols-3 sm:items-center sm:gap-4 sm:p-6">
+        <div className="grid gap-3 rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.72)] p-5 text-sm text-[var(--ink-strong)] sm:grid-cols-3 sm:items-center sm:gap-4 sm:p-6">
           <p className="font-semibold tracking-wide">Dallas Market Center + AmericasMart Atlanta</p>
           <p className="text-[var(--ink-muted)]">Permanent showrooms</p>
           <p className="text-[var(--ink-muted)]">Virtual appointments available</p>
@@ -55,7 +51,7 @@ export default function Home() {
       <section id="brands-section" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-10">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-xl space-y-2">
-            <p className="text-xs font-semibold tracking-[0.2em] text-[var(--ink-muted)]">BRANDS</p>
+            <p className="section-eyebrow">Brands</p>
             <h2 className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Browse the line mix fast.</h2>
             <p className="text-sm leading-7 text-[var(--ink-muted)]">
               Tap any brand for quick view details, appointment booking, and ordering support.
@@ -65,9 +61,9 @@ export default function Home() {
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full border border-[var(--ink-strong)] px-4 py-2 text-xs font-semibold tracking-[0.14em] text-[var(--ink-strong)] transition hover:bg-[var(--ink-strong)] hover:text-[var(--surface)]"
+            className={buttonStyles({ variant: "secondary", size: "md" })}
           >
-            BOOK APPOINTMENT
+            Book Appointment
           </a>
         </div>
 
@@ -75,27 +71,26 @@ export default function Home() {
       </section>
 
       <section id="contact-section" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-10">
-        <div className="grid gap-6 rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.55)] p-6 md:grid-cols-[1.2fr_1fr] md:p-8">
+        <div className="grid gap-6 rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.72)] p-6 md:grid-cols-[1.2fr_1fr] md:p-8">
           <div className="space-y-4">
-            <p className="text-xs font-semibold tracking-[0.18em] text-[var(--ink-muted)]">CONTACT</p>
-            <h2 className="font-display text-4xl leading-tight text-[var(--ink-strong)]">Ready to place orders or build your market plan?</h2>
+            <p className="section-eyebrow">Contact</p>
+            <h2 className="font-display text-4xl leading-tight text-[var(--ink-strong)]">
+              Ready to place orders or build your market plan?
+            </h2>
             <p className="text-sm leading-7 text-[var(--ink-muted)]">
               Reach out directly, or use the contact form for virtual, Dallas, or Atlanta appointment requests.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link
-                href="/contact"
-                className="rounded-full bg-[var(--ink-strong)] px-5 py-2.5 text-xs font-semibold tracking-[0.16em] text-[var(--surface)]"
-              >
-                CONTACT TO ORDER
+              <Link href="/contact" className={buttonStyles({ variant: "primary", size: "md" })}>
+                Contact to Order
               </Link>
               <a
                 href={BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-[var(--ink-strong)] px-5 py-2.5 text-xs font-semibold tracking-[0.16em] text-[var(--ink-strong)] transition hover:bg-[var(--ink-strong)] hover:text-[var(--surface)]"
+                className={buttonStyles({ variant: "secondary", size: "md" })}
               >
-                BOOK NOW
+                Book Now
               </a>
             </div>
           </div>

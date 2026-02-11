@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { CONTACT_EMAIL } from "@/lib/constants";
 
 type FormStatus = "idle" | "sending" | "sent" | "error";
@@ -12,6 +13,9 @@ const inquiryTypes = [
   "Atlanta market appt",
   "Ordering help",
 ] as const;
+
+const fieldClass =
+  "w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/25";
 
 export function ContactForm() {
   const [status, setStatus] = useState<FormStatus>("idle");
@@ -82,55 +86,30 @@ export function ContactForm() {
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="space-y-2 text-sm text-[var(--ink-muted)]">
           Name
-          <input
-            type="text"
-            name="name"
-            required
-            className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
-          />
+          <input type="text" name="name" required className={fieldClass} />
         </label>
 
         <label className="space-y-2 text-sm text-[var(--ink-muted)]">
           Store name
-          <input
-            type="text"
-            name="storeName"
-            required
-            className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
-          />
+          <input type="text" name="storeName" required className={fieldClass} />
         </label>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="space-y-2 text-sm text-[var(--ink-muted)]">
           Email
-          <input
-            type="email"
-            name="email"
-            required
-            className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
-          />
+          <input type="email" name="email" required className={fieldClass} />
         </label>
 
         <label className="space-y-2 text-sm text-[var(--ink-muted)]">
           Phone
-          <input
-            type="tel"
-            name="phone"
-            required
-            className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
-          />
+          <input type="tel" name="phone" required className={fieldClass} />
         </label>
       </div>
 
       <label className="space-y-2 text-sm text-[var(--ink-muted)]">
         Appointment type
-        <select
-          name="inquiryType"
-          required
-          className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
-          defaultValue=""
-        >
+        <select name="inquiryType" required className={fieldClass} defaultValue="">
           <option value="" disabled>
             Select one
           </option>
@@ -144,22 +123,13 @@ export function ContactForm() {
 
       <label className="space-y-2 text-sm text-[var(--ink-muted)]">
         Message
-        <textarea
-          name="message"
-          required
-          rows={5}
-          className="w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--ink-strong)]"
-        />
+        <textarea name="message" required rows={5} className={fieldClass} />
       </label>
 
       <div className="flex flex-wrap items-center gap-3">
-        <button
-          type="submit"
-          className="rounded-full bg-[var(--ink-strong)] px-5 py-2.5 text-xs font-semibold tracking-[0.14em] text-[var(--surface)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
-          disabled={status === "sending"}
-        >
+        <Button type="submit" variant="primary" size="md" disabled={status === "sending"}>
           {status === "sending" ? "Sending..." : "Send Inquiry"}
-        </button>
+        </Button>
         <p className="text-xs tracking-wide text-[var(--ink-muted)]">
           {formspreeEndpoint
             ? "Formspree is active via NEXT_PUBLIC_FORMSPREE_ENDPOINT."

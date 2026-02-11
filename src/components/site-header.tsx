@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { buttonStyles } from "@/components/ui/button";
 import { BOOKING_URL } from "@/lib/constants";
 
 const navItems = [
@@ -11,7 +12,7 @@ const navItems = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[color:var(--surface-overlay)]/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[var(--surface-overlay)] backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-10">
         <div className="flex items-center justify-between gap-3">
           <Link
@@ -29,7 +30,11 @@ export function SiteHeader() {
               <li key={item.label}>
                 <Link
                   href={item.href}
-                  className="inline-flex items-center rounded-full border border-transparent px-3 py-1.5 tracking-wide text-[var(--ink-muted)] transition hover:border-[var(--border-soft)] hover:text-[var(--ink-strong)]"
+                  className={buttonStyles({
+                    variant: "ghost",
+                    size: "sm",
+                    className: "normal-case tracking-wide",
+                  })}
                 >
                   {item.label}
                 </Link>
@@ -40,7 +45,11 @@ export function SiteHeader() {
                 href={BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center rounded-full border border-[var(--ink-strong)] px-3 py-1.5 tracking-wide text-[var(--ink-strong)] transition hover:bg-[var(--ink-strong)] hover:text-[var(--surface)]"
+                className={buttonStyles({
+                  variant: "secondary",
+                  size: "sm",
+                  className: "normal-case tracking-wide",
+                })}
               >
                 Book Now
               </a>

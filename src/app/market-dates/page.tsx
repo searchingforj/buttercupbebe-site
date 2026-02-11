@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { buttonStyles } from "@/components/ui/button";
 import { BOOKING_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -55,7 +56,7 @@ export default function MarketDatesPage() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
       <div className="max-w-2xl space-y-4">
-        <p className="text-xs font-semibold tracking-[0.18em] text-[var(--ink-muted)]">2026 MARKET DATES</p>
+        <p className="section-eyebrow">2026 Market Dates</p>
         <h1 className="font-display text-5xl text-[var(--ink-strong)] sm:text-6xl">Plan your buying calendar.</h1>
       </div>
 
@@ -63,7 +64,7 @@ export default function MarketDatesPage() {
         {marketDates.map((market) => (
           <article
             key={market.city}
-            className="rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.58)] p-6"
+            className="rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.72)] p-6"
           >
             <h2 className="font-display text-4xl text-[var(--ink-strong)]">{market.city.toUpperCase()}</h2>
             <ul className="mt-4 space-y-3">
@@ -79,14 +80,16 @@ export default function MarketDatesPage() {
       </div>
 
       <div className="mt-12 rounded-2xl border border-[var(--border-soft)] bg-[var(--surface-strong)] p-6 text-center sm:p-8">
-        <p className="mb-4 text-sm text-[var(--ink-muted)]">Reserve your market time in advance for a focused walkthrough.</p>
+        <p className="mb-4 text-sm text-[var(--ink-muted)]">
+          Reserve your market time in advance for a focused walkthrough.
+        </p>
         <a
           href={BOOKING_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex rounded-full bg-[var(--ink-strong)] px-6 py-3 text-xs font-semibold tracking-[0.16em] text-[var(--surface)] transition hover:opacity-90"
+          className={buttonStyles({ variant: "primary", size: "lg" })}
         >
-          BOOK MARKET APPOINTMENT
+          Book Market Appointment
         </a>
       </div>
     </section>

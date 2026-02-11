@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { buttonStyles } from "@/components/ui/button";
 import {
   BOOKING_URL,
   CONTACT_EMAIL,
@@ -21,14 +22,14 @@ export function SiteFooter() {
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex rounded-full border border-[var(--ink-strong)] px-4 py-2 text-xs font-semibold tracking-[0.18em] text-[var(--ink-strong)] transition hover:bg-[var(--ink-strong)] hover:text-[var(--surface)]"
+            className={buttonStyles({ variant: "secondary", size: "md" })}
           >
-            BOOK APPOINTMENT
+            Book Appointment
           </a>
         </div>
 
         <div className="space-y-3">
-          <h2 className="text-xs font-semibold tracking-[0.18em] text-[var(--ink-muted)]">CONTACT</h2>
+          <h2 className="section-eyebrow">Contact</h2>
           <a className="block text-sm text-[var(--ink-strong)] hover:text-[var(--ink-muted)]" href={`mailto:${CONTACT_EMAIL}`}>
             {CONTACT_EMAIL}
           </a>
@@ -41,7 +42,7 @@ export function SiteFooter() {
         </div>
 
         <div className="space-y-3">
-          <h2 className="text-xs font-semibold tracking-[0.18em] text-[var(--ink-muted)]">SHOWROOMS</h2>
+          <h2 className="section-eyebrow">Showrooms</h2>
           <ul className="space-y-2 text-sm text-[var(--ink-strong)]">
             {SHOWROOM_LOCATIONS.map((location) => (
               <li key={location}>{location}</li>
