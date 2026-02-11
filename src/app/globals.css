@@ -1,17 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --surface: #f8f2e8;
-  --surface-strong: #efe4d2;
-  --surface-overlay: #fbf7f1;
-  --ink-strong: #203234;
-  --ink-muted: #4d605f;
-  --border-soft: rgba(32, 50, 52, 0.16);
+  --background: #fcfaf5;
+  --surface: #ffffff;
+  --surface-strong: #f7f3ea;
+  --surface-overlay: rgba(255, 255, 255, 0.88);
+  --ink-strong: #141414;
+  --ink-muted: #5f5b53;
+  --line: rgba(20, 20, 20, 0.1);
+  --line-strong: rgba(20, 20, 20, 0.2);
+  --accent: #e3b122;
+  --accent-strong: #cc9b11;
+  --button-on-accent: #17130b;
+  --border-soft: var(--line);
 }
 
 @theme inline {
-  --font-sans: var(--font-manrope);
-  --font-display: var(--font-cormorant);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
 }
 
 * {
@@ -25,21 +31,65 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 20% -10%, rgba(223, 199, 167, 0.5), transparent 42%),
-    radial-gradient(circle at 90% 0%, rgba(194, 215, 220, 0.32), transparent 38%),
-    var(--surface);
   color: var(--ink-strong);
-  font-family: var(--font-manrope), sans-serif;
+  font-family: var(--font-body), sans-serif;
+  background-color: var(--background);
+  background-image:
+    radial-gradient(circle at 14% 8%, rgba(227, 177, 34, 0.09), transparent 34%),
+    radial-gradient(circle at 88% -4%, rgba(0, 0, 0, 0.045), transparent 30%),
+    radial-gradient(rgba(20, 20, 20, 0.018) 0.6px, transparent 0.6px);
+  background-size: auto, auto, 3px 3px;
 }
 
 .font-display {
-  font-family: var(--font-cormorant), serif;
+  font-family: var(--font-display), serif;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.section-eyebrow {
+  color: var(--ink-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  box-shadow: 0 14px 34px rgba(20, 20, 20, 0.06);
+}
+
+.interactive-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.interactive-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-strong);
+  box-shadow: 0 16px 40px rgba(20, 20, 20, 0.12);
+}
+
+.brand-card-overlay {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .brand-card:hover .brand-card-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+:focus-visible {
+  outline: none;
 }
 
 @keyframes rise {
