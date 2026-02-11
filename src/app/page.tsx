@@ -14,15 +14,15 @@ import {
 export default function Home() {
   return (
     <div className="pb-20">
-      <section className="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 lg:px-10 lg:pb-14 lg:pt-20">
+      <section className="mx-auto max-w-7xl px-4 pb-6 pt-14 sm:px-6 lg:px-10 lg:pb-8 lg:pt-20">
         <div className="max-w-4xl space-y-6">
           <p className="section-eyebrow reveal">Wholesale Children&apos;s Showroom</p>
           <h1 className="reveal font-display text-5xl leading-tight text-[var(--ink-strong)] sm:text-6xl">
-            Curated children&apos;s brands for boutiques, specialty stores, and department stores.
+            Curated children&apos;s clothing brands for retailers.
           </h1>
           <p className="reveal max-w-2xl text-base leading-8 text-[var(--ink-muted)] sm:text-lg">
-            Meet in our permanent showrooms at Dallas Market Center and AmericasMart Atlanta, plus Nashville pop-up
-            markets at the Dixie Children&apos;s Show, for a curated line mix and personal buying support.
+            Meet in our permanent showrooms at Dallas Market Center and AmericasMart Atlanta, plus Nashville
+            participation through Dixie Children&apos;s Show pop-up markets.
           </p>
           <div className="reveal flex flex-wrap items-center gap-3 pt-2">
             <a
@@ -40,7 +40,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="brands-section" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+      <section id="brands-section" className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6 lg:px-10 lg:pb-20 lg:pt-12">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-xl space-y-2">
             <p className="section-eyebrow">Brands</p>

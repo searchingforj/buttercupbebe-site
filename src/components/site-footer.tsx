@@ -27,7 +27,6 @@ export function SiteFooter() {
           >
             Book Appointment
           </a>
-          <InstagramLink className="pt-1" />
         </div>
 
         <div className="space-y-3">
@@ -41,6 +40,7 @@ export function SiteFooter() {
           <a className="block text-sm text-[var(--ink-strong)] hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.marci}`}>
             Marci: {CONTACT_PHONES.marci}
           </a>
+          <InstagramLink className="pt-1" />
         </div>
 
         <div className="space-y-3">

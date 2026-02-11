@@ -27,7 +27,7 @@ npm run dev
 
 ## Routes
 
-- `/` Home (hero, credibility strip, brand showroom, quick view modal, contact section)
+- `/` Home (hero, brand showroom, quick view modal, contact section)
 - `/market-dates` 2026 market schedule
 - `/about` team + showroom background
 - `/contact` contact details + inquiry form
@@ -56,6 +56,7 @@ type Brand = {
   name: string;
   oneLiner: string;
   websiteUrl?: string;
+  lookbookUrl?: string;
   lineSheetUrl?: string;
   images: string[];
   featured?: boolean;
@@ -82,14 +83,36 @@ To replace with real photos:
 2. Replace the placeholder files with JPG/PNG/WebP (or keep SVG).
 3. Update image paths in `src/data/brands.ts` if filenames change.
 
-## Add Line Sheets
+## Add Lookbooks / Line Sheets
 
-If a brand has a line sheet:
+The quick view action checks `lookbookUrl` first, then falls back to `lineSheetUrl`.
+
+For best consistency, use `lookbookUrl` for every brand:
 
 1. Upload file to `public/line-sheets/<file-name>.pdf`.
-2. Add `lineSheetUrl: "/line-sheets/<file-name>.pdf"` to that brand in `src/data/brands.ts`.
+2. Add `lookbookUrl: "/line-sheets/<file-name>.pdf"` to that brand in `src/data/brands.ts`.
+3. Optional legacy fallback: use `lineSheetUrl` if you still have older links.
 
-The UI automatically shows line-sheet actions only when `lineSheetUrl` exists.
+The UI automatically shows the lookbook button only when one of those URLs exists.
+
+## Efficient Manual Update Workflow
+
+Use this routine when swapping seasonal assets:
+
+1. Replace images in each brand folder:
+   - `public/brands/<slug>/1.jpg`
+   - `public/brands/<slug>/2.jpg`
+   - `public/brands/<slug>/3.jpg`
+2. If filenames changed, update the `images` array in `src/data/brands.ts`.
+3. Upload each PDF to `public/line-sheets/`.
+4. Set or update each brand `lookbookUrl`.
+5. Run `npm run lint && npm run build` to verify.
+6. Commit:
+
+```bash
+git add public/brands public/line-sheets src/data/brands.ts
+git commit -m "Update seasonal brand imagery and lookbook links"
+```
 
 ## Contact Form Behavior
 

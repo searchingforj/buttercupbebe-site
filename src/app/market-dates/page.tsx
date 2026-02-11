@@ -63,22 +63,22 @@ export default function MarketDatesPage() {
         </p>
       </div>
 
-      <div className="mt-12 space-y-8">
+      <div className="mt-12 grid gap-5 lg:grid-cols-3">
         {marketDates.map((market) => (
           <article
             key={market.city}
-            className="mx-auto max-w-4xl rounded-3xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.72)] p-5 sm:p-7"
+            className="rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.72)] p-4 sm:p-5"
           >
-            <h2 className="text-center font-display text-4xl tracking-[0.06em] text-[var(--ink-strong)] sm:text-5xl">
+            <h2 className="text-center font-display text-3xl tracking-[0.06em] text-[var(--ink-strong)] sm:text-4xl">
               {market.city.toUpperCase()}
             </h2>
-            <ul className="mt-6 divide-y divide-[var(--border-soft)] rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)]">
+            <ul className="mt-4 divide-y divide-[var(--border-soft)] rounded-xl border border-[var(--border-soft)] bg-[var(--surface)]">
               {market.events.map((event) => (
                 <li
                   key={`${market.city}-${event.date}`}
-                  className="grid grid-cols-1 gap-1 px-4 py-3 text-sm sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-4 sm:px-6 sm:py-4"
+                  className="grid grid-cols-1 gap-0.5 px-3 py-2.5 text-sm sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-3 sm:px-4 sm:py-3"
                 >
-                  <span className="font-semibold text-[var(--ink-strong)]">{event.date}</span>
+                  <span className="font-semibold text-[var(--ink-strong)] sm:text-[0.95rem]">{event.date}</span>
                   <span className="text-[var(--ink-muted)] sm:text-right">{event.show}</span>
                 </li>
               ))}
