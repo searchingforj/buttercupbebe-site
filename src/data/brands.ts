@@ -3,6 +3,7 @@ export type Brand = {
   name: string;
   oneLiner: string;
   websiteUrl?: string;
+  lookbookUrl?: string;
   lineSheetUrl?: string;
   images: string[];
   featured?: boolean;
@@ -30,6 +31,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Classic children's apparel featuring vibrant colors, playful patterns, and everyday silhouettes.",
     websiteUrl: "https://www.littlepaperkids.com/",
+    lookbookUrl: "/lookbooks/little-paper-kids-lookbook.pdf",
     images: imagesFor("little-paper-kids"),
     featured: true,
   },

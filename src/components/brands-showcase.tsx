@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { Button, buttonStyles } from "@/components/ui/button";
 import type { Brand } from "@/data/brands";
 import { BOOKING_URL } from "@/lib/constants";
 
@@ -33,6 +34,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);
 
   const orderedBrands = useMemo(() => visuallyBalancedBrandOrder(brands), [brands]);
+  const activeLookbookUrl = activeBrand?.lookbookUrl ?? activeBrand?.lineSheetUrl;
 
   const closeModal = useCallback(() => {
     setActiveBrand(null);
@@ -116,11 +118,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
   return (
     <>
-      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {orderedBrands.map((brand) => (
           <article
             key={brand.slug}
-            className="group relative cursor-pointer overflow-hidden rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] shadow-[0_18px_40px_rgba(43,54,54,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_26px_48px_rgba(43,54,54,0.14)]"
+            className="group relative cursor-pointer overflow-hidden rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] shadow-[0_14px_35px_rgba(0,0,0,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,0,0,0.13)]"
             onClick={() => openBrandModal(brand)}
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") {
@@ -132,81 +134,24 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             tabIndex={0}
             aria-label={`Open quick view for ${brand.name}`}
           >
-            <div className="relative aspect-[4/3] overflow-hidden bg-[var(--surface-strong)]">
+            <div className="relative aspect-[4/5] overflow-hidden bg-[var(--surface-strong)]">
               <Image
                 src={brand.images[0]}
                 alt={`${brand.name} collection preview`}
                 fill
-                className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                className="object-cover transition duration-500 group-hover:scale-[1.04]"
                 sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
               />
-            </div>
-
-            <div className="space-y-3 p-5">
-              <h3 className="font-display text-2xl text-[var(--ink-strong)]">{brand.name}</h3>
-              <p className="text-sm leading-6 text-[var(--ink-muted)]">{brand.oneLiner}</p>
-            </div>
-
-            <div className="pointer-events-none absolute inset-0 hidden items-end bg-gradient-to-t from-[rgba(12,26,29,0.86)] via-[rgba(12,26,29,0.45)] to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100 md:flex">
-              <div className="pointer-events-auto flex flex-wrap gap-2">
-                <a
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full bg-[var(--surface)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-strong)]"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  Book
-                </a>
-                <a
-                  href="#contact-section"
-                  className="rounded-full border border-[rgba(255,255,255,0.7)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--surface)]"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  Contact
-                </a>
-                {brand.lineSheetUrl ? (
-                  <a
-                    href={brand.lineSheetUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full border border-[rgba(255,255,255,0.7)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--surface)]"
-                    onClick={(event) => event.stopPropagation()}
-                  >
-                    Line Sheet
-                  </a>
-                ) : null}
+              <div className="pointer-events-none absolute inset-0 hidden items-end bg-gradient-to-t from-[rgba(15,15,15,0.62)] via-[rgba(15,15,15,0.1)] to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100 md:flex">
+                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white">
+                  Quick View
+                </span>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2 border-t border-[var(--border-soft)] px-4 py-3 md:hidden">
-              <a
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-[var(--ink-strong)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--surface)]"
-                onClick={(event) => event.stopPropagation()}
-              >
-                Book
-              </a>
-              <a
-                href="#contact-section"
-                className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)]"
-                onClick={(event) => event.stopPropagation()}
-              >
-                Contact
-              </a>
-              {brand.lineSheetUrl ? (
-                <a
-                  href={brand.lineSheetUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)]"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  Line Sheet
-                </a>
-              ) : null}
+            <div className="space-y-2 p-5">
+              <h3 className="font-display text-3xl leading-tight text-[var(--ink-strong)]">{brand.name}</h3>
+              <p className="text-sm leading-6 text-[var(--ink-muted)]">{brand.oneLiner}</p>
             </div>
           </article>
         ))}
@@ -214,7 +159,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
       {activeBrand ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(12,26,29,0.6)] p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(12,12,12,0.62)] p-4"
           onClick={closeModal}
         >
           <div
@@ -223,23 +168,18 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             aria-modal="true"
             aria-labelledby="quick-view-title"
             aria-describedby="quick-view-description"
-            className="max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] p-5 shadow-[0_28px_60px_rgba(10,16,22,0.3)] sm:p-7"
+            className="max-h-[92vh] w-full max-w-5xl overflow-y-auto rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] p-5 shadow-[0_28px_60px_rgba(0,0,0,0.33)] sm:p-7"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-4 flex justify-end">
-              <button
-                type="button"
-                onClick={closeModal}
-                className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-sm text-[var(--ink-muted)] transition hover:text-[var(--ink-strong)]"
-                aria-label="Close quick view"
-              >
+              <Button variant="secondary" size="sm" onClick={closeModal} aria-label="Close quick view">
                 Close
-              </button>
+              </Button>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-[1.15fr_1fr]">
+            <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
               <div className="space-y-3">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[var(--surface-strong)]">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-[var(--surface-strong)]">
                   <Image
                     src={activeBrand.images[activeImageIndex]}
                     alt={`${activeBrand.name} image ${activeImageIndex + 1}`}
@@ -249,25 +189,27 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   />
                 </div>
                 <div className="flex items-center justify-between gap-3">
-                  <button
+                  <Button
                     type="button"
+                    variant="secondary"
+                    size="sm"
                     onClick={() => advanceImage("previous")}
-                    className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)] transition hover:text-[var(--ink-strong)]"
                     aria-label="View previous image"
                   >
                     Previous
-                  </button>
+                  </Button>
                   <p className="text-xs tracking-[0.12em] text-[var(--ink-muted)]">
                     {activeImageIndex + 1} / {activeBrand.images.length}
                   </p>
-                  <button
+                  <Button
                     type="button"
+                    variant="secondary"
+                    size="sm"
                     onClick={() => advanceImage("next")}
-                    className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)] transition hover:text-[var(--ink-strong)]"
                     aria-label="View next image"
                   >
                     Next
-                  </button>
+                  </Button>
                 </div>
               </div>
 
@@ -286,24 +228,21 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     href={BOOKING_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full bg-[var(--ink-strong)] px-4 py-2 text-xs font-semibold tracking-[0.16em] text-[var(--surface)]"
+                    className={buttonStyles({ variant: "primary", size: "md" })}
                   >
                     Book Appointment
                   </a>
-                  <Link
-                    href="/contact"
-                    className="rounded-full border border-[var(--ink-strong)] px-4 py-2 text-xs font-semibold tracking-[0.16em] text-[var(--ink-strong)] transition hover:bg-[var(--ink-strong)] hover:text-[var(--surface)]"
-                  >
+                  <Link href="/contact" className={buttonStyles({ variant: "secondary", size: "md" })}>
                     Contact to Order
                   </Link>
-                  {activeBrand.lineSheetUrl ? (
+                  {activeLookbookUrl ? (
                     <a
-                      href={activeBrand.lineSheetUrl}
+                      href={activeLookbookUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-full border border-[var(--border-soft)] px-4 py-2 text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]"
+                      className={buttonStyles({ variant: "secondary", size: "md" })}
                     >
-                      View Line Sheet
+                      View Lookbook PDF
                     </a>
                   ) : null}
                 </div>
@@ -313,7 +252,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     href={activeBrand.websiteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block text-xs font-semibold tracking-[0.12em] text-[var(--ink-muted)] underline-offset-4 hover:underline"
+                    className={buttonStyles({
+                      variant: "ghost",
+                      size: "sm",
+                      className: "!px-0 !normal-case !tracking-[0.12em]",
+                    })}
                   >
                     Visit Website
                   </a>
