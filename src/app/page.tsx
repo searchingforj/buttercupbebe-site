@@ -1,65 +1,123 @@
-import Image from "next/image";
+import Link from "next/link";
+
+import { BrandsShowcase } from "@/components/brands-showcase";
+import { brands } from "@/data/brands";
+import {
+  BOOKING_URL,
+  CONTACT_EMAIL,
+  CONTACT_PHONE_LINKS,
+  CONTACT_PHONES,
+  SHOWROOM_LOCATIONS,
+} from "@/lib/constants";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="pb-20">
+      <section className="mx-auto max-w-7xl px-4 pb-16 pt-14 sm:px-6 lg:px-10 lg:pt-20">
+        <div className="max-w-3xl space-y-6">
+          <p className="reveal text-xs font-semibold tracking-[0.2em] text-[var(--ink-muted)]">
+            WHOLESALE CHILDREN&apos;S SHOWROOM
           </p>
+          <h1 className="reveal font-display text-5xl leading-tight text-[var(--ink-strong)] sm:text-6xl">
+            Curated children&apos;s lines for modern boutique retailers.
+          </h1>
+          <p className="reveal max-w-2xl text-base leading-8 text-[var(--ink-muted)] sm:text-lg">
+            Dallas + Atlanta permanent showrooms, considered brands, and personal buying support so your market
+            appointments feel efficient and enjoyable.
+          </p>
+          <div className="reveal flex flex-wrap items-center gap-3 pt-2">
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-[var(--ink-strong)] px-6 py-3 text-xs font-semibold tracking-[0.16em] text-[var(--surface)] transition hover:opacity-90"
+            >
+              BOOK NOW
+            </a>
+            <a
+              href="#brands-section"
+              className="rounded-full border border-[var(--ink-strong)] px-6 py-3 text-xs font-semibold tracking-[0.16em] text-[var(--ink-strong)] transition hover:bg-[var(--ink-strong)] hover:text-[var(--surface)]"
+            >
+              BROWSE BRANDS
+            </a>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+        <div className="grid gap-3 rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.5)] p-5 text-sm text-[var(--ink-strong)] sm:grid-cols-3 sm:items-center sm:gap-4 sm:p-6">
+          <p className="font-semibold tracking-wide">Dallas Market Center + AmericasMart Atlanta</p>
+          <p className="text-[var(--ink-muted)]">Permanent showrooms</p>
+          <p className="text-[var(--ink-muted)]">Virtual appointments available</p>
+        </div>
+      </section>
+
+      <section id="brands-section" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-10">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-xl space-y-2">
+            <p className="text-xs font-semibold tracking-[0.2em] text-[var(--ink-muted)]">BRANDS</p>
+            <h2 className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Browse the line mix fast.</h2>
+            <p className="text-sm leading-7 text-[var(--ink-muted)]">
+              Tap any brand for quick view details, appointment booking, and ordering support.
+            </p>
+          </div>
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
+            className="rounded-full border border-[var(--ink-strong)] px-4 py-2 text-xs font-semibold tracking-[0.14em] text-[var(--ink-strong)] transition hover:bg-[var(--ink-strong)] hover:text-[var(--surface)]"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+            BOOK APPOINTMENT
           </a>
         </div>
-      </main>
+
+        <BrandsShowcase brands={brands} />
+      </section>
+
+      <section id="contact-section" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-10">
+        <div className="grid gap-6 rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.55)] p-6 md:grid-cols-[1.2fr_1fr] md:p-8">
+          <div className="space-y-4">
+            <p className="text-xs font-semibold tracking-[0.18em] text-[var(--ink-muted)]">CONTACT</p>
+            <h2 className="font-display text-4xl leading-tight text-[var(--ink-strong)]">Ready to place orders or build your market plan?</h2>
+            <p className="text-sm leading-7 text-[var(--ink-muted)]">
+              Reach out directly, or use the contact form for virtual, Dallas, or Atlanta appointment requests.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/contact"
+                className="rounded-full bg-[var(--ink-strong)] px-5 py-2.5 text-xs font-semibold tracking-[0.16em] text-[var(--surface)]"
+              >
+                CONTACT TO ORDER
+              </Link>
+              <a
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-[var(--ink-strong)] px-5 py-2.5 text-xs font-semibold tracking-[0.16em] text-[var(--ink-strong)] transition hover:bg-[var(--ink-strong)] hover:text-[var(--surface)]"
+              >
+                BOOK NOW
+              </a>
+            </div>
+          </div>
+
+          <div className="space-y-3 text-sm text-[var(--ink-strong)]">
+            <a className="block hover:text-[var(--ink-muted)]" href={`mailto:${CONTACT_EMAIL}`}>
+              {CONTACT_EMAIL}
+            </a>
+            <a className="block hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.madi}`}>
+              Madi: {CONTACT_PHONES.madi}
+            </a>
+            <a className="block hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.marci}`}>
+              Marci: {CONTACT_PHONES.marci}
+            </a>
+            <ul className="space-y-2 pt-2 text-[var(--ink-muted)]">
+              {SHOWROOM_LOCATIONS.map((location) => (
+                <li key={location}>{location}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
