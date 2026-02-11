@@ -55,23 +55,31 @@ const marketDates: MarketCity[] = [
 export default function MarketDatesPage() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
-      <div className="max-w-2xl space-y-4">
+      <div className="mx-auto max-w-3xl space-y-4 text-center">
         <p className="section-eyebrow">2026 Market Dates</p>
         <h1 className="font-display text-5xl text-[var(--ink-strong)] sm:text-6xl">Plan your buying calendar.</h1>
+        <p className="mx-auto max-w-2xl text-sm leading-7 text-[var(--ink-muted)] sm:text-base">
+          Confirm dates early so your appointments stay focused, intentional, and easy to navigate in market.
+        </p>
       </div>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-3">
+      <div className="mt-12 space-y-8">
         {marketDates.map((market) => (
           <article
             key={market.city}
-            className="rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.72)] p-6"
+            className="mx-auto max-w-4xl rounded-3xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.72)] p-5 sm:p-7"
           >
-            <h2 className="font-display text-4xl text-[var(--ink-strong)]">{market.city.toUpperCase()}</h2>
-            <ul className="mt-4 space-y-3">
+            <h2 className="text-center font-display text-4xl tracking-[0.06em] text-[var(--ink-strong)] sm:text-5xl">
+              {market.city.toUpperCase()}
+            </h2>
+            <ul className="mt-6 divide-y divide-[var(--border-soft)] rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)]">
               {market.events.map((event) => (
-                <li key={`${market.city}-${event.date}`} className="flex items-start justify-between gap-4 text-sm">
-                  <span className="font-medium text-[var(--ink-strong)]">{event.date}</span>
-                  <span className="text-right text-[var(--ink-muted)]">{event.show}</span>
+                <li
+                  key={`${market.city}-${event.date}`}
+                  className="grid grid-cols-1 gap-1 px-4 py-3 text-sm sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-4 sm:px-6 sm:py-4"
+                >
+                  <span className="font-semibold text-[var(--ink-strong)]">{event.date}</span>
+                  <span className="text-[var(--ink-muted)] sm:text-right">{event.show}</span>
                 </li>
               ))}
             </ul>
@@ -79,7 +87,7 @@ export default function MarketDatesPage() {
         ))}
       </div>
 
-      <div className="mt-12 rounded-2xl border border-[var(--border-soft)] bg-[var(--surface-strong)] p-6 text-center sm:p-8">
+      <div className="mx-auto mt-12 max-w-4xl rounded-2xl border border-[var(--border-soft)] bg-[var(--surface-strong)] p-6 text-center sm:p-8">
         <p className="mb-4 text-sm text-[var(--ink-muted)]">
           Reserve your market time in advance for a focused walkthrough.
         </p>

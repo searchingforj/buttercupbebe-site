@@ -10,13 +10,13 @@ type ButtonStyleOptions = {
 };
 
 const baseStyles =
-  "inline-flex items-center justify-center rounded-full font-semibold uppercase transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)] disabled:pointer-events-none disabled:opacity-60";
+  "inline-flex items-center justify-center rounded-full font-semibold uppercase no-underline transition-[background-color,border-color,color,transform,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)] disabled:pointer-events-none disabled:opacity-60";
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "border border-[var(--ink-strong)] bg-[var(--ink-strong)] !text-white hover:border-[var(--ink-strong)] hover:bg-[#2a2a2a] hover:!text-white",
+    "border border-[var(--ink-strong)] bg-[var(--ink-strong)] text-white visited:text-white hover:border-[#2a2a2a] hover:bg-[#2a2a2a] hover:text-white",
   secondary:
-    "border border-[var(--ink-strong)] !bg-transparent text-[var(--ink-strong)] hover:border-[var(--ink-strong)] hover:bg-[var(--ink-strong)] hover:!text-white",
+    "border border-[var(--ink-strong)] bg-[var(--surface)] text-[var(--ink-strong)] hover:border-[var(--ink-strong)] hover:bg-[var(--ink-strong)] hover:text-white",
   ghost:
     "border border-transparent bg-transparent text-[var(--ink-muted)] hover:bg-[rgba(20,20,20,0.06)] hover:text-[var(--ink-strong)]",
 };

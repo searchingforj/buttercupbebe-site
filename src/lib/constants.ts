@@ -13,7 +13,9 @@ export const CONTACT_PHONE_LINKS = {
   marci: "+14175406901",
 } as const;
 
+export const INSTAGRAM_URL = "https://www.instagram.com/buttercupbebe_/";
+
 export const SHOWROOM_LOCATIONS = [
   "AmericasMart Atlanta Building 3 #13S346B",
-  "Dallas Market Center #8618",
+  "Dallas Market Center #8404",
 ] as const;

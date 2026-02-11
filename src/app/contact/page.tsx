@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/contact-form";
+import { InstagramLink } from "@/components/instagram-link";
 import {
   CONTACT_EMAIL,
   CONTACT_PHONE_LINKS,
@@ -22,7 +23,7 @@ export default function ContactPage() {
       </div>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-        <aside className="space-y-6 rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.58)] p-6">
+        <aside className="space-y-6 rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.58)] p-6 sm:p-7">
           <div className="space-y-2">
             <p className="text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">EMAIL</p>
             <a className="text-base text-[var(--ink-strong)] hover:text-[var(--ink-muted)]" href={`mailto:${CONTACT_EMAIL}`}>
@@ -38,6 +39,11 @@ export default function ContactPage() {
             <a className="block text-base text-[var(--ink-strong)] hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.marci}`}>
               Marci: {CONTACT_PHONES.marci}
             </a>
+          </div>
+
+          <div className="space-y-2">
+            <p className="text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">INSTAGRAM</p>
+            <InstagramLink className="text-sm" />
           </div>
 
           <div className="space-y-2">

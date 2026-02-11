@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { InstagramLink } from "@/components/instagram-link";
 import { buttonStyles } from "@/components/ui/button";
 import {
   BOOKING_URL,
@@ -16,7 +17,7 @@ export function SiteFooter() {
         <div className="space-y-3">
           <p className="font-display text-2xl text-[var(--ink-strong)]">Buttercup Bebe</p>
           <p className="max-w-md text-sm leading-7 text-[var(--ink-muted)]">
-            A curated children&apos;s wholesale showroom helping boutique buyers move quickly with confidence.
+            A curated children&apos;s wholesale showroom for boutique, specialty, and department store buyers.
           </p>
           <a
             href={BOOKING_URL}
@@ -26,6 +27,7 @@ export function SiteFooter() {
           >
             Book Appointment
           </a>
+          <InstagramLink className="pt-1" />
         </div>
 
         <div className="space-y-3">
