@@ -1,0 +1,13 @@
+<svg width="1200" height="260" viewBox="0 0 1200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#111111" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 224C81 186 105 141 118 91" />
+    <path d="M84 214C95 181 100 145 99 114" />
+    <path d="M66 197C81 175 95 158 109 147" />
+    <path d="M88 168C74 158 65 146 63 131" />
+    <path d="M106 137C117 120 133 113 152 117C146 133 133 144 116 149" />
+    <path d="M102 89C110 69 126 56 146 54C143 76 128 92 107 97" />
+    <path d="M93 89C76 77 67 61 69 43C88 46 101 59 107 78" />
+    <path d="M120 91C132 71 151 61 174 63C167 84 150 97 129 101" />
+  </g>
+  <text x="235" y="162" font-family="'Snell Roundhand', 'Segoe Script', 'Brush Script MT', cursive" font-size="126" fill="#111111">Buttercup Bebe</text>
+</svg>

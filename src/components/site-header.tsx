@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { buttonStyles } from "@/components/ui/button";
@@ -15,12 +16,15 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[var(--surface-overlay)] backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-10">
         <div className="flex items-center justify-between gap-3">
-          <Link
-            href="/"
-            className="font-display text-xl tracking-[0.2em] text-[var(--ink-strong)] transition-colors hover:text-[var(--ink-muted)]"
-            aria-label="Buttercup Bebe home"
-          >
-            BUTTERCUP BEBE
+          <Link href="/" aria-label="Buttercup Bebe home" className="inline-flex items-center">
+            <Image
+              src="/branding/buttercup-bebe-logo.svg"
+              alt="Buttercup Bebe"
+              width={290}
+              height={63}
+              priority
+              className="h-auto w-[230px] sm:w-[290px]"
+            />
           </Link>
         </div>
 
