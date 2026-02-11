@@ -1,17 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --surface: #f8f2e8;
-  --surface-strong: #efe4d2;
-  --surface-overlay: #fbf7f1;
-  --ink-strong: #203234;
-  --ink-muted: #4d605f;
-  --border-soft: rgba(32, 50, 52, 0.16);
+  --canvas: #f0e5d6;
+  --canvas-deep: #e2d2bb;
+  --panel: #f8f1e4;
+  --panel-strong: #e8dac6;
+  --night: #16232d;
+  --ink: #23323c;
+  --ink-muted: #5c6c76;
+  --accent: #b36e3d;
+  --accent-soft: #d8b08c;
+  --line: rgba(22, 35, 45, 0.17);
+  --line-strong: rgba(22, 35, 45, 0.3);
+
+  --surface: var(--panel);
+  --surface-strong: var(--panel-strong);
+  --surface-overlay: #f5ecdf;
+  --ink-strong: var(--ink);
+  --border-soft: var(--line);
 }
 
 @theme inline {
-  --font-sans: var(--font-manrope);
-  --font-display: var(--font-cormorant);
+  --font-sans: var(--font-albert);
+  --font-display: var(--font-bodoni);
 }
 
 * {
@@ -26,15 +37,23 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 20% -10%, rgba(223, 199, 167, 0.5), transparent 42%),
-    radial-gradient(circle at 90% 0%, rgba(194, 215, 220, 0.32), transparent 38%),
-    var(--surface);
-  color: var(--ink-strong);
-  font-family: var(--font-manrope), sans-serif;
+    radial-gradient(circle at 6% -10%, rgba(179, 110, 61, 0.2), transparent 40%),
+    radial-gradient(circle at 92% 6%, rgba(22, 35, 45, 0.1), transparent 34%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.45), transparent 45%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.12) 0,
+      rgba(255, 255, 255, 0.12) 1px,
+      transparent 1px,
+      transparent 64px
+    ),
+    var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-albert), sans-serif;
 }
 
 .font-display {
-  font-family: var(--font-cormorant), serif;
+  font-family: var(--font-bodoni), serif;
 }
 
 a {
@@ -42,10 +61,64 @@ a {
   text-decoration: none;
 }
 
+.eyebrow {
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+}
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 1.4rem;
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: 0 20px 44px rgba(20, 34, 42, 0.1);
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 0.71rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  padding: 0.8rem 1.5rem;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--night);
+  color: var(--panel);
+  border: 1px solid var(--night);
+  box-shadow: 0 12px 24px rgba(18, 32, 42, 0.2);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(18, 32, 42, 0.26);
+}
+
+.btn-secondary {
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-1px);
+  background: var(--night);
+  color: var(--panel);
+  border-color: var(--night);
+}
+
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(18px);
   }
   to {
     opacity: 1;

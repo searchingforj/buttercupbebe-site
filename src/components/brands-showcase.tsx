@@ -117,104 +117,119 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   return (
     <>
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-        {orderedBrands.map((brand) => (
-          <article
-            key={brand.slug}
-            className="group relative cursor-pointer overflow-hidden rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] shadow-[0_18px_40px_rgba(43,54,54,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_26px_48px_rgba(43,54,54,0.14)]"
-            onClick={() => openBrandModal(brand)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                openBrandModal(brand);
-              }
-            }}
-            role="button"
-            tabIndex={0}
-            aria-label={`Open quick view for ${brand.name}`}
-          >
-            <div className="relative aspect-[4/3] overflow-hidden bg-[var(--surface-strong)]">
-              <Image
-                src={brand.images[0]}
-                alt={`${brand.name} collection preview`}
-                fill
-                className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-              />
-            </div>
+        {orderedBrands.map((brand, index) => {
+          const prominentCard = index < 2;
+          return (
+            <article
+              key={brand.slug}
+              className={`group relative cursor-pointer overflow-hidden rounded-[1.35rem] border border-[var(--line)] bg-[rgba(255,255,255,0.6)] shadow-[0_18px_38px_rgba(18,30,40,0.1)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_44px_rgba(18,30,40,0.16)] ${
+                prominentCard ? "xl:col-span-2" : ""
+              }`}
+              onClick={() => openBrandModal(brand)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  openBrandModal(brand);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`Open quick view for ${brand.name}`}
+            >
+              <div
+                className={`relative overflow-hidden bg-[var(--surface-strong)] ${
+                  prominentCard ? "aspect-[16/9]" : "aspect-[4/3]"
+                }`}
+              >
+                <Image
+                  src={brand.images[0]}
+                  alt={`${brand.name} collection preview`}
+                  fill
+                  className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(18,31,41,0.72)] via-[rgba(18,31,41,0.12)] to-transparent" />
+                {prominentCard ? (
+                  <span className="absolute left-4 top-4 rounded-full border border-[rgba(255,255,255,0.52)] bg-[rgba(18,31,41,0.55)] px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[var(--panel)]">
+                    Highlighted line
+                  </span>
+                ) : null}
+              </div>
 
-            <div className="space-y-3 p-5">
-              <h3 className="font-display text-2xl text-[var(--ink-strong)]">{brand.name}</h3>
-              <p className="text-sm leading-6 text-[var(--ink-muted)]">{brand.oneLiner}</p>
-            </div>
+              <div className="space-y-3 p-5">
+                <h3 className="font-display text-4xl leading-none text-[var(--night)]">{brand.name}</h3>
+                <p className="text-sm leading-6 text-[var(--ink-muted)]">{brand.oneLiner}</p>
+              </div>
 
-            <div className="pointer-events-none absolute inset-0 hidden items-end bg-gradient-to-t from-[rgba(12,26,29,0.86)] via-[rgba(12,26,29,0.45)] to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100 md:flex">
-              <div className="pointer-events-auto flex flex-wrap gap-2">
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden translate-y-2 items-end p-4 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 md:flex">
+                <div className="pointer-events-auto flex flex-wrap gap-2 rounded-2xl border border-[rgba(255,255,255,0.28)] bg-[rgba(14,27,36,0.82)] p-2.5 backdrop-blur-sm">
+                  <a
+                    href={BOOKING_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full bg-[var(--panel)] px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[var(--night)]"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    Book
+                  </a>
+                  <Link
+                    href="/contact"
+                    className="rounded-full border border-[rgba(248,241,228,0.7)] px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[var(--panel)]"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    Contact
+                  </Link>
+                  {brand.lineSheetUrl ? (
+                    <a
+                      href={brand.lineSheetUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full border border-[rgba(248,241,228,0.7)] px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[var(--panel)]"
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      Line Sheet
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2 border-t border-[var(--line)] px-4 py-3 md:hidden">
                 <a
                   href={BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-[var(--surface)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-strong)]"
+                  className="rounded-full bg-[var(--night)] px-3 py-1.5 text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-[var(--panel)]"
                   onClick={(event) => event.stopPropagation()}
                 >
                   Book
                 </a>
-                <a
-                  href="#contact-section"
-                  className="rounded-full border border-[rgba(255,255,255,0.7)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--surface)]"
+                <Link
+                  href="/contact"
+                  className="rounded-full border border-[var(--line-strong)] px-3 py-1.5 text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-[var(--ink)]"
                   onClick={(event) => event.stopPropagation()}
                 >
                   Contact
-                </a>
+                </Link>
                 {brand.lineSheetUrl ? (
                   <a
                     href={brand.lineSheetUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full border border-[rgba(255,255,255,0.7)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--surface)]"
+                    className="rounded-full border border-[var(--line-strong)] px-3 py-1.5 text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-[var(--ink)]"
                     onClick={(event) => event.stopPropagation()}
                   >
                     Line Sheet
                   </a>
                 ) : null}
               </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2 border-t border-[var(--border-soft)] px-4 py-3 md:hidden">
-              <a
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-[var(--ink-strong)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--surface)]"
-                onClick={(event) => event.stopPropagation()}
-              >
-                Book
-              </a>
-              <a
-                href="#contact-section"
-                className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)]"
-                onClick={(event) => event.stopPropagation()}
-              >
-                Contact
-              </a>
-              {brand.lineSheetUrl ? (
-                <a
-                  href={brand.lineSheetUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)]"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  Line Sheet
-                </a>
-              ) : null}
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
 
       {activeBrand ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(12,26,29,0.6)] p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(12,20,28,0.74)] p-4 backdrop-blur-sm"
           onClick={closeModal}
         >
           <div
@@ -223,23 +238,23 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             aria-modal="true"
             aria-labelledby="quick-view-title"
             aria-describedby="quick-view-description"
-            className="max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] p-5 shadow-[0_28px_60px_rgba(10,16,22,0.3)] sm:p-7"
+            className="max-h-[92vh] w-full max-w-5xl overflow-y-auto rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)] p-5 shadow-[0_30px_70px_rgba(10,16,22,0.4)] sm:p-7"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="mb-4 flex justify-end">
+            <div className="mb-5 flex justify-end">
               <button
                 type="button"
                 onClick={closeModal}
-                className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-sm text-[var(--ink-muted)] transition hover:text-[var(--ink-strong)]"
+                className="rounded-full border border-[var(--line)] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--ink-muted)] transition hover:text-[var(--night)]"
                 aria-label="Close quick view"
               >
                 Close
               </button>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-[1.15fr_1fr]">
-              <div className="space-y-3">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[var(--surface-strong)]">
+            <div className="grid gap-7 lg:grid-cols-[1.15fr_0.85fr]">
+              <div className="space-y-4">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--surface-strong)]">
                   <Image
                     src={activeBrand.images[activeImageIndex]}
                     alt={`${activeBrand.name} image ${activeImageIndex + 1}`}
@@ -248,11 +263,30 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     sizes="(max-width: 1024px) 100vw, 55vw"
                   />
                 </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  {activeBrand.images.map((image, imageIndex) => (
+                    <button
+                      key={image}
+                      type="button"
+                      onClick={() => setActiveImageIndex(imageIndex)}
+                      className={`relative aspect-[4/3] overflow-hidden rounded-xl border ${
+                        imageIndex === activeImageIndex
+                          ? "border-[var(--night)]"
+                          : "border-[var(--line)] hover:border-[var(--line-strong)]"
+                      }`}
+                      aria-label={`View image ${imageIndex + 1}`}
+                    >
+                      <Image src={image} alt={`${activeBrand.name} thumbnail ${imageIndex + 1}`} fill className="object-cover" sizes="240px" />
+                    </button>
+                  ))}
+                </div>
+
                 <div className="flex items-center justify-between gap-3">
                   <button
                     type="button"
                     onClick={() => advanceImage("previous")}
-                    className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)] transition hover:text-[var(--ink-strong)]"
+                    className="rounded-full border border-[var(--line)] px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[var(--ink-muted)] transition hover:text-[var(--night)]"
                     aria-label="View previous image"
                   >
                     Previous
@@ -263,7 +297,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   <button
                     type="button"
                     onClick={() => advanceImage("next")}
-                    className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-muted)] transition hover:text-[var(--ink-strong)]"
+                    className="rounded-full border border-[var(--line)] px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[var(--ink-muted)] transition hover:text-[var(--night)]"
                     aria-label="View next image"
                   >
                     Next
@@ -271,9 +305,9 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 </div>
               </div>
 
-              <div className="space-y-5">
+              <div className="space-y-6 rounded-2xl bg-[rgba(255,255,255,0.62)] p-5">
                 <div className="space-y-3">
-                  <h2 id="quick-view-title" className="font-display text-4xl leading-tight text-[var(--ink-strong)]">
+                  <h2 id="quick-view-title" className="font-display text-5xl leading-[0.96] text-[var(--night)]">
                     {activeBrand.name}
                   </h2>
                   <p id="quick-view-description" className="text-sm leading-7 text-[var(--ink-muted)]">
@@ -281,19 +315,16 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   </p>
                 </div>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2.5">
                   <a
                     href={BOOKING_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full bg-[var(--ink-strong)] px-4 py-2 text-xs font-semibold tracking-[0.16em] text-[var(--surface)]"
+                    className="btn-primary px-4 py-2.5"
                   >
                     Book Appointment
                   </a>
-                  <Link
-                    href="/contact"
-                    className="rounded-full border border-[var(--ink-strong)] px-4 py-2 text-xs font-semibold tracking-[0.16em] text-[var(--ink-strong)] transition hover:bg-[var(--ink-strong)] hover:text-[var(--surface)]"
-                  >
+                  <Link href="/contact" className="btn-secondary px-4 py-2.5">
                     Contact to Order
                   </Link>
                   {activeBrand.lineSheetUrl ? (
@@ -301,7 +332,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                       href={activeBrand.lineSheetUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-full border border-[var(--border-soft)] px-4 py-2 text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]"
+                      className="btn-secondary px-4 py-2.5"
                     >
                       View Line Sheet
                     </a>
@@ -313,7 +344,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     href={activeBrand.websiteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block text-xs font-semibold tracking-[0.12em] text-[var(--ink-muted)] underline-offset-4 hover:underline"
+                    className="inline-block text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-muted)] underline-offset-4 hover:text-[var(--accent)] hover:underline"
                   >
                     Visit Website
                   </a>
