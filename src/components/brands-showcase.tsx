@@ -30,6 +30,7 @@ const visuallyBalancedBrandOrder = (brands: Brand[]) => {
 export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const [activeBrand, setActiveBrand] = useState<Brand | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [failedLogoSlugs, setFailedLogoSlugs] = useState<Record<string, true>>({});
   const modalRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);
 
@@ -102,6 +103,15 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     setActiveImageIndex(0);
   };
 
+  const markLogoMissing = (slug: string) => {
+    setFailedLogoSlugs((current) => {
+      if (current[slug]) {
+        return current;
+      }
+      return { ...current, [slug]: true };
+    });
+  };
+
   const advanceImage = (direction: "next" | "previous") => {
     if (!activeBrand) {
       return;
@@ -119,42 +129,62 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   return (
     <>
       <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        {orderedBrands.map((brand) => (
-          <article
-            key={brand.slug}
-            className="group relative cursor-pointer overflow-hidden rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] shadow-[0_14px_35px_rgba(0,0,0,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,0,0,0.13)]"
-            onClick={() => openBrandModal(brand)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                openBrandModal(brand);
-              }
-            }}
-            role="button"
-            tabIndex={0}
-            aria-label={`Open quick view for ${brand.name}`}
-          >
-            <div className="relative aspect-[4/5] overflow-hidden bg-[var(--surface-strong)]">
-              <Image
-                src={brand.images[0]}
-                alt={`${brand.name} collection preview`}
-                fill
-                className="object-cover transition duration-500 group-hover:scale-[1.04]"
-                sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-              />
-              <div className="pointer-events-none absolute inset-0 hidden items-end bg-gradient-to-t from-[rgba(15,15,15,0.62)] via-[rgba(15,15,15,0.1)] to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100 md:flex">
-                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white">
-                  Quick View
-                </span>
-              </div>
-            </div>
+        {orderedBrands.map((brand) => {
+          const defaultLogoUrl = `/brand-logos/${brand.slug}.png`;
+          const logoUrl = brand.logoUrl ?? defaultLogoUrl;
+          const shouldShowLogo = !failedLogoSlugs[brand.slug];
 
-            <div className="space-y-2 p-5">
-              <h3 className="font-display text-3xl leading-tight text-[var(--ink-strong)]">{brand.name}</h3>
-              <p className="text-sm leading-6 text-[var(--ink-muted)]">{brand.oneLiner}</p>
-            </div>
-          </article>
-        ))}
+          return (
+            <article
+              key={brand.slug}
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] shadow-[0_14px_35px_rgba(0,0,0,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,0,0,0.13)]"
+              onClick={() => openBrandModal(brand)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  openBrandModal(brand);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`Open details for ${brand.name}`}
+            >
+              <div className="relative aspect-[4/5] overflow-hidden bg-[var(--surface-strong)]">
+                <Image
+                  src={brand.images[0]}
+                  alt={`${brand.name} collection preview`}
+                  fill
+                  className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                />
+                <div className="pointer-events-none absolute inset-0 hidden items-end bg-gradient-to-t from-[rgba(15,15,15,0.62)] via-[rgba(15,15,15,0.1)] to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100 md:flex">
+                  <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white">
+                    Details
+                  </span>
+                </div>
+              </div>
+
+              <div className="border-t border-[var(--border-soft)] bg-[var(--surface)] px-5 py-4">
+                <div className="flex h-12 items-center justify-center">
+                  {shouldShowLogo ? (
+                    <Image
+                      src={logoUrl}
+                      alt={`${brand.name} logo`}
+                      width={260}
+                      height={80}
+                      className="max-h-10 w-auto object-contain"
+                      onError={() => markLogoMissing(brand.slug)}
+                    />
+                  ) : (
+                    <h3 className="font-display text-3xl leading-tight text-[var(--ink-strong)]">
+                      {brand.name}
+                    </h3>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
 
       {activeBrand ? (
@@ -168,7 +198,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             aria-modal="true"
             aria-labelledby="quick-view-title"
             aria-describedby="quick-view-description"
-            className="max-h-[92vh] w-full max-w-5xl overflow-y-auto rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] p-5 shadow-[0_28px_60px_rgba(0,0,0,0.33)] sm:p-7"
+            className="max-h-[94vh] w-full max-w-6xl overflow-y-auto rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] p-5 shadow-[0_28px_60px_rgba(0,0,0,0.33)] sm:p-7"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-4 flex justify-end">
@@ -177,15 +207,15 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
               </Button>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+            <div className="grid gap-6 lg:grid-cols-[1.35fr_0.95fr] lg:gap-7">
               <div className="space-y-3">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-[var(--surface-strong)]">
+                <div className="relative h-[54vh] min-h-[360px] overflow-hidden rounded-xl bg-[var(--surface-strong)] sm:h-[60vh] lg:h-[72vh]">
                   <Image
                     src={activeBrand.images[activeImageIndex]}
                     alt={`${activeBrand.name} image ${activeImageIndex + 1}`}
                     fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 55vw"
+                    className="object-contain p-2 sm:p-3"
+                    sizes="(max-width: 1024px) 100vw, 62vw"
                   />
                 </div>
                 <div className="flex items-center justify-between gap-3">
