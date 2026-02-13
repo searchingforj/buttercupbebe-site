@@ -11,9 +11,9 @@ export type Brand = {
 };
 
 const imagesFor = (slug: string) => [
-  `/brands/${slug}/1.svg`,
-  `/brands/${slug}/2.svg`,
-  `/brands/${slug}/3.svg`,
+  `/brands/${slug}/1.webp`,
+  `/brands/${slug}/2.webp`,
+  `/brands/${slug}/3.webp`,
 ];
 
 export const brands: Brand[] = [
