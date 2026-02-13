@@ -35,7 +35,6 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);
 
   const orderedBrands = useMemo(() => visuallyBalancedBrandOrder(brands), [brands]);
-  const activeLookbookUrl = activeBrand?.lookbookUrl ?? activeBrand?.lineSheetUrl;
 
   const closeModal = useCallback(() => {
     setActiveBrand(null);
@@ -125,6 +124,9 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       return currentIndex === 0 ? maxIndex : currentIndex - 1;
     });
   };
+
+  const activeOrderUrl = activeBrand?.orderUrl?.trim() ? activeBrand.orderUrl : "/contact";
+  const isOrderUrlExternal = activeOrderUrl.startsWith("http://") || activeOrderUrl.startsWith("https://");
 
   return (
     <>
@@ -262,35 +264,24 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   >
                     Book Appointment
                   </a>
-                  <Link href="/contact" className={buttonStyles({ variant: "secondary", size: "md" })}>
-                    Contact to Order
-                  </Link>
-                  {activeLookbookUrl ? (
+                  {isOrderUrlExternal ? (
                     <a
-                      href={activeLookbookUrl}
+                      href={activeOrderUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={buttonStyles({ variant: "secondary", size: "md" })}
                     >
-                      View Lookbook PDF
+                      Order Now
                     </a>
-                  ) : null}
+                  ) : (
+                    <Link href={activeOrderUrl} className={buttonStyles({ variant: "secondary", size: "md" })}>
+                      Order Now
+                    </Link>
+                  )}
+                  <Link href="/contact" className={buttonStyles({ variant: "secondary", size: "md" })}>
+                    Contact
+                  </Link>
                 </div>
-
-                {activeBrand.websiteUrl ? (
-                  <a
-                    href={activeBrand.websiteUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={buttonStyles({
-                      variant: "ghost",
-                      size: "sm",
-                      className: "!px-0 !normal-case !tracking-[0.12em]",
-                    })}
-                  >
-                    Visit Website
-                  </a>
-                ) : null}
               </div>
             </div>
           </div>

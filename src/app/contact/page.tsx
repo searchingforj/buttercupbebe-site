@@ -43,7 +43,7 @@ export default function ContactPage() {
 
           <div className="space-y-2">
             <p className="text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">INSTAGRAM</p>
-            <InstagramLink className="text-sm" />
+            <InstagramLink className="text-sm" label="buttercupbebe_" labelClassName="tracking-normal" />
           </div>
 
           <div className="space-y-2">

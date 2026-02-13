@@ -3,6 +3,7 @@ export type Brand = {
   name: string;
   oneLiner: string;
   websiteUrl?: string;
+  orderUrl?: string;
   logoUrl?: string;
   lookbookUrl?: string;
   lineSheetUrl?: string;

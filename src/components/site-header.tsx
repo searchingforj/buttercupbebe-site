@@ -14,22 +14,20 @@ const navItems = [
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[var(--surface-overlay)] backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-10">
-        <div className="flex items-center justify-between gap-3">
-          <Link href="/" aria-label="Buttercup Bebe home" className="inline-flex items-center py-1">
-            <Image
-              src="/brand/buttercup-bebe-logo.png"
-              alt="Buttercup Bebe Logo"
-              width={1180}
-              height={450}
-              priority
-              className="h-auto w-[190px] sm:w-[240px] lg:w-[280px]"
-            />
-          </Link>
-        </div>
+      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-10">
+        <Link href="/" aria-label="Buttercup Bebe home" className="inline-flex shrink-0 items-center">
+          <Image
+            src="/brand/buttercup-bebe-logo.png"
+            alt="Buttercup Bebe Logo"
+            width={1180}
+            height={450}
+            priority
+            className="h-auto w-[140px] sm:w-[180px] lg:w-[220px]"
+          />
+        </Link>
 
-        <nav aria-label="Primary" className="overflow-x-auto">
-          <ul className="flex min-w-max items-center gap-2 text-sm sm:gap-3">
+        <nav aria-label="Primary" className="min-w-0 flex-1 overflow-x-auto">
+          <ul className="flex min-w-max items-center justify-end gap-2 text-sm sm:gap-3">
             {navItems.map((item) => (
               <li key={item.label}>
                 <Link

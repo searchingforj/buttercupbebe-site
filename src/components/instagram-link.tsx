@@ -3,6 +3,7 @@ import { INSTAGRAM_URL } from "@/lib/constants";
 type InstagramLinkProps = {
   className?: string;
   labelClassName?: string;
+  label?: string;
   showLabel?: boolean;
 };
 
@@ -13,6 +14,7 @@ function cn(...values: Array<string | undefined>) {
 export function InstagramLink({
   className,
   labelClassName,
+  label = "Instagram",
   showLabel = true,
 }: InstagramLinkProps) {
   return (
@@ -41,7 +43,7 @@ export function InstagramLink({
         <circle cx="17.6" cy="6.4" r="1" fill="currentColor" stroke="none" />
       </svg>
       {showLabel ? (
-        <span className={cn("text-sm tracking-[0.04em]", labelClassName)}>Instagram</span>
+        <span className={cn("text-sm tracking-[0.04em]", labelClassName)}>{label}</span>
       ) : null}
     </a>
   );
