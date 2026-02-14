@@ -14,7 +14,7 @@ const navItems = [
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[var(--surface-overlay)] backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-10">
+      <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:gap-4 sm:px-6 lg:px-10">
         <Link href="/" aria-label="Buttercup Bebe home" className="inline-flex shrink-0 items-center">
           <Image
             src="/brand/buttercup-bebe-logo.png"
@@ -26,8 +26,8 @@ export function SiteHeader() {
           />
         </Link>
 
-        <nav aria-label="Primary" className="min-w-0 flex-1 overflow-x-auto">
-          <ul className="flex min-w-max items-center justify-end gap-2 text-sm sm:gap-3">
+        <nav aria-label="Primary" className="min-w-0 overflow-x-auto">
+          <ul className="flex min-w-max items-center gap-2 text-sm sm:gap-3">
             {navItems.map((item) => (
               <li key={item.label}>
                 <Link
