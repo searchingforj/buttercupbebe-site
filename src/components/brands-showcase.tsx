@@ -30,7 +30,7 @@ const visuallyBalancedBrandOrder = (brands: Brand[]) => {
 export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const [activeBrand, setActiveBrand] = useState<Brand | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [failedLogoSlugs, setFailedLogoSlugs] = useState<Record<string, true>>({});
+  const [hiddenLogoSlugs, setHiddenLogoSlugs] = useState<Record<string, true>>({});
   const modalRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);
 
@@ -102,8 +102,8 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     setActiveImageIndex(0);
   };
 
-  const markLogoMissing = (slug: string) => {
-    setFailedLogoSlugs((current) => {
+  const hideLogo = (slug: string) => {
+    setHiddenLogoSlugs((current) => {
       if (current[slug]) {
         return current;
       }
@@ -132,9 +132,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     <>
       <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {orderedBrands.map((brand) => {
-          const defaultLogoUrl = `/brand-logos/${brand.slug}.png`;
-          const logoUrl = brand.logoUrl ?? defaultLogoUrl;
-          const shouldShowLogo = !failedLogoSlugs[brand.slug];
+          const hasLogo = Boolean(brand.logoUrl?.trim()) && !hiddenLogoSlugs[brand.slug];
 
           return (
             <article
@@ -167,22 +165,24 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
               </div>
 
               <div className="border-t border-[var(--border-soft)] bg-[var(--surface)] px-5 py-4">
-                <div className="flex h-12 items-center justify-center">
-                  {shouldShowLogo ? (
+                {hasLogo ? (
+                  <div className="h-20 w-full px-0.5 py-0">
                     <Image
-                      src={logoUrl}
+                      src={brand.logoUrl!}
                       alt={`${brand.name} logo`}
-                      width={260}
-                      height={80}
-                      className="max-h-10 w-auto object-contain"
-                      onError={() => markLogoMissing(brand.slug)}
+                      width={700}
+                      height={220}
+                      className="h-full w-full object-contain"
+                      onError={() => hideLogo(brand.slug)}
                     />
-                  ) : (
-                    <h3 className="font-display text-3xl leading-tight text-[var(--ink-strong)]">
+                  </div>
+                ) : (
+                  <div className="h-20 w-full px-0.5 py-0">
+                    <h3 className="line-clamp-1 text-center font-display text-4xl leading-none text-[var(--ink-strong)]">
                       {brand.name}
                     </h3>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </article>
           );

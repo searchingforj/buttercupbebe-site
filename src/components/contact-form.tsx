@@ -19,13 +19,10 @@ const fieldClass =
 
 export function ContactForm() {
   const [status, setStatus] = useState<FormStatus>("idle");
-  const [errorMessage, setErrorMessage] = useState("");
-  const formspreeEndpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setStatus("sending");
-    setErrorMessage("");
 
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -52,32 +49,13 @@ export function ContactForm() {
       ].join("\n"),
     );
 
-    if (!formspreeEndpoint) {
-      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-      setStatus("sent");
-      form.reset();
-      return;
-    }
-
     try {
-      const response = await fetch(formspreeEndpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error("Unable to submit form.");
-      }
-
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
       setStatus("sent");
       form.reset();
     } catch (error) {
       setStatus("error");
-      setErrorMessage(error instanceof Error ? error.message : "Unable to submit form.");
+      console.error(error);
     }
   };
 
@@ -131,9 +109,7 @@ export function ContactForm() {
           {status === "sending" ? "Sending..." : "Send Inquiry"}
         </Button>
         <p className="text-xs tracking-wide text-[var(--ink-muted)]">
-          {formspreeEndpoint
-            ? "Formspree is active via NEXT_PUBLIC_FORMSPREE_ENDPOINT."
-            : "Using mailto fallback (no backend configured)."}
+          This opens an email draft to {CONTACT_EMAIL}.
         </p>
       </div>
 
@@ -144,7 +120,7 @@ export function ContactForm() {
       ) : null}
       {status === "error" ? (
         <p className="rounded-xl border border-[rgba(153,57,57,0.4)] bg-[rgba(153,57,57,0.08)] px-4 py-3 text-sm text-[rgb(112,42,42)]">
-          {errorMessage}
+          Unable to open your email draft.
         </p>
       ) : null}
     </form>

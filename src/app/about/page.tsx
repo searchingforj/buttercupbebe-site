@@ -9,17 +9,17 @@ export const metadata: Metadata = {
 };
 
 const teamPhotoCandidates = [
-  "/about/marci-madi.webp",
-  "/about/marci-madi.jpg",
-  "/about/marci-madi.jpeg",
-  "/about/marci-madi.png",
+  "about/marci-madi.webp",
+  "about/marci-madi.jpg",
+  "about/marci-madi.jpeg",
+  "about/marci-madi.png",
 ] as const;
 
 function resolveTeamPhotoSrc() {
   for (const src of teamPhotoCandidates) {
     const absolutePath = path.join(process.cwd(), "public", src);
     if (fs.existsSync(absolutePath)) {
-      return src;
+      return `/${src}`;
     }
   }
   return null;
@@ -58,22 +58,19 @@ export default function AboutPage() {
               <span className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Marci &amp; Madi</span>
             </div>
           )}
-          <figcaption className="pt-3 text-xs tracking-[0.16em] text-[var(--ink-muted)]">
-            Add photo at <span className="font-semibold">public/about/marci-madi.jpg</span>
-          </figcaption>
         </figure>
       </div>
 
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         <article className="rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.58)] p-6 sm:p-7">
-          <p className="section-eyebrow">Marci</p>
-          <h2 className="mt-2 font-display text-4xl leading-tight text-[var(--ink-strong)]">
-            Decades of children&apos;s retail insight
-          </h2>
-          <p className="mt-3 text-sm leading-7 text-[var(--ink-muted)]">
+          <h2 className="font-display text-5xl leading-none text-[var(--ink-strong)] sm:text-6xl">Marci</h2>
+          <p className="mt-2 text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">
+            CO-FOUNDER
+          </p>
+          <p className="mt-4 text-sm leading-7 text-[var(--ink-muted)]">
             Marci brings 25+ years in children&apos;s fashion and 14 years owning and operating her own boutique. She
-            now leads appointments in Dallas and Atlanta with a clear eye for lines that perform and assortments that
-            feel right for each store
+            now runs Buttercup Bebe&apos;s Dallas and Atlanta showrooms with a strong instinct for lines that perform and
+            assortments that fit each store&apos;s customer
           </p>
           <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold tracking-[0.08em] text-[var(--ink-muted)]">
             <span className="rounded-full border border-[var(--border-soft)] px-3 py-1">25+ years in children&apos;s fashion</span>
@@ -83,11 +80,11 @@ export default function AboutPage() {
         </article>
 
         <article className="rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.58)] p-6 sm:p-7">
-          <p className="section-eyebrow">Madi</p>
-          <h2 className="mt-2 font-display text-4xl leading-tight text-[var(--ink-strong)]">
-            A modern merchandising perspective
-          </h2>
-          <p className="mt-3 text-sm leading-7 text-[var(--ink-muted)]">
+          <h2 className="font-display text-5xl leading-none text-[var(--ink-strong)] sm:text-6xl">Madi</h2>
+          <p className="mt-2 text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">
+            CO-FOUNDER
+          </p>
+          <p className="mt-4 text-sm leading-7 text-[var(--ink-muted)]">
             Madi grew up around boutique retail and earned her degree in Fashion Merchandising &amp; Textiles from
             Western Kentucky University. She focuses on helping buyers build intentional assortments that feel current,
             commercial, and easy to shop

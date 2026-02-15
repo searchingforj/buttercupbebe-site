@@ -17,12 +17,12 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:gap-4 sm:px-6 lg:px-10">
         <Link href="/" aria-label="Buttercup Bebe home" className="inline-flex shrink-0 items-center">
           <Image
-            src="/brand/buttercup-bebe-logo.png"
+            src="/brand/buttercup-bebe-logo.svg"
             alt="Buttercup Bebe Logo"
             width={1180}
             height={450}
             priority
-            className="h-auto w-[140px] sm:w-[180px] lg:w-[220px]"
+            className="h-auto w-[175px] sm:w-[225px] lg:w-[280px]"
           />
         </Link>
 

@@ -17,6 +17,8 @@ const imagesFor = (slug: string) => [
   `/brands/${slug}/3.webp`,
 ];
 
+const logoFor = (slug: string) => `/brand-logos/${slug}.png`;
+
 export const brands: Brand[] = [
   {
     slug: "courtside-kids",
@@ -24,6 +26,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Polished boys' activewear with performance fabrics and a classic sport aesthetic.",
     websiteUrl: "https://courtsidekids.com/",
+    logoUrl: logoFor("courtside-kids"),
     images: imagesFor("courtside-kids"),
     featured: true,
   },
@@ -33,6 +36,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Classic children's apparel featuring vibrant colors, playful patterns, and everyday silhouettes.",
     websiteUrl: "https://www.littlepaperkids.com/",
+    logoUrl: logoFor("little-paper-kids"),
     images: imagesFor("little-paper-kids"),
     featured: true,
   },
@@ -42,6 +46,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Bold, playful children's clothing known for standout prints and fashion-forward design.",
     websiteUrl: "https://www.yobabyonline.com/",
+    logoUrl: logoFor("yo-baby"),
     images: imagesFor("yo-baby"),
     featured: true,
   },
@@ -51,6 +56,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Performance-driven kids' activewear designed for movement, comfort, and durability.",
     websiteUrl: "https://yogababyclothing.com/",
+    logoUrl: logoFor("yogababy"),
     images: imagesFor("yogababy"),
     featured: true,
   },
@@ -60,6 +66,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Outdoor-inspired children's apparel blending camo classics with everyday comfort.",
     websiteUrl: "https://velvetfawn.com/",
+    logoUrl: logoFor("velvet-fawn"),
     images: imagesFor("velvet-fawn"),
     featured: true,
   },
@@ -68,6 +75,7 @@ export const brands: Brand[] = [
     name: "Bushel & a Peck",
     oneLiner:
       "Timeless children's knits made from 100% Pima cotton with an elevated everyday feel.",
+    logoUrl: logoFor("bushel-and-a-peck"),
     images: imagesFor("bushel-and-a-peck"),
     featured: true,
   },
@@ -77,6 +85,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Colorful, customizable children's jewelry and accessories handcrafted in the USA.",
     websiteUrl: "https://littlemisszoe.com/",
+    logoUrl: logoFor("little-miss-zoe"),
     images: imagesFor("little-miss-zoe"),
   },
   {
@@ -85,6 +94,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Classic children's clothing with a modern feel, designed for everyday wear.",
     websiteUrl: "https://citybeautifulchildrensboutique.com/",
+    logoUrl: logoFor("city-beautiful"),
     images: imagesFor("city-beautiful"),
   },
   {
@@ -93,6 +103,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Tailored boys' shorts designed to balance classic style with play-ready comfort.",
     websiteUrl: "https://www.shoptroupers.com/",
+    logoUrl: logoFor("troupers"),
     images: imagesFor("troupers"),
   },
   {
@@ -101,6 +112,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Whimsical children's apparel pairing playful prints with timeless silhouettes.",
     websiteUrl: "https://nellajune.com/",
+    logoUrl: logoFor("nella-june"),
     images: imagesFor("nella-june"),
   },
   {
@@ -109,6 +121,7 @@ export const brands: Brand[] = [
     oneLiner:
       "UPF 50+ sun-protective hats, swimwear, and playwear for babies and kids.",
     websiteUrl: "https://www.flaphappy.com/",
+    logoUrl: logoFor("the-original-flap-happy"),
     images: imagesFor("the-original-flap-happy"),
   },
   {
@@ -117,6 +130,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Oversized coloring products and creative activities designed for shared moments.",
     websiteUrl: "https://theglitteroption.com/",
+    logoUrl: logoFor("glitter-option"),
     images: imagesFor("glitter-option"),
   },
   {
@@ -125,6 +139,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Coastal-inspired children's clothing with hand-created patterns and versatile silhouettes.",
     websiteUrl: "https://www.mydeargeorgie.com/",
+    logoUrl: logoFor("dear-georgie"),
     images: imagesFor("dear-georgie"),
   },
   {
@@ -133,6 +148,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Sustainably made children's clothing featuring natural fabrics and modern classics.",
     websiteUrl: "https://beet-world.com/",
+    logoUrl: logoFor("beet-world"),
     images: imagesFor("beet-world"),
   },
   {
@@ -141,6 +157,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Handcrafted children's apparel using traditional embroidery and vibrant artisan prints.",
     websiteUrl: "https://www.larili.com/",
+    logoUrl: logoFor("larili"),
     images: imagesFor("larili"),
   },
   {
@@ -149,6 +166,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Trendy, playful children's accessories including scented and light-up designs.",
     websiteUrl: "https://www.facebook.com/AmericanJewel/about",
+    logoUrl: logoFor("american-jewel"),
     images: imagesFor("american-jewel"),
   },
   {
@@ -157,6 +175,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Wholesale monogram blanks and baby essentials made for personalization.",
     websiteUrl: "https://www.southernproperblanks.com/",
+    logoUrl: logoFor("southern-proper-blanks"),
     images: imagesFor("southern-proper-blanks"),
   },
   {
@@ -165,6 +184,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Bohemian-inspired apparel and accessories handcrafted using artisan techniques.",
     websiteUrl: "https://eightthousandmiles.com/",
+    logoUrl: logoFor("eight-thousand-miles"),
     images: imagesFor("eight-thousand-miles"),
   },
   {
@@ -173,6 +193,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Classic children's clothing featuring hand-smocked and embroidered designs.",
     websiteUrl: "https://maddieandconnorco.com/",
+    logoUrl: logoFor("maddie-and-connor"),
     images: imagesFor("maddie-and-connor"),
   },
   {
@@ -181,6 +202,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Ultra-soft bamboo children's essentials designed for comfort and everyday wear.",
     websiteUrl: "https://www.weisingerbamboo.com/",
+    logoUrl: logoFor("weisinger-bamboo"),
     images: imagesFor("weisinger-bamboo"),
   },
   {
@@ -189,6 +211,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Southern-style monogram blanks and classic baby boutique essentials.",
     websiteUrl: "https://zsazsa-lolli.com/",
+    logoUrl: logoFor("zsazsa-and-lolli"),
     images: imagesFor("zsazsa-and-lolli"),
   },
 ];
