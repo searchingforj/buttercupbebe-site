@@ -206,6 +206,30 @@ export const brands: Brand[] = [
     images: imagesFor("weisinger-bamboo"),
   },
   {
+    slug: "smockingbird",
+    name: "Smockingbird",
+    oneLiner:
+      "Classic heirloom-inspired children's pieces with handcrafted detailing and elevated prints that balance timeless charm and everyday wearability.",
+    logoUrl: logoFor("smockingbird"),
+    images: imagesFor("smockingbird"),
+  },
+  {
+    slug: "lemon-loves-lime",
+    name: "Lemon Loves Lime",
+    oneLiner:
+      "Bright, story-driven girls' apparel with boutique-friendly silhouettes and whimsical details that celebrate childhood joy and affectionate design.",
+    logoUrl: logoFor("lemon-loves-lime"),
+    images: imagesFor("lemon-loves-lime"),
+  },
+  {
+    slug: "ml-kids",
+    name: "ML Kids",
+    oneLiner:
+      "Trend-forward shabby chic styles for girls and tweens, offering coordinated sets, statement dresses, and spirited seasonal collections.",
+    logoUrl: logoFor("ml-kids"),
+    images: imagesFor("ml-kids"),
+  },
+  {
     slug: "zsazsa-and-lolli",
     name: "ZsaZsa & LoLLi",
     oneLiner:

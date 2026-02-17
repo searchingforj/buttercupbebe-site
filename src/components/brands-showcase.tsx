@@ -21,11 +21,10 @@ const FOCUSABLE_SELECTOR = [
   "[tabindex]:not([tabindex='-1'])",
 ].join(",");
 
-const visuallyBalancedBrandOrder = (brands: Brand[]) => {
-  const featured = brands.filter((brand) => brand.featured);
-  const standard = brands.filter((brand) => !brand.featured);
-  return [...featured, ...standard];
-};
+const alphabeticalBrandOrder = (brands: Brand[]) =>
+  [...brands].sort((firstBrand, secondBrand) =>
+    firstBrand.name.localeCompare(secondBrand.name, undefined, { sensitivity: "base" }),
+  );
 
 export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const [activeBrand, setActiveBrand] = useState<Brand | null>(null);
@@ -34,7 +33,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);
 
-  const orderedBrands = useMemo(() => visuallyBalancedBrandOrder(brands), [brands]);
+  const orderedBrands = useMemo(() => alphabeticalBrandOrder(brands), [brands]);
 
   const closeModal = useCallback(() => {
     setActiveBrand(null);
