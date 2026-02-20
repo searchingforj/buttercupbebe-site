@@ -153,8 +153,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   src={brand.images[0]}
                   alt={`${brand.name} collection preview`}
                   fill
+                  unoptimized
+                  decoding="async"
                   className="object-cover transition duration-500 group-hover:scale-[1.04]"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 420px"
                 />
                 <div className="pointer-events-none absolute inset-0 hidden items-end bg-gradient-to-t from-[rgba(15,15,15,0.62)] via-[rgba(15,15,15,0.1)] to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100 md:flex">
                   <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white">
@@ -190,7 +192,8 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
       {activeBrand ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(12,12,12,0.62)] p-4"
+          className="fixed inset-0 z-50 flex items-start justify-center bg-[rgba(12,12,12,0.62)] p-3 sm:items-center sm:p-4"
+          style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}
           onClick={closeModal}
         >
           <div
@@ -199,10 +202,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             aria-modal="true"
             aria-labelledby="quick-view-title"
             aria-describedby="quick-view-description"
-            className="max-h-[94vh] w-full max-w-6xl overflow-y-auto rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] p-5 shadow-[0_28px_60px_rgba(0,0,0,0.33)] sm:p-7"
+            className="max-h-[92dvh] w-full max-w-6xl overflow-y-auto rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] p-5 shadow-[0_28px_60px_rgba(0,0,0,0.33)] sm:max-h-[94vh] sm:p-7"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="mb-4 flex justify-end">
+            <div className="mb-4 hidden justify-end sm:flex">
               <Button variant="secondary" size="sm" onClick={closeModal} aria-label="Close quick view">
                 Close
               </Button>
@@ -215,8 +218,12 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     src={activeBrand.images[activeImageIndex]}
                     alt={`${activeBrand.name} image ${activeImageIndex + 1}`}
                     fill
+                    unoptimized
+                    decoding="async"
                     className="object-contain p-2 sm:p-3"
-                    sizes="(max-width: 1024px) 100vw, 62vw"
+                    sizes="(max-width: 640px) 96vw, (max-width: 1024px) 92vw, (max-width: 1280px) 64vw, 720px"
+                    loading="eager"
+                    fetchPriority="high"
                   />
                 </div>
                 <div className="flex items-center justify-between gap-3">
@@ -282,6 +289,21 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   </Link>
                 </div>
               </div>
+            </div>
+
+            <div
+              className="sticky bottom-0 -mx-5 -mb-5 mt-5 border-t border-[var(--border-soft)] bg-[var(--surface)]/95 px-5 pt-3 backdrop-blur sm:hidden"
+              style={{ paddingBottom: "max(0.9rem, env(safe-area-inset-bottom))" }}
+            >
+              <Button
+                variant="secondary"
+                size="md"
+                onClick={closeModal}
+                aria-label="Close quick view"
+                className="w-full"
+              >
+                Close
+              </Button>
             </div>
           </div>
         </div>

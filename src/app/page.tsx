@@ -40,8 +40,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="brands-section" className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6 lg:px-10 lg:pb-20 lg:pt-12">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6 lg:px-10 lg:pb-20 lg:pt-12">
+        <div id="brands-section" className="mb-8 scroll-mt-24 flex flex-wrap items-end justify-between gap-4 sm:scroll-mt-28">
           <div className="max-w-xl space-y-2">
             <p className="section-eyebrow">Brands</p>
             <h2 className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Browse the line mix.</h2>
