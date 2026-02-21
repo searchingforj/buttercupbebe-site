@@ -19,10 +19,12 @@ const fieldClass =
 
 export function ContactForm() {
   const [status, setStatus] = useState<FormStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setStatus("sending");
+    setErrorMessage("");
 
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -34,28 +36,34 @@ export function ContactForm() {
       phone: String(formData.get("phone") ?? ""),
       inquiryType: String(formData.get("inquiryType") ?? ""),
       message: String(formData.get("message") ?? ""),
+      website: String(formData.get("website") ?? ""),
     };
 
-    const subject = encodeURIComponent(`Buttercup Bebe inquiry: ${payload.inquiryType}`);
-    const body = encodeURIComponent(
-      [
-        `Name: ${payload.name}`,
-        `Store: ${payload.storeName}`,
-        `Email: ${payload.email}`,
-        `Phone: ${payload.phone}`,
-        `Inquiry Type: ${payload.inquiryType}`,
-        "",
-        payload.message,
-      ].join("\n"),
-    );
-
     try {
-      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+      const response = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const data = (await response.json().catch(() => null)) as
+          | { message?: string }
+          | null;
+        throw new Error(data?.message ?? "Unable to send inquiry right now.");
+      }
+
       setStatus("sent");
       form.reset();
     } catch (error) {
       setStatus("error");
-      console.error(error);
+      if (error instanceof Error && error.message) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage(`Unable to send inquiry right now. Please email ${CONTACT_EMAIL}.`);
+      }
     }
   };
 
@@ -104,23 +112,32 @@ export function ContactForm() {
         <textarea name="message" required rows={5} className={fieldClass} />
       </label>
 
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+        aria-hidden="true"
+      />
+
       <div className="flex flex-wrap items-center gap-3">
         <Button type="submit" variant="primary" size="md" disabled={status === "sending"}>
           {status === "sending" ? "Sending..." : "Send Inquiry"}
         </Button>
         <p className="text-xs tracking-wide text-[var(--ink-muted)]">
-          This opens an email draft to {CONTACT_EMAIL}.
+          Sends directly to our team. No email app needed.
         </p>
       </div>
 
       {status === "sent" ? (
         <p className="rounded-xl border border-[var(--border-soft)] bg-[var(--surface-strong)] px-4 py-3 text-sm text-[var(--ink-strong)]">
-          Inquiry ready to send. We&apos;ll follow up as soon as possible.
+          Thanks, your inquiry was sent. We&apos;ll follow up as soon as possible.
         </p>
       ) : null}
       {status === "error" ? (
         <p className="rounded-xl border border-[rgba(153,57,57,0.4)] bg-[rgba(153,57,57,0.08)] px-4 py-3 text-sm text-[rgb(112,42,42)]">
-          Unable to open your email draft.
+          {errorMessage || `Unable to send inquiry right now. Please email ${CONTACT_EMAIL}.`}
         </p>
       ) : null}
     </form>

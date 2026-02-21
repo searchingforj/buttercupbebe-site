@@ -120,15 +120,22 @@ The contact form is in:
 
 - `src/components/contact-form.tsx`
 
-Default submission is `mailto:` (no backend required).
+Submission now posts to:
 
-Optional Formspree integration:
+- `POST /api/inquiries`
 
-1. Create `.env.local`.
+The route sends inquiry emails via the Resend API.
+
+Set these env vars (for local + Vercel):
+
+1. Create `.env.local` for local development.
 2. Add:
 
 ```bash
-NEXT_PUBLIC_FORMSPREE_ENDPOINT=https://formspree.io/f/<your-id>
+RESEND_API_KEY=re_xxxxxxxxx
+INQUIRY_TO_EMAIL=wholesale@buttercupbebe.net
+# Optional, but recommended for production:
+INQUIRY_FROM_EMAIL=Buttercup Bebe Inquiry <hello@your-domain.com>
 ```
 
 3. Restart dev server.
@@ -138,7 +145,7 @@ NEXT_PUBLIC_FORMSPREE_ENDPOINT=https://formspree.io/f/<your-id>
 1. Push this repo to GitHub.
 2. In Vercel, click **Add New Project** and import the repo.
 3. Framework preset will auto-detect as Next.js.
-4. Add env vars (only if using Formspree).
+4. Add env vars for contact form delivery (`RESEND_API_KEY`, `INQUIRY_TO_EMAIL`, optionally `INQUIRY_FROM_EMAIL`).
 5. Deploy.
 
 ## Connect `buttercupbebe.net` Later
