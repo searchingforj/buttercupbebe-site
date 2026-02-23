@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { BrandsAnchorLink } from "@/components/brands-anchor-link";
 import { BrandsShowcase } from "@/components/brands-showcase";
 import { buttonStyles } from "@/components/ui/button";
 import { brands } from "@/data/brands";
@@ -14,10 +15,10 @@ import {
 export default function Home() {
   return (
     <div className="pb-20">
-      <section className="mx-auto max-w-7xl px-4 pb-6 pt-10 sm:px-6 lg:px-10 lg:pb-8 lg:pt-16">
+      <section className="mx-auto max-w-7xl px-4 pb-6 pt-8 sm:px-6 lg:px-10 lg:pb-8 lg:pt-14">
         <div className="max-w-4xl space-y-6">
           <p className="section-eyebrow reveal">Wholesale Children&apos;s Showroom</p>
-          <h1 className="reveal font-display text-5xl leading-tight text-[var(--ink-strong)] sm:text-6xl">
+          <h1 className="reveal font-display text-4xl leading-tight text-[var(--ink-strong)] sm:text-5xl">
             Curated children&apos;s clothing brands for retailers.
           </h1>
           <p className="reveal max-w-2xl text-base leading-8 text-[var(--ink-muted)] sm:text-lg">
@@ -33,15 +34,15 @@ export default function Home() {
             >
               Book Appointment
             </a>
-            <a href="#brands-section" className={buttonStyles({ variant: "secondary", size: "lg" })}>
+            <BrandsAnchorLink className={buttonStyles({ variant: "secondary", size: "lg" })}>
               Browse Brands
-            </a>
+            </BrandsAnchorLink>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6 lg:px-10 lg:pb-20 lg:pt-12">
-        <div id="brands-section" className="mb-8 scroll-mt-24 flex flex-wrap items-end justify-between gap-4 sm:scroll-mt-28">
+      <section className="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 lg:px-10 lg:pb-20 lg:pt-10">
+        <div id="brands-section" className="mb-8 scroll-mt-32 flex flex-wrap items-end justify-between gap-4 sm:scroll-mt-36">
           <div className="max-w-xl space-y-2">
             <p className="section-eyebrow">Brands</p>
             <h2 className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Browse the line mix.</h2>

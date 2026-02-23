@@ -54,10 +54,10 @@ const marketDates: MarketCity[] = [
 
 export default function MarketDatesPage() {
   return (
-    <section className="mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 lg:px-10 lg:pb-20 lg:pt-16">
+    <section className="mx-auto max-w-6xl px-4 pb-16 pt-10 sm:px-6 lg:px-10 lg:pb-20 lg:pt-14">
       <div className="mx-auto max-w-3xl space-y-4 text-center">
         <p className="section-eyebrow">2026 Market Dates</p>
-        <h1 className="font-display text-5xl text-[var(--ink-strong)] sm:text-6xl">Plan your buying calendar.</h1>
+        <h1 className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Plan your buying calendar.</h1>
         <p className="mx-auto max-w-2xl text-sm leading-7 text-[var(--ink-muted)] sm:text-base">
           Confirm dates early so your appointments stay focused, intentional, and easy to navigate in market.
         </p>
