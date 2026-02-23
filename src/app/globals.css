@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fcfaf5;
+  --background: #f4f6f5;
   --surface: #ffffff;
-  --surface-strong: #f6f2ea;
-  --surface-overlay: rgba(255, 255, 255, 0.92);
-  --ink-strong: #131313;
-  --ink-muted: #5e5b54;
-  --accent: #e0b326;
-  --accent-strong: #c79516;
-  --border-soft: rgba(19, 19, 19, 0.12);
+  --surface-strong: #e8ece9;
+  --surface-overlay: rgba(255, 255, 255, 0.86);
+  --ink-strong: #131820;
+  --ink-muted: #606a77;
+  --accent: #b19b67;
+  --accent-strong: #8f7a4b;
+  --border-soft: rgba(19, 24, 32, 0.14);
 }
 
 @theme inline {
@@ -30,9 +30,9 @@ body {
   min-height: 100vh;
   background-color: var(--background);
   background-image:
-    radial-gradient(circle at 22% -12%, rgba(224, 179, 38, 0.11), transparent 40%),
-    radial-gradient(circle at 88% 0%, rgba(20, 20, 20, 0.05), transparent 32%),
-    radial-gradient(rgba(20, 20, 20, 0.015) 0.6px, transparent 0.6px);
+    radial-gradient(circle at 15% -8%, rgba(177, 155, 103, 0.15), transparent 42%),
+    radial-gradient(circle at 82% 0%, rgba(14, 22, 32, 0.08), transparent 34%),
+    radial-gradient(rgba(14, 22, 32, 0.015) 0.6px, transparent 0.6px);
   background-size: auto, auto, 3px 3px;
   color: var(--ink-strong);
   font-family: var(--font-manrope), sans-serif;

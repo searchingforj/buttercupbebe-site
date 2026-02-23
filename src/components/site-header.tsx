@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { buttonStyles } from "@/components/ui/button";
 import { BOOKING_URL } from "@/lib/constants";
@@ -20,8 +20,26 @@ export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const scrollToTop = (behavior: ScrollBehavior = "smooth") => {
+    window.scrollTo({ top: 0, behavior });
+  };
+
+  const scrollToBrandsSection = (behavior: ScrollBehavior = "smooth") => {
+    const brandsSection = document.getElementById("brands-section");
+
+    if (!brandsSection) {
+      return;
+    }
+
+    const headerElement = document.querySelector<HTMLElement>("[data-site-header]");
+    const headerHeight = headerElement?.getBoundingClientRect().height ?? 0;
+    const targetPosition =
+      brandsSection.getBoundingClientRect().top + window.scrollY - headerHeight - 12;
+
+    window.scrollTo({
+      top: Math.max(0, targetPosition),
+      behavior,
+    });
   };
 
   const handleLogoClick = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -48,9 +66,8 @@ export function SiteHeader() {
       }
 
       event.preventDefault();
-      const brandsSection = document.getElementById("brands-section");
       window.history.replaceState(null, "", "/#brands-section");
-      brandsSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+      scrollToBrandsSection("smooth");
       return;
     }
 
@@ -61,8 +78,35 @@ export function SiteHeader() {
     }
   };
 
+  useEffect(() => {
+    if (pathname !== "/") {
+      scrollToTop("auto");
+      return;
+    }
+
+    if (window.location.hash === "#brands-section") {
+      requestAnimationFrame(() => {
+        scrollToBrandsSection("auto");
+      });
+      return;
+    }
+
+    scrollToTop("auto");
+  }, [pathname]);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[var(--surface-overlay)] backdrop-blur-md">
+    <header
+      data-site-header
+      className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[var(--surface-overlay)] backdrop-blur-md"
+    >
+      <div className="border-b border-[var(--border-soft)] bg-[rgba(19,24,32,0.04)]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+          <p className="py-2 text-center text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[var(--ink-muted)] sm:text-[0.66rem]">
+            Dallas Market Center + AmericasMart Atlanta Showrooms
+          </p>
+        </div>
+      </div>
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="flex items-center gap-3 py-3 sm:gap-4">
           <Link
