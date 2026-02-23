@@ -14,7 +14,7 @@ import {
 export default function Home() {
   return (
     <div className="pb-20">
-      <section className="mx-auto max-w-7xl px-4 pb-6 pt-14 sm:px-6 lg:px-10 lg:pb-8 lg:pt-20">
+      <section className="mx-auto max-w-7xl px-4 pb-6 pt-10 sm:px-6 lg:px-10 lg:pb-8 lg:pt-16">
         <div className="max-w-4xl space-y-6">
           <p className="section-eyebrow reveal">Wholesale Children&apos;s Showroom</p>
           <h1 className="reveal font-display text-5xl leading-tight text-[var(--ink-strong)] sm:text-6xl">

@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { MouseEvent } from "react";
 import { useState } from "react";
 
 import { buttonStyles } from "@/components/ui/button";
@@ -16,12 +18,60 @@ const navItems = [
 
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleLogoClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    setMobileMenuOpen(false);
+
+    if (pathname !== "/") {
+      return;
+    }
+
+    event.preventDefault();
+    window.history.replaceState(null, "", "/");
+    scrollToTop();
+  };
+
+  const handleNavClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    item: (typeof navItems)[number],
+  ) => {
+    setMobileMenuOpen(false);
+
+    if (item.label === "Brands") {
+      if (pathname !== "/") {
+        return;
+      }
+
+      event.preventDefault();
+      const brandsSection = document.getElementById("brands-section");
+      window.history.replaceState(null, "", "/#brands-section");
+      brandsSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    if (pathname === item.href) {
+      event.preventDefault();
+      window.history.replaceState(null, "", item.href);
+      scrollToTop();
+    }
+  };
 
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[var(--surface-overlay)] backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="flex items-center gap-3 py-3 sm:gap-4">
-          <Link href="/" aria-label="Buttercup Bebe home" className="inline-flex shrink-0 items-center">
+          <Link
+            href="/"
+            scroll
+            onClick={handleLogoClick}
+            aria-label="Buttercup Bebe home"
+            className="inline-flex shrink-0 items-center"
+          >
             <Image
               src="/brand/buttercup-bebe-logo.svg"
               alt="Buttercup Bebe Logo"
@@ -38,6 +88,8 @@ export function SiteHeader() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
+                    scroll={item.label !== "Brands"}
+                    onClick={(event) => handleNavClick(event, item)}
                     className={buttonStyles({
                       variant: "ghost",
                       size: "sm",
@@ -107,7 +159,8 @@ export function SiteHeader() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
+                    scroll={item.label !== "Brands"}
+                    onClick={(event) => handleNavClick(event, item)}
                     className={buttonStyles({
                       variant: "ghost",
                       size: "md",
