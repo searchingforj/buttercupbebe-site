@@ -36,6 +36,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Classic children's apparel featuring vibrant colors, playful patterns, and everyday silhouettes.",
     websiteUrl: "https://www.littlepaperkids.com/",
+    orderUrl: "https://www.brandboom.com/LittlePaperKids26/a/4E2FF88D4E2",
     logoUrl: logoFor("little-paper-kids"),
     images: imagesFor("little-paper-kids"),
     featured: true,
@@ -66,6 +67,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Outdoor-inspired children's apparel blending camo classics with everyday comfort.",
     websiteUrl: "https://velvetfawn.com/",
+    orderUrl: "https://wholesale.velvetfawn.com/signup",
     logoUrl: logoFor("velvet-fawn"),
     images: imagesFor("velvet-fawn"),
     featured: true,
@@ -85,6 +87,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Colorful, customizable children's jewelry and accessories handcrafted in the USA.",
     websiteUrl: "https://littlemisszoe.com/",
+    orderUrl: "https://www.brandboom.com/app/a/11F2D7172EB",
     logoUrl: logoFor("little-miss-zoe"),
     images: imagesFor("little-miss-zoe"),
   },
@@ -94,6 +97,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Classic children's clothing with a modern feel, designed for everyday wear.",
     websiteUrl: "https://citybeautifulchildrensboutique.com/",
+    orderUrl: "https://www.brandboom.com/app/a/8EF22F1E250",
     logoUrl: logoFor("city-beautiful"),
     images: imagesFor("city-beautiful"),
   },
@@ -103,6 +107,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Tailored boys' shorts designed to balance classic style with play-ready comfort.",
     websiteUrl: "https://www.shoptroupers.com/",
+    orderUrl: "https://www.brandboom.com/app/a/5078B8286A6",
     logoUrl: logoFor("troupers"),
     images: imagesFor("troupers"),
   },
@@ -112,6 +117,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Whimsical children's apparel pairing playful prints with timeless silhouettes.",
     websiteUrl: "https://nellajune.com/",
+    orderUrl: "https://www.brandboom.com/app/a/FEF5578EF89",
     logoUrl: logoFor("nella-june"),
     images: imagesFor("nella-june"),
   },
@@ -148,6 +154,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Sustainably made children's clothing featuring natural fabrics and modern classics.",
     websiteUrl: "https://beet-world.com/",
+    orderUrl: "https://www.brandboom.com/app/a/B5E99B578C3",
     logoUrl: logoFor("beet-world"),
     images: imagesFor("beet-world"),
   },
@@ -157,6 +164,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Handcrafted children's apparel using traditional embroidery and vibrant artisan prints.",
     websiteUrl: "https://www.larili.com/",
+    orderUrl: "https://www.brandboom.com/app/a/3CF3E5D718D",
     logoUrl: logoFor("larili"),
     images: imagesFor("larili"),
   },
@@ -166,6 +174,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Trendy, playful children's accessories including scented and light-up designs.",
     websiteUrl: "https://www.facebook.com/AmericanJewel/about",
+    orderUrl: "https://www.brandboom.com/app/a/A860ABF0D59",
     logoUrl: logoFor("american-jewel"),
     images: imagesFor("american-jewel"),
   },
@@ -175,6 +184,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Wholesale monogram blanks and baby essentials made for personalization.",
     websiteUrl: "https://www.southernproperblanks.com/",
+    orderUrl: "https://www.brandboom.com/app/a/4D09EA0589E",
     logoUrl: logoFor("southern-proper-blanks"),
     images: imagesFor("southern-proper-blanks"),
   },
@@ -193,6 +203,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Classic children's clothing featuring hand-smocked and embroidered designs.",
     websiteUrl: "https://maddieandconnorco.com/",
+    orderUrl: "https://www.brandboom.com/app/a/B3D7D6F49B0",
     logoUrl: logoFor("maddie-and-connor"),
     images: imagesFor("maddie-and-connor"),
   },

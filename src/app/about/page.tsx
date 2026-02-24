@@ -3,6 +3,8 @@ import path from "node:path";
 import type { Metadata } from "next";
 import Image from "next/image";
 
+import { CONTACT_PHONE_LINKS, CONTACT_PHONES } from "@/lib/constants";
+
 export const metadata: Metadata = {
   title: "About",
   description: "Meet the Buttercup Bebe showroom team.",
@@ -25,6 +27,41 @@ function resolveTeamPhotoSrc() {
   return null;
 }
 
+function PhoneIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-4 w-4 shrink-0"
+    >
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.62a2 2 0 0 1-.45 2.11L8.04 9.72a16 16 0 0 0 6.24 6.24l1.27-1.28a2 2 0 0 1 2.11-.45c.84.32 1.72.54 2.62.66A2 2 0 0 1 22 16.92z" />
+    </svg>
+  );
+}
+
+function MailIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-4 w-4 shrink-0"
+    >
+      <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
+      <path d="m22 6-10 7L2 6" />
+    </svg>
+  );
+}
+
 export default function AboutPage() {
   const teamPhotoSrc = resolveTeamPhotoSrc();
 
@@ -41,58 +78,65 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="mt-10">
-        <figure className="rounded-3xl border border-[var(--border-soft)] bg-[linear-gradient(120deg,rgba(243,236,219,0.9),rgba(247,247,247,0.94))] p-5 sm:p-7">
+      <div className="mt-10 flex justify-center">
+        <figure className="w-full max-w-3xl">
           {teamPhotoSrc ? (
-            <div className="relative aspect-[5/4] overflow-hidden rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)]">
+            <div className="relative mx-auto aspect-[5/4] w-full max-w-2xl overflow-hidden rounded-2xl bg-[var(--surface)] shadow-[0_20px_45px_rgba(0,0,0,0.12)]">
               <Image
                 src={teamPhotoSrc}
                 alt="Marci and Madi from Buttercup Bebe"
                 fill
                 className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 80vw"
+                sizes="(max-width: 1024px) 100vw, 56rem"
               />
             </div>
           ) : (
-            <div className="flex aspect-[5/4] items-center justify-center rounded-2xl border border-dashed border-[rgba(19,19,19,0.25)] bg-[rgba(255,255,255,0.72)]">
+            <div className="mx-auto flex aspect-[5/4] w-full max-w-2xl items-center justify-center rounded-2xl bg-[rgba(255,255,255,0.72)] shadow-[0_20px_45px_rgba(0,0,0,0.08)]">
               <span className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Marci &amp; Madi</span>
             </div>
           )}
         </figure>
       </div>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
-        <article className="rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.58)] p-6 sm:p-7">
-          <h2 className="font-display text-5xl leading-none text-[var(--ink-strong)] sm:text-6xl">Marci</h2>
-          <p className="mt-2 text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">
-            CO-FOUNDER
-          </p>
-          <p className="mt-4 text-sm leading-7 text-[var(--ink-muted)]">
+      <div className="mt-12 grid gap-6 md:grid-cols-2">
+        <article className="flex h-full flex-col rounded-2xl bg-[rgba(255,255,255,0.72)] p-6 shadow-[0_14px_35px_rgba(0,0,0,0.08)] sm:p-7">
+          <p className="text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">CO-FOUNDER</p>
+          <h2 className="mt-2 font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-4xl">Marci</h2>
+          <p className="mt-4 text-sm leading-8 text-[var(--ink-muted)]">
             Marci brings 25+ years in children&apos;s fashion and 14 years owning and operating her own boutique. She
-            now runs Buttercup Bebe&apos;s Dallas and Atlanta showrooms with a strong instinct for lines that perform and
-            assortments that fit each store&apos;s customer
+            leads Buttercup Bebe&apos;s Dallas and Atlanta showrooms with a sharp eye for lines that perform and
+            practical market guidance buyers can use season after season.
           </p>
-          <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold tracking-[0.08em] text-[var(--ink-muted)]">
-            <span className="rounded-full border border-[var(--border-soft)] px-3 py-1">25+ years in children&apos;s fashion</span>
-            <span className="rounded-full border border-[var(--border-soft)] px-3 py-1">14 years boutique ownership</span>
-            <span className="rounded-full border border-[var(--border-soft)] px-3 py-1">Dallas + Atlanta showrooms</span>
+          <div className="mt-auto pt-6 text-sm text-[var(--ink-strong)]">
+            <a className="inline-flex items-center gap-2 hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.marci}`}>
+              <PhoneIcon />
+              <span>{CONTACT_PHONES.marci}</span>
+            </a>
           </div>
         </article>
 
-        <article className="rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.58)] p-6 sm:p-7">
-          <h2 className="font-display text-5xl leading-none text-[var(--ink-strong)] sm:text-6xl">Madi</h2>
-          <p className="mt-2 text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">
-            CO-FOUNDER
+        <article className="flex h-full flex-col rounded-2xl bg-[rgba(255,255,255,0.72)] p-6 shadow-[0_14px_35px_rgba(0,0,0,0.08)] sm:p-7">
+          <p className="text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">CO-FOUNDER</p>
+          <h2 className="mt-2 font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-4xl">Madi</h2>
+          <p className="mt-4 text-sm leading-8 text-[var(--ink-muted)]">
+            Madi grew up around boutique retail and earned her degree in fashion merchandising and textiles. Her
+            experience spans fulfillment operations, sales-floor execution, visual merchandising, and brand photo
+            shoots, giving her a versatile, end-to-end understanding of the industry.
           </p>
-          <p className="mt-4 text-sm leading-7 text-[var(--ink-muted)]">
-            Madi grew up around boutique retail and earned her degree in Fashion Merchandising &amp; Textiles from
-            Western Kentucky University. She focuses on helping buyers build intentional assortments that feel current,
-            commercial, and easy to shop
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold tracking-[0.08em] text-[var(--ink-muted)]">
-            <span className="rounded-full border border-[var(--border-soft)] px-3 py-1">Boutique retail upbringing</span>
-            <span className="rounded-full border border-[var(--border-soft)] px-3 py-1">WKU Fashion Merchandising &amp; Textiles</span>
-            <span className="rounded-full border border-[var(--border-soft)] px-3 py-1">Assortment planning support</span>
+          <div className="mt-auto pt-6 text-sm text-[var(--ink-strong)]">
+            <div className="flex items-center gap-3">
+              <a className="inline-flex items-center gap-2 hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.madi}`}>
+                <PhoneIcon />
+                <span>{CONTACT_PHONES.madi}</span>
+              </a>
+              <a
+                className="ml-auto inline-flex items-center gap-2 hover:text-[var(--ink-muted)]"
+                href="mailto:madi@buttercupbebe.net"
+              >
+                <MailIcon />
+                <span className="text-right">madi@buttercupbebe.net</span>
+              </a>
+            </div>
           </div>
         </article>
       </div>
