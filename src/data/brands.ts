@@ -4,6 +4,7 @@ export type Brand = {
   oneLiner: string;
   websiteUrl?: string;
   orderUrl?: string;
+  orderAccessNote?: string;
   logoUrl?: string;
   lookbookUrl?: string;
   lineSheetUrl?: string;
@@ -47,6 +48,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Bold, playful children's clothing known for standout prints and fashion-forward design.",
     websiteUrl: "https://www.yobabyonline.com/",
+    orderUrl: "https://www.brandboom.com/app/a/E4A44625BD2",
     logoUrl: logoFor("yo-baby"),
     images: imagesFor("yo-baby"),
     featured: true,
@@ -57,6 +59,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Performance-driven kids' activewear designed for movement, comfort, and durability.",
     websiteUrl: "https://yogababyclothing.com/",
+    orderUrl: "https://www.brandboom.com/app/a/6CC7BE69476",
     logoUrl: logoFor("yogababy"),
     images: imagesFor("yogababy"),
     featured: true,
@@ -77,6 +80,9 @@ export const brands: Brand[] = [
     name: "Bushel & a Peck",
     oneLiner:
       "Timeless children's knits made from 100% Pima cotton with an elevated everyday feel.",
+    orderUrl: "https://bushelandapeckchildrens.com/password",
+    orderAccessNote:
+      "Wholesale access password: wholesale.\nA 50% wholesale discount is applied automatically in your cart when checking out.",
     logoUrl: logoFor("bushel-and-a-peck"),
     images: imagesFor("bushel-and-a-peck"),
     featured: true,
@@ -136,6 +142,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Oversized coloring products and creative activities designed for shared moments.",
     websiteUrl: "https://theglitteroption.com/",
+    orderUrl: "https://www.brandboom.com/app/a/0BB49A9DDE2",
     logoUrl: logoFor("glitter-option"),
     images: imagesFor("glitter-option"),
   },
@@ -145,6 +152,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Coastal-inspired children's clothing with hand-created patterns and versatile silhouettes.",
     websiteUrl: "https://www.mydeargeorgie.com/",
+    orderUrl: "https://www.brandboom.com/app/a/9ECB62240BC",
     logoUrl: logoFor("dear-georgie"),
     images: imagesFor("dear-georgie"),
   },
@@ -213,6 +221,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Ultra-soft bamboo children's essentials designed for comfort and everyday wear.",
     websiteUrl: "https://www.weisingerbamboo.com/",
+    orderUrl: "https://www.brandboom.com/app/a/FB573684A3C",
     logoUrl: logoFor("weisinger-bamboo"),
     images: imagesFor("weisinger-bamboo"),
   },
@@ -221,6 +230,7 @@ export const brands: Brand[] = [
     name: "Smockingbird",
     oneLiner:
       "Classic heirloom-inspired children's pieces with handcrafted detailing and elevated prints that balance timeless charm and everyday wearability.",
+    orderUrl: "https://www.brandboom.com/app/a/45D27FA156C",
     logoUrl: logoFor("smockingbird"),
     images: imagesFor("smockingbird"),
   },
@@ -246,6 +256,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Southern-style monogram blanks and classic baby boutique essentials.",
     websiteUrl: "https://zsazsa-lolli.com/",
+    orderUrl: "https://www.brandboom.com/app/a/AFE80590EC0",
     logoUrl: logoFor("zsazsa-and-lolli"),
     images: imagesFor("zsazsa-and-lolli"),
   },

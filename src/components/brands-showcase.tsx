@@ -159,8 +159,8 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 420px"
                 />
                 <div className="pointer-events-none absolute inset-0 hidden items-end bg-gradient-to-t from-[rgba(15,15,15,0.62)] via-[rgba(15,15,15,0.1)] to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100 md:flex">
-                  <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white">
-                    Details
+                  <span className="text-xs font-semibold text-white">
+                    Click for more details
                   </span>
                 </div>
               </div>
@@ -259,6 +259,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   <p id="quick-view-description" className="text-sm leading-7 text-[var(--ink-muted)]">
                     {activeBrand.oneLiner}
                   </p>
+                  {activeBrand.orderAccessNote ? (
+                    <p className="whitespace-pre-line rounded-lg border border-[var(--border-soft)] bg-[var(--surface-strong)] px-3 py-2 text-xs leading-6 text-[var(--ink-strong)]">
+                      {activeBrand.orderAccessNote}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div className="flex flex-wrap gap-3">

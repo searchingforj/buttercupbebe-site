@@ -128,17 +128,29 @@ The route sends inquiry emails via the Resend API.
 
 Set these env vars (for local + Vercel):
 
-1. Create `.env.local` for local development.
-2. Add:
+1. Copy the template:
+
+```bash
+cp .env.example .env.local
+```
+
+2. Add your real values in `.env.local`:
 
 ```bash
 RESEND_API_KEY=re_xxxxxxxxx
 INQUIRY_TO_EMAIL=wholesale@buttercupbebe.net
-# Optional, but recommended for production:
 INQUIRY_FROM_EMAIL=Buttercup Bebe Inquiry <hello@your-domain.com>
 ```
 
-3. Restart dev server.
+3. Restart dev server:
+
+```bash
+npm run dev
+```
+
+4. Add the same 3 vars in Vercel Project Settings -> Environment Variables (Production + Preview).
+
+5. Redeploy, then submit a test inquiry from `/contact`.
 
 ## Deploy to Vercel
 

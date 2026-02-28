@@ -101,27 +101,11 @@ export default function AboutPage() {
       <div className="mt-12 grid gap-6 md:grid-cols-2">
         <article className="flex h-full flex-col rounded-2xl bg-[rgba(255,255,255,0.72)] p-6 shadow-[0_14px_35px_rgba(0,0,0,0.08)] sm:p-7">
           <p className="text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">CO-FOUNDER</p>
-          <h2 className="mt-2 font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-4xl">Marci</h2>
-          <p className="mt-4 text-sm leading-8 text-[var(--ink-muted)]">
-            Marci brings 25+ years in children&apos;s fashion and 14 years owning and operating her own boutique. She
-            leads Buttercup Bebe&apos;s Dallas and Atlanta showrooms with a sharp eye for lines that perform and
-            practical market guidance buyers can use season after season.
-          </p>
-          <div className="mt-auto pt-6 text-sm text-[var(--ink-strong)]">
-            <a className="inline-flex items-center gap-2 hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.marci}`}>
-              <PhoneIcon />
-              <span>{CONTACT_PHONES.marci}</span>
-            </a>
-          </div>
-        </article>
-
-        <article className="flex h-full flex-col rounded-2xl bg-[rgba(255,255,255,0.72)] p-6 shadow-[0_14px_35px_rgba(0,0,0,0.08)] sm:p-7">
-          <p className="text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">CO-FOUNDER</p>
           <h2 className="mt-2 font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-4xl">Madi</h2>
           <p className="mt-4 text-sm leading-8 text-[var(--ink-muted)]">
-            Madi grew up around boutique retail and earned her degree in fashion merchandising and textiles. Her
-            experience spans fulfillment operations, sales-floor execution, visual merchandising, and brand photo
-            shoots, giving her a versatile, end-to-end understanding of the industry.
+          Madi was raised in the world of boutique retail and earned her degree in Fashion Merchandising & Textiles. Her experience across multiple 
+          sectors of the fashion industry gives her a unique, end-to-end understanding of the industry — insight 
+          she brings to every brand and buyer relationship.
           </p>
           <div className="mt-auto pt-6 text-sm text-[var(--ink-strong)]">
             <div className="flex items-center gap-3">
@@ -137,6 +121,21 @@ export default function AboutPage() {
                 <span className="text-right">madi@buttercupbebe.net</span>
               </a>
             </div>
+          </div>
+        </article>
+
+        <article className="flex h-full flex-col rounded-2xl bg-[rgba(255,255,255,0.72)] p-6 shadow-[0_14px_35px_rgba(0,0,0,0.08)] sm:p-7">
+          <p className="text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">CO-FOUNDER</p>
+          <h2 className="mt-2 font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-4xl">Marci</h2>
+          <p className="mt-4 text-sm leading-8 text-[var(--ink-muted)]">
+            Marci brings over 25 years of experience in children&apos;s fashion, including 14 years owning and operating her own boutique. She
+            has a sharp eye for high-performing lines and provides a wealth of market knowledge that buyers can rely on season after season.
+          </p>
+          <div className="mt-auto pt-6 text-sm text-[var(--ink-strong)]">
+            <a className="inline-flex items-center gap-2 hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.marci}`}>
+              <PhoneIcon />
+              <span>{CONTACT_PHONES.marci}</span>
+            </a>
           </div>
         </article>
       </div>

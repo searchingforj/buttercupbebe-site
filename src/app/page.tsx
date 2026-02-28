@@ -19,11 +19,17 @@ export default function Home() {
         <div className="max-w-4xl space-y-6">
           <p className="section-eyebrow reveal">Wholesale Children&apos;s Showroom</p>
           <h1 className="reveal font-display text-4xl leading-tight text-[var(--ink-strong)] sm:text-5xl">
-            Curated children&apos;s clothing brands for retailers.
+            Beautiful children&apos;s clothing and accessories for your store.
           </h1>
           <p className="reveal max-w-2xl text-base leading-8 text-[var(--ink-muted)] sm:text-lg">
-            Meet in our permanent showrooms at Dallas Market Center and AmericasMart Atlanta, plus Nashville
-            participation through Dixie Children&apos;s Show pop-up markets.
+            Visit us in our permanent showrooms at Dallas Market Center and AmericasMart Atlanta, or in Nashville at
+            Dixie Children&apos;s Show pop-up markets.{" "}
+            <Link
+              href="/market-dates"
+              className="whitespace-nowrap font-semibold text-[var(--ink-strong)] underline decoration-[var(--border-strong)] underline-offset-4 transition hover:text-[var(--ink-muted)]"
+            >
+              See our market dates.
+            </Link>
           </p>
           <div className="reveal flex flex-wrap items-center gap-3 pt-2">
             <a
