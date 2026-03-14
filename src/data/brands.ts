@@ -123,7 +123,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Whimsical children's apparel pairing playful prints with timeless silhouettes.",
     websiteUrl: "https://nellajune.com/",
-    orderUrl: "https://www.brandboom.com/app/a/FEF5578EF89",
+    orderUrl: "https://www.brandboom.com/app/a/318A96F7B48",
     logoUrl: logoFor("nella-june"),
     images: imagesFor("nella-june"),
   },
