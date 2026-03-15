@@ -80,9 +80,7 @@ export const brands: Brand[] = [
     name: "Bushel & a Peck",
     oneLiner:
       "Timeless children's knits made from 100% Pima cotton with an elevated everyday feel.",
-    orderUrl: "https://bushelandapeckchildrens.com/password",
-    orderAccessNote:
-      "Wholesale access password: wholesale.\nA 50% wholesale discount is applied automatically in your cart when checking out.",
+    orderUrl: "https://www.brandboom.com/app/a/5A11054992C",
     logoUrl: logoFor("bushel-and-a-peck"),
     images: imagesFor("bushel-and-a-peck"),
     featured: true,
