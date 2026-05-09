@@ -10,6 +10,7 @@ export type Brand = {
   lineSheetUrl?: string;
   images: string[];
   featured?: boolean;
+  active?: boolean;
 };
 
 const imagesFor = (slug: string) => [
@@ -195,6 +196,26 @@ export const brands: Brand[] = [
     images: imagesFor("southern-proper-blanks"),
   },
   {
+    slug: "cape-point-co",
+    name: "Cape Point Co.",
+    oneLiner:
+      "Coastal North Carolina children's line creating hand-smocked garments with fishing-inspired details, classic silhouettes, and thoughtful everyday charm.",
+    websiteUrl: "https://www.instagram.com/capepointclothing/",
+    orderUrl: "https://www.faire.com/brand/b_74mke8u3nk/",
+    logoUrl: logoFor("cape-point-co"),
+    images: imagesFor("cape-point-co"),
+  },
+  {
+    slug: "sawyer-and-spade",
+    name: "Sawyer & Spade",
+    oneLiner:
+      "Mom-owned Houston children's brand creating thoughtfully designed embroidered styles with handpicked fabrics, custom charm, and playful everyday polish.",
+    websiteUrl: "https://sawyerandspade.com/",
+    orderUrl: "https://sawyerandspade.com/pages/contact",
+    logoUrl: logoFor("sawyer-and-spade"),
+    images: imagesFor("sawyer-and-spade"),
+  },
+  {
     slug: "eight-thousand-miles",
     name: "Eight Thousand Miles",
     oneLiner:
@@ -212,6 +233,7 @@ export const brands: Brand[] = [
     orderUrl: "https://www.brandboom.com/app/a/B3D7D6F49B0",
     logoUrl: logoFor("maddie-and-connor"),
     images: imagesFor("maddie-and-connor"),
+    active: false,
   },
   {
     slug: "weisinger-bamboo",
@@ -259,3 +281,5 @@ export const brands: Brand[] = [
     images: imagesFor("zsazsa-and-lolli"),
   },
 ];
+
+export const visibleBrands = brands.filter((brand) => brand.active !== false);

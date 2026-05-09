@@ -25,11 +25,12 @@ const marketDates: MarketCity[] = [
       { date: "Jan 7-13", show: "Gift" },
       { date: "Jan 19-23", show: "Kidsworld" },
       { date: "Mar 24-27", show: "Kidsworld" },
-      { date: "Jun 16-19", show: "Kidsworld" },
+      { date: "Jun 16-19", show: "Apparel" },
+      { date: "Jun 24-27", show: "Kidsworld" },
       { date: "Jun 24-30", show: "Gift" },
-      { date: "Aug 18-21", show: "Kidsworld" },
-      { date: "Sep 15-17", show: "Gift" },
-      { date: "Oct 20-24", show: "Apparel" },
+      { date: "Aug 18-21", show: "Apparel + Kidsworld" },
+      { date: "Sep 15-17", show: "Gift + Kidsworld" },
+      { date: "Oct 20-23", show: "Apparel" },
     ],
   },
   {
@@ -38,8 +39,8 @@ const marketDates: MarketCity[] = [
       { date: "Jan 13-19", show: "Gift" },
       { date: "Feb 3-5", show: "Apparel" },
       { date: "Mar 30-Apr 1", show: "Apparel" },
-      { date: "Jun 9-15", show: "Gift" },
-      { date: "Aug 4-7", show: "Apparel" },
+      { date: "Jun 9-14", show: "Gift + Apparel" },
+      { date: "Aug 3-6", show: "Apparel" },
       { date: "Oct 6-9", show: "Apparel" },
     ],
   },
@@ -75,7 +76,7 @@ export default function MarketDatesPage() {
             <ul className="mt-4 divide-y divide-[var(--border-soft)] rounded-xl border border-[var(--border-soft)] bg-[var(--surface)]">
               {market.events.map((event) => (
                 <li
-                  key={`${market.city}-${event.date}`}
+                  key={`${market.city}-${event.show}-${event.date}`}
                   className="grid grid-cols-1 gap-0.5 px-3 py-2.5 text-sm sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-3 sm:px-4 sm:py-3"
                 >
                   <span className="font-semibold text-[var(--ink-strong)] sm:text-[0.95rem]">{event.date}</span>

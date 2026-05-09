@@ -3,7 +3,7 @@ import Link from "next/link";
 import { BrandsAnchorLink } from "@/components/brands-anchor-link";
 import { BrandsShowcase } from "@/components/brands-showcase";
 import { buttonStyles } from "@/components/ui/button";
-import { brands } from "@/data/brands";
+import { visibleBrands } from "@/data/brands";
 import {
   BOOKING_URL,
   CONTACT_EMAIL,
@@ -66,7 +66,7 @@ export default function Home() {
           </a>
         </div>
 
-        <BrandsShowcase brands={brands} />
+        <BrandsShowcase brands={visibleBrands} />
       </section>
 
       <section id="contact-section" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-10">
