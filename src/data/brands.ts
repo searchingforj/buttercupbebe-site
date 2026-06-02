@@ -81,7 +81,7 @@ export const brands: Brand[] = [
     name: "Bushel & a Peck",
     oneLiner:
       "Timeless children's knits made from 100% Pima cotton with an elevated everyday feel.",
-    orderUrl: "https://www.brandboom.com/app/a/5A11054992C",
+    orderUrl: "https://www.brandboom.com/app/a/3F646C942AC",
     logoUrl: logoFor("bushel-and-a-peck"),
     images: imagesFor("bushel-and-a-peck"),
     featured: true,
@@ -122,7 +122,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Whimsical children's apparel pairing playful prints with timeless silhouettes.",
     websiteUrl: "https://nellajune.com/",
-    orderUrl: "https://www.brandboom.com/app/a/318A96F7B48",
+    orderUrl: "https://www.brandboom.com/app/a/7889A08268E",
     logoUrl: logoFor("nella-june"),
     images: imagesFor("nella-june"),
   },
@@ -211,7 +211,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Mom-owned Houston children's brand creating thoughtfully designed embroidered styles with handpicked fabrics, custom charm, and playful everyday polish.",
     websiteUrl: "https://sawyerandspade.com/",
-    orderUrl: "https://sawyerandspade.com/pages/contact",
+    orderUrl: "https://www.brandboom.com/app/a/878C710A8DE",
     logoUrl: logoFor("sawyer-and-spade"),
     images: imagesFor("sawyer-and-spade"),
   },
@@ -250,7 +250,7 @@ export const brands: Brand[] = [
     name: "Smockingbird",
     oneLiner:
       "Classic heirloom-inspired children's pieces with handcrafted detailing and elevated prints that balance timeless charm and everyday wearability.",
-    orderUrl: "https://www.brandboom.com/app/a/45D27FA156C",
+    orderUrl: "https://www.brandboom.com/app/a/C7493E24259",
     logoUrl: logoFor("smockingbird"),
     images: imagesFor("smockingbird"),
   },
