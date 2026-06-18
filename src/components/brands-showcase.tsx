@@ -44,6 +44,8 @@ const HERO_DESCRIPTION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
 const HERO_CONTAINED_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {};
 
 const HERO_ROTATION_MS = 9000;
+const MOBILE_HERO_ROTATION_MS = 7500;
+const MOBILE_HERO_MEDIA_QUERY = "(max-width: 639px)";
 const SWIPE_THRESHOLD_PX = 44;
 
 const FOCUSABLE_SELECTOR = [
@@ -117,9 +119,12 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [heroRotationResetKey, setHeroRotationResetKey] = useState(0);
+  const [isMobileHeroLayout, setIsMobileHeroLayout] = useState(false);
   const [hiddenLogoSlugs, setHiddenLogoSlugs] = useState<Record<string, true>>({});
   const modalRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);
+  const heroTouchStartX = useRef<number | null>(null);
+  const heroTouchDidSwipe = useRef(false);
   const galleryTouchStartX = useRef<number | null>(null);
 
   const orderedBrands = useMemo(() => alphabeticalBrandOrder(brands), [brands]);
@@ -204,6 +209,54 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     advanceImage(distance < 0 ? "next" : "previous");
   };
 
+  const handleHeroTouchStart = (event: TouchEvent<HTMLElement>) => {
+    heroTouchStartX.current = event.changedTouches[0]?.clientX ?? null;
+    heroTouchDidSwipe.current = false;
+  };
+
+  const handleHeroTouchEnd = (event: TouchEvent<HTMLElement>) => {
+    if (heroTouchStartX.current === null) {
+      return;
+    }
+
+    const distance = event.changedTouches[0].clientX - heroTouchStartX.current;
+    heroTouchStartX.current = null;
+
+    if (Math.abs(distance) < SWIPE_THRESHOLD_PX) {
+      return;
+    }
+
+    heroTouchDidSwipe.current = true;
+    advanceHeroSlide(distance < 0 ? "next" : "previous");
+  };
+
+  const handleMobileHeroClick = (event: React.MouseEvent<HTMLElement>) => {
+    if (!activeHeroBrand || !window.matchMedia(MOBILE_HERO_MEDIA_QUERY).matches) {
+      return;
+    }
+
+    if (heroTouchDidSwipe.current) {
+      heroTouchDidSwipe.current = false;
+      return;
+    }
+
+    if ((event.target as HTMLElement).closest("a, button")) {
+      return;
+    }
+
+    openBrandModal(activeHeroBrand);
+  };
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(MOBILE_HERO_MEDIA_QUERY);
+    const updateMobileHeroLayout = () => setIsMobileHeroLayout(mediaQuery.matches);
+
+    updateMobileHeroLayout();
+    mediaQuery.addEventListener("change", updateMobileHeroLayout);
+
+    return () => mediaQuery.removeEventListener("change", updateMobileHeroLayout);
+  }, []);
+
   useEffect(() => {
     if (featuredBrands.length < 2) {
       return;
@@ -211,10 +264,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
     const rotation = window.setTimeout(() => {
       setActiveSlideIndex((currentIndex) => (currentIndex + 1) % featuredBrands.length);
-    }, HERO_ROTATION_MS);
+    }, isMobileHeroLayout ? MOBILE_HERO_ROTATION_MS : HERO_ROTATION_MS);
 
     return () => window.clearTimeout(rotation);
-  }, [activeSlideIndex, featuredBrands.length, heroRotationResetKey]);
+  }, [activeSlideIndex, featuredBrands.length, heroRotationResetKey, isMobileHeroLayout]);
 
   useEffect(() => {
     if (!activeBrand || !modalRef.current) {
@@ -289,8 +342,13 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[var(--surface-strong)]">
-        <div className="relative min-h-[560px] sm:min-h-[610px] lg:min-h-[680px]">
+      <section
+        className="relative cursor-pointer overflow-hidden bg-[var(--surface-strong)] sm:cursor-default"
+        onClick={handleMobileHeroClick}
+        onTouchStart={handleHeroTouchStart}
+        onTouchEnd={handleHeroTouchEnd}
+      >
+        <div className="relative min-h-[500px] sm:min-h-[610px] lg:min-h-[680px]">
           {featuredBrands.map((brand, index) => {
             const isActive = activeSlideIndex === index;
             const heroImage = heroImageFor(brand);
@@ -343,11 +401,15 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(24,21,18,0.76)_0%,rgba(24,21,18,0.45)_48%,rgba(24,21,18,0.08)_100%)]" />
 
+          <p className="absolute left-4 top-6 z-20 text-sm font-semibold text-white/86 sm:hidden">
+            Featured Brands
+          </p>
+
           <button
             type="button"
             onClick={() => advanceHeroSlide("previous")}
             aria-label="Show previous featured brand"
-            className="absolute left-3 top-[27%] z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/18 text-xl text-white shadow-[0_12px_28px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/28 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:left-5 sm:top-1/2 lg:left-8"
+            className="absolute left-3 top-[27%] z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/18 text-xl text-white shadow-[0_12px_28px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/28 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:left-5 sm:top-1/2 sm:flex lg:left-8"
           >
             <svg
               aria-hidden="true"
@@ -366,7 +428,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             type="button"
             onClick={() => advanceHeroSlide("next")}
             aria-label="Show next featured brand"
-            className="absolute right-3 top-[27%] z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/18 text-xl text-white shadow-[0_12px_28px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/28 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:right-5 sm:top-1/2 lg:right-8"
+            className="absolute right-3 top-[27%] z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/18 text-xl text-white shadow-[0_12px_28px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/28 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:right-5 sm:top-1/2 sm:flex lg:right-8"
           >
             <svg
               aria-hidden="true"
@@ -383,24 +445,24 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
           </button>
 
           {activeHeroBrand ? (
-            <div className="relative z-10 flex min-h-[560px] items-end sm:min-h-[610px] lg:min-h-[680px]">
-              <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-24 sm:px-6 sm:pb-12 lg:px-10 lg:pb-16">
-                <div className="max-w-2xl space-y-5 text-white">
-                  <p className="text-sm font-semibold text-white/84 sm:text-base">Featured Brands</p>
-                  <h1 className="font-display text-5xl leading-[0.98] sm:text-6xl lg:text-7xl">
+            <div className="relative z-10 flex min-h-[500px] items-end sm:min-h-[610px] lg:min-h-[680px]">
+              <div className="mx-auto w-full max-w-7xl px-4 pb-24 pt-24 sm:px-6 sm:pb-12 lg:px-10 lg:pb-16">
+                <div className="max-w-2xl space-y-4 text-white sm:space-y-5">
+                  <p className="hidden text-sm font-semibold text-white/84 sm:block sm:text-base">Featured Brands</p>
+                  <h1 className="font-display text-4xl leading-[0.98] sm:text-6xl lg:text-7xl">
                     {activeHeroBrand.name}
                   </h1>
-                  <p className="max-w-xl text-base leading-8 text-white/86 sm:text-lg">
+                  <p className="hidden max-w-xl text-base leading-8 text-white/86 sm:block sm:text-lg">
                     {heroDescriptionFor(activeHeroBrand)}
                   </p>
                   <div className="flex flex-wrap items-start gap-3 pt-1">
                     <button
                       type="button"
                       onClick={() => openBrandModal(activeHeroBrand)}
-                      className={buttonStyles({
+                      className={`${buttonStyles({
                         variant: "light",
                         size: "lg",
-                      })}
+                      })} max-sm:!hidden sm:inline-flex`}
                     >
                       View Brand
                     </button>
@@ -408,10 +470,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                       href={BOOKING_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={buttonStyles({
+                      className={`${buttonStyles({
                         variant: "glass",
-                        size: "lg",
-                      })}
+                        size: "md",
+                      })} text-[0.68rem] sm:px-6 sm:py-3 sm:text-[0.78rem]`}
                     >
                       Book Appointment
                     </a>
@@ -420,7 +482,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                       className={`${buttonStyles({
                         variant: "glass",
                         size: "lg",
-                      })} group relative overflow-hidden`}
+                      })} group relative overflow-hidden max-sm:!hidden sm:inline-flex`}
                     >
                       <span>Browse All Brands</span>
                       <svg
@@ -440,6 +502,12 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 </div>
 
               </div>
+              <a
+                href="#brands-section"
+                className="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 text-center text-[0.68rem] font-semibold uppercase text-white/90 drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)] underline-offset-4 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:hidden"
+              >
+                Browse All Brands
+              </a>
             </div>
           ) : null}
         </div>
