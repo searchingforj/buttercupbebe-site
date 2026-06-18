@@ -29,12 +29,22 @@ const HERO_IMAGE_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
   yogababy: "/brands/yogababy/hero-website-img-8295.webp",
 };
 
+const MOBILE_HERO_IMAGE_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
+  "courtside-kids": "/brands/courtside-kids/2.webp",
+  "little-paper-kids": "/brands/little-paper-kids/1.webp",
+};
+
 const HERO_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
   "courtside-kids": "center 46%",
   "bushel-and-a-peck": "center 68%",
   "little-paper-kids": "center 46%",
   smockingbird: "center 48%",
   yogababy: "center 50%",
+};
+
+const MOBILE_HERO_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
+  "courtside-kids": "center 44%",
+  "little-paper-kids": "center 52%",
 };
 
 const HERO_DESCRIPTION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
@@ -68,8 +78,11 @@ const orderFeaturedBrands = (brands: Brand[]) =>
   ) as Brand[];
 
 const heroImageFor = (brand: Brand) => HERO_IMAGE_BY_SLUG[brand.slug] ?? brand.images[0];
+const mobileHeroImageFor = (brand: Brand) => MOBILE_HERO_IMAGE_BY_SLUG[brand.slug] ?? heroImageFor(brand);
 const heroImagePositionFor = (brand: Brand) =>
   HERO_IMAGE_POSITION_BY_SLUG[brand.slug] ?? "center center";
+const mobileHeroImagePositionFor = (brand: Brand) =>
+  MOBILE_HERO_IMAGE_POSITION_BY_SLUG[brand.slug] ?? heroImagePositionFor(brand);
 const heroDescriptionFor = (brand: Brand) =>
   HERO_DESCRIPTION_BY_SLUG[brand.slug] ?? brand.oneLiner;
 const heroContainedImagePositionFor = (brand: Brand) =>
@@ -351,7 +364,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
         <div className="relative min-h-[500px] sm:min-h-[610px] lg:min-h-[680px]">
           {featuredBrands.map((brand, index) => {
             const isActive = activeSlideIndex === index;
-            const heroImage = heroImageFor(brand);
+            const heroImage = isMobileHeroLayout ? mobileHeroImageFor(brand) : heroImageFor(brand);
+            const heroImagePosition = isMobileHeroLayout
+              ? mobileHeroImagePositionFor(brand)
+              : heroImagePositionFor(brand);
             const usesContainedImage = usesContainedHeroImage(brand);
 
             return (
@@ -373,7 +389,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                       decoding="async"
                       className="scale-110 object-cover opacity-55 blur-2xl"
                       sizes="100vw"
-                      style={{ objectPosition: heroImagePositionFor(brand) }}
+                      style={{ objectPosition: heroImagePosition }}
                     />
                     <div className="absolute inset-0 bg-[rgba(18,16,14,0.18)]" />
                   </>
@@ -392,7 +408,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   style={{
                     objectPosition: usesContainedImage
                       ? heroContainedImagePositionFor(brand)
-                      : heroImagePositionFor(brand),
+                      : heroImagePosition,
                   }}
                 />
               </div>
@@ -400,10 +416,6 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
           })}
 
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(24,21,18,0.76)_0%,rgba(24,21,18,0.45)_48%,rgba(24,21,18,0.08)_100%)]" />
-
-          <p className="absolute left-4 top-6 z-20 text-sm font-semibold text-white/86 sm:hidden">
-            Featured Brands
-          </p>
 
           <button
             type="button"
@@ -446,9 +458,9 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
           {activeHeroBrand ? (
             <div className="relative z-10 flex min-h-[500px] items-end sm:min-h-[610px] lg:min-h-[680px]">
-              <div className="mx-auto w-full max-w-7xl px-4 pb-24 pt-24 sm:px-6 sm:pb-12 lg:px-10 lg:pb-16">
-                <div className="max-w-2xl space-y-4 text-white sm:space-y-5">
-                  <p className="hidden text-sm font-semibold text-white/84 sm:block sm:text-base">Featured Brands</p>
+              <div className="mx-auto w-full max-w-7xl px-4 pb-8 pt-24 sm:px-6 sm:pb-12 lg:px-10 lg:pb-16">
+                <div className="max-w-2xl space-y-3 text-white sm:space-y-5">
+                  <p className="text-sm font-semibold text-white/84 sm:text-base">Featured Brands</p>
                   <h1 className="font-display text-4xl leading-[0.98] sm:text-6xl lg:text-7xl">
                     {activeHeroBrand.name}
                   </h1>
@@ -473,7 +485,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                       className={`${buttonStyles({
                         variant: "glass",
                         size: "md",
-                      })} text-[0.68rem] sm:px-6 sm:py-3 sm:text-[0.78rem]`}
+                      })} px-4 py-2 text-[0.66rem] sm:px-6 sm:py-3 sm:text-[0.78rem]`}
                     >
                       Book Appointment
                     </a>
@@ -500,14 +512,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     </a>
                   </div>
                 </div>
-
               </div>
-              <a
-                href="#brands-section"
-                className="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 text-center text-[0.68rem] font-semibold uppercase text-white/90 drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)] underline-offset-4 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:hidden"
-              >
-                Browse All Brands
-              </a>
             </div>
           ) : null}
         </div>
@@ -675,7 +680,6 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
               <div className="flex min-h-full flex-col justify-center px-6 py-8 sm:px-8 lg:px-10">
                 <div className="space-y-5">
                   <div className="space-y-3">
-                    <p className="section-eyebrow text-[var(--accent-strong)]">Showroom Line</p>
                     <h2
                       id="quick-view-title"
                       className="font-display text-4xl leading-tight text-[var(--ink-strong)] sm:text-5xl"
