@@ -1,19 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4f6f5;
+  --background: #faf8f5;
   --surface: #ffffff;
-  --surface-strong: #e8ece9;
-  --surface-overlay: rgba(255, 255, 255, 0.86);
-  --ink-strong: #131820;
-  --ink-muted: #606a77;
-  --accent: #b19b67;
-  --accent-strong: #8f7a4b;
-  --border-soft: rgba(19, 24, 32, 0.14);
+  --surface-strong: #f4f0ea;
+  --surface-overlay: rgba(250, 248, 245, 0.9);
+  --ink-strong: #211f1c;
+  --ink-muted: #625a52;
+  --accent: #8fb8c7;
+  --accent-strong: #5f8998;
+  --accent-soft: rgba(143, 184, 199, 0.2);
+  --border-soft: rgba(33, 31, 28, 0.12);
+  --border-strong: rgba(33, 31, 28, 0.24);
 }
 
 @theme inline {
-  --font-sans: var(--font-manrope);
+  --font-sans: var(--font-inter);
   --font-display: var(--font-cormorant);
 }
 
@@ -29,13 +31,27 @@ body {
   margin: 0;
   min-height: 100vh;
   background-color: var(--background);
-  background-image:
-    radial-gradient(circle at 15% -8%, rgba(177, 155, 103, 0.15), transparent 42%),
-    radial-gradient(circle at 82% 0%, rgba(14, 22, 32, 0.08), transparent 34%),
-    radial-gradient(rgba(14, 22, 32, 0.015) 0.6px, transparent 0.6px);
-  background-size: auto, auto, 3px 3px;
   color: var(--ink-strong);
-  font-family: var(--font-manrope), sans-serif;
+  font-family: var(--font-inter), sans-serif;
+}
+
+nextjs-portal,
+script[data-nextjs-dev-overlay],
+vercel-live-feedback,
+vercel-toolbar,
+vercel-toolbar-button,
+[data-nextjs-dev-overlay],
+[data-vercel-toolbar],
+[data-vercel-live-feedback],
+iframe[src*="vercel.live"],
+iframe[src*="vercel.com/toolbar"],
+iframe[src*="vercel.com/live-feedback"] {
+  display: none !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
 }
 
 .font-display {
@@ -51,7 +67,7 @@ a {
   color: var(--ink-muted);
   font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 

@@ -99,9 +99,9 @@ export function SiteHeader() {
       data-site-header
       className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[var(--surface-overlay)] backdrop-blur-md"
     >
-      <div className="border-b border-[var(--border-soft)] bg-[rgba(19,24,32,0.04)]">
+      <div className="border-b border-[var(--border-soft)] bg-[var(--surface-strong)]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-          <p className="py-2 text-center text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[var(--ink-muted)] sm:text-[0.66rem]">
+          <p className="py-2 text-center text-[0.62rem] font-semibold uppercase text-[var(--ink-muted)] sm:text-[0.66rem]">
             Dallas Market Center + AmericasMart Atlanta Showrooms
           </p>
         </div>
@@ -137,7 +137,7 @@ export function SiteHeader() {
                     className={buttonStyles({
                       variant: "ghost",
                       size: "sm",
-                      className: "normal-case tracking-wide",
+                      className: "normal-case",
                     })}
                   >
                     {item.label}
@@ -152,7 +152,7 @@ export function SiteHeader() {
                   className={buttonStyles({
                     variant: "secondary",
                     size: "sm",
-                    className: "normal-case tracking-wide",
+                    className: "normal-case",
                   })}
                 >
                   Book Now
@@ -169,7 +169,7 @@ export function SiteHeader() {
               variant: "ghost",
               size: "sm",
               className:
-                "ml-auto gap-2 normal-case tracking-wide text-[var(--ink-strong)] hover:text-[var(--ink-strong)] md:hidden",
+                "ml-auto gap-2 normal-case text-[var(--ink-strong)] hover:text-[var(--ink-strong)] md:hidden",
             })}
             onClick={() => setMobileMenuOpen((current) => !current)}
           >
@@ -208,7 +208,7 @@ export function SiteHeader() {
                     className={buttonStyles({
                       variant: "ghost",
                       size: "md",
-                      className: "w-full justify-start normal-case tracking-wide text-[var(--ink-strong)]",
+                      className: "w-full justify-start normal-case text-[var(--ink-strong)]",
                     })}
                   >
                     {item.label}
@@ -224,7 +224,7 @@ export function SiteHeader() {
                   className={buttonStyles({
                     variant: "secondary",
                     size: "md",
-                    className: "w-full justify-center normal-case tracking-wide",
+                    className: "w-full justify-center normal-case",
                   })}
                 >
                   Book Now

@@ -42,9 +42,7 @@ export function InstagramLink({
         <circle cx="12" cy="12" r="4.4" />
         <circle cx="17.6" cy="6.4" r="1" fill="currentColor" stroke="none" />
       </svg>
-      {showLabel ? (
-        <span className={cn("text-sm tracking-[0.04em]", labelClassName)}>{label}</span>
-      ) : null}
+      {showLabel ? <span className={cn("text-sm", labelClassName)}>{label}</span> : null}
     </a>
   );
 }

@@ -68,10 +68,10 @@ export default function MarketDatesPage() {
         {marketDates.map((market) => (
           <article
             key={market.city}
-            className="rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.72)] p-4 sm:p-5"
+            className="rounded-[22px] border border-[var(--border-soft)] bg-[var(--surface)] p-4 shadow-[0_14px_35px_rgba(37,31,24,0.06)] sm:p-5"
           >
-            <h2 className="text-center font-display text-3xl tracking-[0.06em] text-[var(--ink-strong)] sm:text-4xl">
-              {market.city.toUpperCase()}
+            <h2 className="text-center font-display text-3xl text-[var(--ink-strong)] sm:text-4xl">
+              {market.city}
             </h2>
             <ul className="mt-4 divide-y divide-[var(--border-soft)] rounded-xl border border-[var(--border-soft)] bg-[var(--surface)]">
               {market.events.map((event) => (
@@ -88,7 +88,7 @@ export default function MarketDatesPage() {
         ))}
       </div>
 
-      <div className="mx-auto mt-12 max-w-4xl rounded-2xl border border-[var(--border-soft)] bg-[var(--surface-strong)] p-6 text-center sm:p-8">
+      <div className="mx-auto mt-12 max-w-4xl rounded-[22px] border border-[var(--border-soft)] bg-[var(--surface-strong)] p-6 text-center sm:p-8">
         <p className="mb-4 text-sm text-[var(--ink-muted)]">
           Reserve your market time in advance for a focused walkthrough.
         </p>

@@ -68,7 +68,7 @@ export default function AboutPage() {
   return (
     <section className="mx-auto max-w-5xl px-4 pb-16 pt-10 sm:px-6 lg:px-10 lg:pb-20 lg:pt-14">
       <div className="max-w-3xl space-y-6">
-        <p className="text-xs font-semibold tracking-[0.18em] text-[var(--ink-muted)]">ABOUT</p>
+        <p className="section-eyebrow">About</p>
         <h1 className="font-display text-4xl leading-tight text-[var(--ink-strong)] sm:text-5xl">
           A mother-daughter showroom built for confident buying.
         </h1>
@@ -81,7 +81,7 @@ export default function AboutPage() {
       <div className="mt-10 flex justify-center">
         <figure className="w-full max-w-3xl">
           {teamPhotoSrc ? (
-            <div className="relative mx-auto aspect-[5/4] w-full max-w-2xl overflow-hidden rounded-2xl bg-[var(--surface)] shadow-[0_20px_45px_rgba(0,0,0,0.12)]">
+            <div className="relative mx-auto aspect-[5/4] w-full max-w-2xl overflow-hidden rounded-[22px] bg-[var(--surface)] shadow-[0_20px_45px_rgba(37,31,24,0.1)]">
               <Image
                 src={teamPhotoSrc}
                 alt="Marci and Madi from Buttercup Bebe"
@@ -91,7 +91,7 @@ export default function AboutPage() {
               />
             </div>
           ) : (
-            <div className="mx-auto flex aspect-[5/4] w-full max-w-2xl items-center justify-center rounded-2xl bg-[rgba(255,255,255,0.72)] shadow-[0_20px_45px_rgba(0,0,0,0.08)]">
+            <div className="mx-auto flex aspect-[5/4] w-full max-w-2xl items-center justify-center rounded-[22px] bg-[var(--surface)] shadow-[0_20px_45px_rgba(37,31,24,0.08)]">
               <span className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Marci &amp; Madi</span>
             </div>
           )}
@@ -99,8 +99,8 @@ export default function AboutPage() {
       </div>
 
       <div className="mt-12 grid gap-6 md:grid-cols-2">
-        <article className="flex h-full flex-col rounded-2xl bg-[rgba(255,255,255,0.72)] p-6 shadow-[0_14px_35px_rgba(0,0,0,0.08)] sm:p-7">
-          <p className="text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">CO-FOUNDER</p>
+        <article className="flex h-full flex-col rounded-[22px] bg-[var(--surface)] p-6 shadow-[0_14px_35px_rgba(37,31,24,0.08)] sm:p-7">
+          <p className="section-eyebrow">Co-Founder</p>
           <h2 className="mt-2 font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-4xl">Madi</h2>
           <p className="mt-4 text-sm leading-8 text-[var(--ink-muted)]">
           Madi was raised in the world of boutique retail and earned her degree in Fashion Merchandising & Textiles. Her experience across multiple 
@@ -124,8 +124,8 @@ export default function AboutPage() {
           </div>
         </article>
 
-        <article className="flex h-full flex-col rounded-2xl bg-[rgba(255,255,255,0.72)] p-6 shadow-[0_14px_35px_rgba(0,0,0,0.08)] sm:p-7">
-          <p className="text-xs font-semibold tracking-[0.16em] text-[var(--ink-muted)]">CO-FOUNDER</p>
+        <article className="flex h-full flex-col rounded-[22px] bg-[var(--surface)] p-6 shadow-[0_14px_35px_rgba(37,31,24,0.08)] sm:p-7">
+          <p className="section-eyebrow">Co-Founder</p>
           <h2 className="mt-2 font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-4xl">Marci</h2>
           <p className="mt-4 text-sm leading-8 text-[var(--ink-muted)]">
             Marci brings over 25 years of experience in children&apos;s fashion, including 14 years owning and operating her own boutique. She

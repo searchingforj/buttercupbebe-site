@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
 
-type ButtonVariant = "primary" | "secondary" | "ghost";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "light" | "glass";
 type ButtonSize = "sm" | "md" | "lg";
 
 type ButtonStyleOptions = {
@@ -19,12 +19,16 @@ const variantStyles: Record<ButtonVariant, string> = {
     "border border-[var(--ink-strong)] bg-[var(--surface)] text-[var(--ink-strong)] hover:border-[var(--ink-strong)] hover:bg-[var(--ink-strong)] hover:!text-white active:bg-[var(--ink-strong)] active:!text-white",
   ghost:
     "border border-transparent bg-transparent text-[var(--ink-muted)] hover:bg-[rgba(20,20,20,0.06)] hover:text-[var(--ink-strong)]",
+  light:
+    "border border-white bg-white text-[var(--ink-strong)] shadow-[0_16px_36px_rgba(0,0,0,0.16)] hover:-translate-y-0.5 hover:bg-[var(--surface-strong)] hover:text-[var(--ink-strong)]",
+  glass:
+    "border border-white/55 bg-white/12 text-white shadow-[0_16px_36px_rgba(0,0,0,0.14)] backdrop-blur-md hover:-translate-y-0.5 hover:bg-white/22 hover:text-white",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: "px-3.5 py-1.5 text-[0.68rem] tracking-[0.12em]",
-  md: "px-5 py-2.5 text-[0.73rem] tracking-[0.14em]",
-  lg: "px-6 py-3 text-[0.78rem] tracking-[0.16em]",
+  sm: "px-3.5 py-1.5 text-[0.68rem]",
+  md: "px-5 py-2.5 text-[0.73rem]",
+  lg: "px-6 py-3 text-[0.78rem]",
 };
 
 function cn(...values: Array<string | undefined>) {

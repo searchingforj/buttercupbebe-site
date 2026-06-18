@@ -125,7 +125,7 @@ export function ContactForm() {
         <Button type="submit" variant="primary" size="md" disabled={status === "sending"}>
           {status === "sending" ? "Sending..." : "Send Inquiry"}
         </Button>
-        <p className="text-xs tracking-wide text-[var(--ink-muted)]">
+        <p className="text-xs text-[var(--ink-muted)]">
           Sends directly to our team. No email app needed.
         </p>
       </div>

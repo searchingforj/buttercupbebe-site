@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { BrandsAnchorLink } from "@/components/brands-anchor-link";
 import { BrandsShowcase } from "@/components/brands-showcase";
 import { buttonStyles } from "@/components/ui/button";
 import { visibleBrands } from "@/data/brands";
@@ -14,70 +13,25 @@ import {
 
 export default function Home() {
   return (
-    <div className="pb-20">
-      <section className="mx-auto max-w-7xl px-4 pb-6 pt-8 sm:px-6 lg:px-10 lg:pb-8 lg:pt-14">
-        <div className="max-w-4xl space-y-6">
-          <p className="section-eyebrow reveal">Wholesale Children&apos;s Showroom</p>
-          <h1 className="reveal font-display text-4xl leading-tight text-[var(--ink-strong)] sm:text-5xl">
-            Beautiful children&apos;s clothing and accessories for your store.
-          </h1>
-          <p className="reveal max-w-2xl text-base leading-8 text-[var(--ink-muted)] sm:text-lg">
-            Visit us in our permanent showrooms at Dallas Market Center and AmericasMart Atlanta, or in Nashville at
-            Dixie Children&apos;s Show pop-up markets.{" "}
-            <Link
-              href="/market-dates"
-              className="whitespace-nowrap font-semibold text-[var(--ink-strong)] underline decoration-[var(--border-strong)] underline-offset-4 transition hover:text-[var(--ink-muted)]"
-            >
-              See our market dates.
-            </Link>
-          </p>
-          <div className="reveal flex flex-wrap items-center gap-3 pt-2">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={buttonStyles({ variant: "primary", size: "lg" })}
-            >
-              Book Appointment
-            </a>
-            <BrandsAnchorLink className={buttonStyles({ variant: "secondary", size: "lg" })}>
-              Browse Brands
-            </BrandsAnchorLink>
-          </div>
-        </div>
-      </section>
+    <div className="pb-16">
+      <BrandsShowcase brands={visibleBrands} />
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 lg:px-10 lg:pb-20 lg:pt-10">
-        <div id="brands-section" className="mb-8 scroll-mt-32 flex flex-wrap items-end justify-between gap-4 sm:scroll-mt-36">
-          <div className="max-w-xl space-y-2">
-            <p className="section-eyebrow">Brands</p>
-            <h2 className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Browse the line mix.</h2>
-            <p className="text-sm leading-7 text-[var(--ink-muted)]">
-              Tap any brand for quick view details, appointment booking, and ordering support.
-            </p>
-          </div>
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={buttonStyles({ variant: "secondary", size: "md" })}
-          >
-            Book Appointment
-          </a>
-        </div>
-
-        <BrandsShowcase brands={visibleBrands} />
-      </section>
-
-      <section id="contact-section" className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-10">
-        <div className="grid gap-6 rounded-2xl border border-[var(--border-soft)] bg-[rgba(255,255,255,0.72)] p-6 md:grid-cols-[1.2fr_1fr] md:p-8">
+      <section id="contact-section" className="bg-[var(--surface-strong)] px-4 py-14 sm:px-6 lg:px-10">
+        <div className="mx-auto grid max-w-7xl gap-8 rounded-[22px] border border-[var(--border-soft)] bg-[var(--surface)] p-6 shadow-[0_22px_60px_rgba(37,31,24,0.08)] md:grid-cols-[1.2fr_1fr] md:p-8">
           <div className="space-y-4">
             <p className="section-eyebrow">Contact</p>
             <h2 className="font-display text-4xl leading-tight text-[var(--ink-strong)]">
               Ready to place orders or build your market plan?
             </h2>
             <p className="text-sm leading-7 text-[var(--ink-muted)]">
-              Reach out directly, or use the contact form for virtual, Dallas, or Atlanta appointment requests.
+              Reach out directly, or use the contact form for virtual, Dallas, Atlanta, or Nashville appointment
+              requests.{" "}
+              <Link
+                href="/market-dates"
+                className="font-semibold text-[var(--ink-strong)] underline decoration-[var(--border-strong)] underline-offset-4 transition hover:text-[var(--ink-muted)]"
+              >
+                See market dates.
+              </Link>
             </p>
             <div className="flex flex-wrap gap-3">
               <Link href="/contact" className={buttonStyles({ variant: "primary", size: "md" })}>

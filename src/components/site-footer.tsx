@@ -12,7 +12,7 @@ import {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-[var(--border-soft)] bg-[var(--surface)]">
+    <footer className="border-t border-[var(--border-soft)] bg-[var(--background)]">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr] lg:px-10">
         <div className="space-y-3">
           <p className="font-display text-2xl text-[var(--ink-strong)]">Buttercup Bebe</p>
@@ -40,7 +40,7 @@ export function SiteFooter() {
           <a className="block text-sm text-[var(--ink-strong)] hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.marci}`}>
             Marci: {CONTACT_PHONES.marci}
           </a>
-          <InstagramLink className="pt-1" label="buttercupbebe_" labelClassName="tracking-normal" />
+          <InstagramLink className="pt-1" label="buttercupbebe_" />
         </div>
 
         <div className="space-y-3">
