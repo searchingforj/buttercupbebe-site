@@ -30,7 +30,7 @@ const HERO_IMAGE_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
 };
 
 const MOBILE_HERO_IMAGE_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
-  "courtside-kids": "/brands/courtside-kids/2.webp",
+  "courtside-kids": "/brands/courtside-kids/3.webp",
   "little-paper-kids": "/brands/little-paper-kids/1.webp",
 };
 
@@ -43,7 +43,7 @@ const HERO_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
 };
 
 const MOBILE_HERO_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
-  "courtside-kids": "center 44%",
+  "courtside-kids": "center 48%",
   "little-paper-kids": "center 52%",
 };
 
