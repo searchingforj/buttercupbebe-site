@@ -151,7 +151,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Tailored boys' shorts designed to balance classic style with play-ready comfort.",
     websiteUrl: "https://www.shoptroupers.com/",
-    orderUrl: "https://www.brandboom.com/app/a/5078B8286A6",
+    orderUrl: "https://www.brandboom.com/troupers/a/6D22530487E",
     logoUrl: logoFor("troupers"),
     images: [
       ...websiteCardImagesFor("troupers", 2),
