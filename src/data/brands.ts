@@ -259,7 +259,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Wholesale monogram blanks and baby essentials made for personalization.",
     websiteUrl: "https://www.southernproperblanks.com/",
-    orderUrl: "https://www.brandboom.com/app/a/4D09EA0589E",
+    orderUrl: "https://www.brandboom.com/app/a/604C0A9CB10",
     logoUrl: logoFor("southern-proper-blanks"),
     images: [
       ...websiteCardImagesFor("southern-proper-blanks", 2),
