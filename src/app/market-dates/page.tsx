@@ -10,8 +10,9 @@ export const metadata: Metadata = {
 
 type MarketEvent = {
   city: string;
-  address: string;
+  address?: string;
   date: string;
+  note?: string;
   show: string;
 };
 
@@ -21,6 +22,13 @@ const marketEvents: MarketEvent[] = [
     show: "Kidsworld + Gift",
     city: "Dallas",
     address: "Dallas Market Center, #8404",
+  },
+  {
+    date: "Jul 26-28",
+    show: "NYC Market",
+    city: "NYC",
+    address: "New York, NY",
+    note: "(Courtside Kids only)",
   },
   {
     date: "Aug 3-6",
@@ -97,11 +105,14 @@ export default function MarketDatesPage() {
               </div>
               <div>
                 <h2 className="font-display text-3xl leading-none text-[var(--ink-strong)]">{event.city}</h2>
-                <p className="mt-1 text-xs leading-5 text-[var(--ink-muted)] sm:text-sm">{event.address}</p>
+                {event.address ? (
+                  <p className="mt-1 text-xs leading-5 text-[var(--ink-muted)] sm:text-sm">{event.address}</p>
+                ) : null}
               </div>
-              <p className="text-sm font-semibold text-[var(--ink-strong)] sm:text-right sm:text-base">
-                {event.show}
-              </p>
+              <div className="text-sm sm:text-right sm:text-base">
+                <p className="font-semibold text-[var(--ink-strong)]">{event.show}</p>
+                {event.note ? <p className="mt-1 text-xs text-[var(--ink-muted)] sm:text-sm">{event.note}</p> : null}
+              </div>
             </li>
           ))}
         </ol>

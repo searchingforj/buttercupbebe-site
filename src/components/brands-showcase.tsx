@@ -61,6 +61,8 @@ const HERO_ROTATION_MS = 9000;
 const MOBILE_HERO_ROTATION_MS = 7500;
 const MOBILE_HERO_MEDIA_QUERY = "(max-width: 639px)";
 const SWIPE_THRESHOLD_PX = 44;
+const BRAND_SWIPE_THRESHOLD_PX = 82;
+const BRAND_SWIPE_MAX_OFFSET_PX = 120;
 
 const FOCUSABLE_SELECTOR = [
   "a[href]",
@@ -96,6 +98,8 @@ const brandCardImagePositionFor = (brand: Brand) =>
   BRAND_CARD_IMAGE_POSITION_BY_SLUG[brand.slug] ?? "center center";
 const modalImagePositionFor = (brand: Brand, imageIndex: number) =>
   imageIndex === 0 ? brandCardImagePositionFor(brand) : "center center";
+const clampBrandSwipeOffset = (offset: number) =>
+  Math.max(-BRAND_SWIPE_MAX_OFFSET_PX, Math.min(BRAND_SWIPE_MAX_OFFSET_PX, offset));
 
 function ThumbnailStrip({
   brand,
@@ -142,16 +146,32 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const [heroRotationResetKey, setHeroRotationResetKey] = useState(0);
   const [isMobileHeroLayout, setIsMobileHeroLayout] = useState(false);
   const [hiddenLogoSlugs, setHiddenLogoSlugs] = useState<Record<string, true>>({});
+  const [brandSwipeOffset, setBrandSwipeOffset] = useState(0);
   const modalRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);
   const heroTouchStartX = useRef<number | null>(null);
   const heroTouchDidSwipe = useRef(false);
   const galleryTouchStartX = useRef<number | null>(null);
+  const galleryTouchDidSwipe = useRef(false);
+  const brandTouchStartX = useRef<number | null>(null);
+  const brandTouchStartY = useRef<number | null>(null);
+  const brandSwipeOffsetRef = useRef(0);
 
   const orderedBrands = useMemo(() => alphabeticalBrandOrder(brands), [brands]);
   const featuredBrands = useMemo(() => orderFeaturedBrands(brands), [brands]);
   const activeHeroBrand = featuredBrands[activeSlideIndex] ?? featuredBrands[0];
   const activeImageCount = activeBrand?.images.length ?? 0;
+  const activeBrandIndex = activeBrand
+    ? orderedBrands.findIndex((brand) => brand.slug === activeBrand.slug)
+    : -1;
+  const previousBrand =
+    activeBrandIndex >= 0 && orderedBrands.length
+      ? orderedBrands[(activeBrandIndex - 1 + orderedBrands.length) % orderedBrands.length]
+      : null;
+  const nextBrand =
+    activeBrandIndex >= 0 && orderedBrands.length
+      ? orderedBrands[(activeBrandIndex + 1) % orderedBrands.length]
+      : null;
 
   const resetHeroRotation = useCallback(() => {
     setHeroRotationResetKey((currentKey) => currentKey + 1);
@@ -160,6 +180,8 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const closeModal = useCallback(() => {
     setActiveBrand(null);
     setActiveImageIndex(0);
+    brandSwipeOffsetRef.current = 0;
+    setBrandSwipeOffset(0);
   }, []);
 
   const advanceHeroSlide = useCallback(
@@ -196,9 +218,32 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     [activeImageCount],
   );
 
+  const showAdjacentBrand = useCallback(
+    (direction: "next" | "previous") => {
+      if (!activeBrand || orderedBrands.length < 2) {
+        return;
+      }
+
+      const currentIndex = orderedBrands.findIndex((brand) => brand.slug === activeBrand.slug);
+      if (currentIndex < 0) {
+        return;
+      }
+
+      const offset = direction === "next" ? 1 : -1;
+      const nextIndex = (currentIndex + offset + orderedBrands.length) % orderedBrands.length;
+      setActiveBrand(orderedBrands[nextIndex]);
+      setActiveImageIndex(0);
+      brandSwipeOffsetRef.current = 0;
+      setBrandSwipeOffset(0);
+    },
+    [activeBrand, orderedBrands],
+  );
+
   const openBrandModal = (brand: Brand) => {
     setActiveBrand(brand);
     setActiveImageIndex(0);
+    brandSwipeOffsetRef.current = 0;
+    setBrandSwipeOffset(0);
   };
 
   const hideLogo = (slug: string) => {
@@ -213,6 +258,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
   const handleGalleryTouchStart = (event: TouchEvent<HTMLDivElement>) => {
     galleryTouchStartX.current = event.changedTouches[0]?.clientX ?? null;
+    galleryTouchDidSwipe.current = false;
   };
 
   const handleGalleryTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
@@ -227,7 +273,117 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       return;
     }
 
+    galleryTouchDidSwipe.current = true;
     advanceImage(distance < 0 ? "next" : "previous");
+  };
+
+  const handleGalleryTap = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!activeImageCount || !window.matchMedia(MOBILE_HERO_MEDIA_QUERY).matches) {
+      return;
+    }
+
+    if (galleryTouchDidSwipe.current) {
+      galleryTouchDidSwipe.current = false;
+      return;
+    }
+
+    if ((event.target as HTMLElement).closest("button")) {
+      return;
+    }
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const tapX = event.clientX - bounds.left;
+    advanceImage(tapX > bounds.width / 2 ? "next" : "previous");
+  };
+
+  const handleBrandTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    if (!isMobileHeroLayout || orderedBrands.length < 2) {
+      return;
+    }
+
+    const target = event.target as HTMLElement;
+    if (target.closest("[data-gallery-area], a, button")) {
+      return;
+    }
+
+    brandTouchStartX.current = event.changedTouches[0]?.clientX ?? null;
+    brandTouchStartY.current = event.changedTouches[0]?.clientY ?? null;
+    brandSwipeOffsetRef.current = 0;
+    setBrandSwipeOffset(0);
+  };
+
+  const handleBrandTouchMove = (event: TouchEvent<HTMLDivElement>) => {
+    if (brandTouchStartX.current === null || brandTouchStartY.current === null) {
+      return;
+    }
+
+    const touch = event.changedTouches[0];
+    const distanceX = touch.clientX - brandTouchStartX.current;
+    const distanceY = touch.clientY - brandTouchStartY.current;
+
+    if (Math.abs(distanceY) > Math.abs(distanceX) * 1.15) {
+      return;
+    }
+
+    const nextOffset = clampBrandSwipeOffset(distanceX);
+    brandSwipeOffsetRef.current = nextOffset;
+    setBrandSwipeOffset(nextOffset);
+  };
+
+  const handleBrandTouchEnd = () => {
+    const distance = brandSwipeOffsetRef.current;
+    brandTouchStartX.current = null;
+    brandTouchStartY.current = null;
+
+    if (Math.abs(distance) >= BRAND_SWIPE_THRESHOLD_PX) {
+      showAdjacentBrand(distance < 0 ? "next" : "previous");
+      return;
+    }
+
+    brandSwipeOffsetRef.current = 0;
+    setBrandSwipeOffset(0);
+  };
+
+  const handleBrandPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!isMobileHeroLayout || event.pointerType !== "mouse" || orderedBrands.length < 2) {
+      return;
+    }
+
+    const target = event.target as HTMLElement;
+    if (target.closest("[data-gallery-area], a, button")) {
+      return;
+    }
+
+    brandTouchStartX.current = event.clientX;
+    brandTouchStartY.current = event.clientY;
+    brandSwipeOffsetRef.current = 0;
+    setBrandSwipeOffset(0);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleBrandPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!isMobileHeroLayout || event.pointerType !== "mouse" || brandTouchStartX.current === null || brandTouchStartY.current === null) {
+      return;
+    }
+
+    const distanceX = event.clientX - brandTouchStartX.current;
+    const distanceY = event.clientY - brandTouchStartY.current;
+
+    if (Math.abs(distanceY) > Math.abs(distanceX) * 1.15) {
+      return;
+    }
+
+    const nextOffset = clampBrandSwipeOffset(distanceX);
+    brandSwipeOffsetRef.current = nextOffset;
+    setBrandSwipeOffset(nextOffset);
+  };
+
+  const handleBrandPointerUp = () => {
+    if (!isMobileHeroLayout || brandTouchStartX.current === null) {
+      return;
+    }
+
+    handleBrandTouchEnd();
   };
 
   const handleHeroTouchStart = (event: TouchEvent<HTMLElement>) => {
@@ -623,8 +779,19 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             aria-modal="true"
             aria-labelledby="quick-view-title"
             aria-describedby="quick-view-description"
-            className="relative max-h-[92dvh] w-[calc(100vw-1.5rem)] max-w-6xl overflow-hidden rounded-[24px] border border-white/35 bg-[var(--surface)] shadow-[0_30px_80px_rgba(12,10,8,0.35)] sm:max-h-[94vh] sm:w-full"
+            className="relative h-[calc(100dvh-1.5rem)] max-h-[92dvh] w-[calc(100vw-1.5rem)] max-w-6xl overflow-hidden rounded-[24px] border border-white/35 bg-[var(--surface)] shadow-[0_30px_80px_rgba(12,10,8,0.35)] transition-transform duration-200 ease-out sm:h-auto sm:max-h-[94vh] sm:w-full"
+            style={{
+              transform: brandSwipeOffset ? `translateX(${brandSwipeOffset}px) rotate(${brandSwipeOffset / 36}deg)` : undefined,
+              transitionDuration: brandSwipeOffset ? "0ms" : undefined,
+            }}
             onClick={(event) => event.stopPropagation()}
+            onTouchStart={handleBrandTouchStart}
+            onTouchMove={handleBrandTouchMove}
+            onTouchEnd={handleBrandTouchEnd}
+            onPointerDown={handleBrandPointerDown}
+            onPointerMove={handleBrandPointerMove}
+            onPointerUp={handleBrandPointerUp}
+            onPointerCancel={handleBrandPointerUp}
           >
             <Button
               variant="secondary"
@@ -636,10 +803,40 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
               Close
             </Button>
 
-            <div className="grid max-h-[92dvh] min-w-0 overflow-y-auto lg:grid-cols-[minmax(0,1.18fr)_minmax(340px,0.82fr)]">
+            {previousBrand ? (
+              <button
+                type="button"
+                onClick={() => showAdjacentBrand("previous")}
+                aria-label={`View previous brand, ${previousBrand.name}`}
+                className="absolute left-4 top-1/2 z-20 hidden max-w-[8rem] -translate-y-1/2 items-center gap-2 text-left text-sm font-semibold text-white/76 drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white lg:flex"
+              >
+                <span className="text-4xl font-light leading-none" aria-hidden="true">
+                  &lsaquo;
+                </span>
+                <span className="leading-tight">{previousBrand.name}</span>
+              </button>
+            ) : null}
+
+            {nextBrand ? (
+              <button
+                type="button"
+                onClick={() => showAdjacentBrand("next")}
+                aria-label={`View next brand, ${nextBrand.name}`}
+                className="absolute right-4 top-1/2 z-20 hidden max-w-[8rem] -translate-y-1/2 items-center gap-2 text-right text-sm font-semibold text-white/76 drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white lg:flex"
+              >
+                <span className="leading-tight">{nextBrand.name}</span>
+                <span className="text-4xl font-light leading-none" aria-hidden="true">
+                  &rsaquo;
+                </span>
+              </button>
+            ) : null}
+
+            <div className="grid h-full max-h-full min-w-0 overflow-hidden sm:max-h-[94vh] sm:overflow-y-auto lg:grid-cols-[minmax(0,1.18fr)_minmax(340px,0.82fr)]">
               <div className="min-w-0 bg-[var(--surface)]">
                 <div
-                  className="group relative h-[55vh] min-h-[360px] overflow-hidden bg-[var(--surface-strong)] sm:h-[62vh] lg:h-[620px] lg:min-h-0"
+                  data-gallery-area
+                  className="group relative h-[58dvh] min-h-0 shrink-0 overflow-hidden bg-[var(--surface-strong)] sm:h-[62vh] sm:min-h-[360px] lg:h-[620px] lg:min-h-0"
+                  onClick={handleGalleryTap}
                   onTouchStart={handleGalleryTouchStart}
                   onTouchEnd={handleGalleryTouchEnd}
                 >
@@ -662,7 +859,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                         type="button"
                         onClick={() => advanceImage("previous")}
                         aria-label="View previous image"
-                        className="absolute left-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/35 bg-white/25 text-xl text-white opacity-100 shadow-[0_12px_30px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/38 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:opacity-0 sm:group-hover:opacity-100"
+                        className="absolute left-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/35 bg-white/25 text-xl text-white shadow-[0_12px_30px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/38 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:flex sm:opacity-0 sm:group-hover:opacity-100"
                       >
                         <span aria-hidden="true">&larr;</span>
                       </button>
@@ -670,10 +867,32 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                         type="button"
                         onClick={() => advanceImage("next")}
                         aria-label="View next image"
-                        className="absolute right-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/35 bg-white/25 text-xl text-white opacity-100 shadow-[0_12px_30px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/38 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:opacity-0 sm:group-hover:opacity-100"
+                        className="absolute right-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/35 bg-white/25 text-xl text-white shadow-[0_12px_30px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/38 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:flex sm:opacity-0 sm:group-hover:opacity-100"
                       >
                         <span aria-hidden="true">&rarr;</span>
                       </button>
+                      <button
+                        type="button"
+                        onClick={() => advanceImage("previous")}
+                        aria-label="Tap left side for previous image"
+                        className="absolute inset-y-0 left-0 z-10 w-1/2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:hidden"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => advanceImage("next")}
+                        aria-label="Tap right side for next image"
+                        className="absolute inset-y-0 right-0 z-10 w-1/2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:hidden"
+                      />
+                      <div className="absolute bottom-3 left-4 right-4 z-20 flex gap-1.5 sm:hidden" aria-hidden="true">
+                        {activeBrand.images.map((image, index) => (
+                          <span
+                            key={`${activeBrand.slug}-mobile-indicator-${image}`}
+                            className={`h-1 flex-1 rounded-full ${
+                              index === activeImageIndex ? "bg-white" : "bg-white/38"
+                            }`}
+                          />
+                        ))}
+                      </div>
                     </>
                   ) : null}
                 </div>
@@ -687,31 +906,34 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 ) : null}
               </div>
 
-              <div className="flex min-h-full min-w-0 flex-col justify-start px-6 py-5 sm:px-8 sm:py-8 lg:justify-center lg:px-10">
-                <div className="space-y-5">
-                  <div className="space-y-3">
+              <div className="flex min-h-0 min-w-0 flex-col justify-start px-5 py-4 sm:min-h-full sm:px-8 sm:py-8 lg:justify-center lg:px-10">
+                <div className="space-y-3 sm:space-y-5">
+                  <div className="space-y-2 sm:space-y-3">
                     <h2
                       id="quick-view-title"
-                      className="font-display text-4xl leading-tight text-[var(--ink-strong)] sm:text-5xl"
+                      className="font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-5xl sm:leading-tight"
                     >
                       {activeBrand.name}
                     </h2>
-                    <p id="quick-view-description" className="text-sm leading-7 text-[var(--ink-muted)] sm:text-base">
+                    <p
+                      id="quick-view-description"
+                      className="max-h-10 overflow-hidden text-xs leading-5 text-[var(--ink-muted)] sm:max-h-none sm:text-base sm:leading-7"
+                    >
                       {activeBrand.oneLiner}
                     </p>
                     {activeBrand.orderAccessNote ? (
-                      <p className="whitespace-pre-line rounded-xl border border-[var(--border-soft)] bg-[var(--surface-strong)] px-3 py-2 text-xs leading-6 text-[var(--ink-strong)]">
+                      <p className="hidden whitespace-pre-line rounded-xl border border-[var(--border-soft)] bg-[var(--surface-strong)] px-3 py-2 text-xs leading-6 text-[var(--ink-strong)] sm:block">
                         {activeBrand.orderAccessNote}
                       </p>
                     ) : null}
                   </div>
 
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2 sm:gap-3">
                     <a
                       href={BOOKING_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={buttonStyles({ variant: "primary", size: "md" })}
+                      className={buttonStyles({ variant: "primary", size: "md", className: "px-4 py-2 text-[0.68rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
                     >
                       Book Appointment
                     </a>
@@ -720,12 +942,15 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                         href={activeOrderUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={buttonStyles({ variant: "secondary", size: "md" })}
+                        className={buttonStyles({ variant: "secondary", size: "md", className: "px-4 py-2 text-[0.68rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
                       >
                         Order Now
                       </a>
                     ) : (
-                      <Link href={activeOrderUrl} className={buttonStyles({ variant: "secondary", size: "md" })}>
+                      <Link
+                        href={activeOrderUrl}
+                        className={buttonStyles({ variant: "secondary", size: "md", className: "px-4 py-2 text-[0.68rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
+                      >
                         Order Now
                       </Link>
                     )}
