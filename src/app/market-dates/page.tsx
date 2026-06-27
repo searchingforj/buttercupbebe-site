@@ -15,15 +15,16 @@ type MarketEvent = {
 
 type MarketCity = {
   city: string;
+  address: string;
   events: MarketEvent[];
 };
 
 const marketDates: MarketCity[] = [
   {
     city: "Dallas",
+    address: "Dallas Market Center, #8404",
     events: [
-      { date: "Jun 24-27", show: "Kidsworld" },
-      { date: "Jun 24-30", show: "Gift" },
+      { date: "Jun 24-30", show: "Kidsworld + Gift" },
       { date: "Aug 18-21", show: "Apparel + Kidsworld" },
       { date: "Sep 15-17", show: "Gift + Kidsworld" },
       { date: "Oct 20-23", show: "Apparel" },
@@ -31,6 +32,7 @@ const marketDates: MarketCity[] = [
   },
   {
     city: "Atlanta",
+    address: "AmericasMart Atlanta, Building 3 #13S346B",
     events: [
       { date: "Aug 3-6", show: "Apparel" },
       { date: "Oct 6-9", show: "Apparel" },
@@ -38,8 +40,16 @@ const marketDates: MarketCity[] = [
   },
   {
     city: "Nashville",
+    address: "Tennessee State Fairgrounds, 401 Wingrove St",
     events: [
-      { date: "Aug 14-16", show: "Dixie Children's Show" },
+      { date: "Aug 14-15", show: "Dixie Children's Show" },
+    ],
+  },
+  {
+    city: "Lafayette, LA",
+    address: "CAJUNDOME Convention Center, 444 Cajundome Blvd",
+    events: [
+      { date: "Aug 9-10", show: "Lafayette Show" },
     ],
   },
 ];
@@ -63,7 +73,7 @@ export default function MarketDatesPage() {
         </a>
       </div>
 
-      <div className="mt-12 grid gap-5 lg:grid-cols-3">
+      <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {marketDates.map((market) => (
           <article
             key={market.city}
@@ -72,6 +82,9 @@ export default function MarketDatesPage() {
             <h2 className="text-center font-display text-3xl text-[var(--ink-strong)] sm:text-4xl">
               {market.city}
             </h2>
+            <p className="mx-auto mt-2 max-w-[16rem] text-center text-xs leading-5 text-[var(--ink-muted)] sm:text-sm">
+              {market.address}
+            </p>
             <ul className="mt-4 divide-y divide-[var(--border-soft)] rounded-xl border border-[var(--border-soft)] bg-[var(--surface)]">
               {market.events.map((event) => (
                 <li
