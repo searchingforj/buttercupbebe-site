@@ -73,8 +73,9 @@ export default function AboutPage() {
           A mother-daughter showroom built for confident buying.
         </h1>
         <p className="text-base leading-8 text-[var(--ink-muted)] sm:text-lg">
-          Buttercup Bebe is a mother-daughter wholesale showroom representing a curated mix of children&apos;s clothing
-          and accessories. Our goal is simple: make buying easy, enjoyable, and confident for every store we support.
+          Buttercup Bebe is a women-owned, mother-daughter wholesale showroom representing a curated mix of
+          children&apos;s clothing and accessories. Our goal is simple: make buying easy, enjoyable, and confident
+          for every store we support.
         </p>
       </div>
 
@@ -103,22 +104,26 @@ export default function AboutPage() {
           <p className="section-eyebrow">Co-Founder</p>
           <h2 className="mt-2 font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-4xl">Madi</h2>
           <p className="mt-4 text-sm leading-8 text-[var(--ink-muted)]">
-          Madi was raised in the world of boutique retail and earned her degree in Fashion Merchandising & Textiles. Her experience across multiple 
-          sectors of the fashion industry gives her a unique, end-to-end understanding of the industry — insight 
-          she brings to every brand and buyer relationship.
+            Madi was raised in the world of boutique retail and earned her degree in Fashion Merchandising & Textiles.
+            Her experience across multiple sectors of the fashion industry gives her a complete understanding of the
+            business, from product development to the sales floor, and she brings that insight to every brand and buyer
+            relationship.
           </p>
           <div className="mt-auto pt-6 text-sm text-[var(--ink-strong)]">
-            <div className="flex items-center gap-3">
-              <a className="inline-flex items-center gap-2 hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.madi}`}>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <a
+                className="inline-flex items-center gap-2 whitespace-nowrap hover:text-[var(--ink-muted)]"
+                href={`tel:${CONTACT_PHONE_LINKS.madi}`}
+              >
                 <PhoneIcon />
                 <span>{CONTACT_PHONES.madi}</span>
               </a>
               <a
-                className="ml-auto inline-flex items-center gap-2 hover:text-[var(--ink-muted)]"
+                className="inline-flex min-w-0 items-center gap-2 hover:text-[var(--ink-muted)] sm:ml-auto"
                 href="mailto:madi@buttercupbebe.net"
               >
                 <MailIcon />
-                <span className="text-right">madi@buttercupbebe.net</span>
+                <span className="break-all sm:text-right">madi@buttercupbebe.net</span>
               </a>
             </div>
           </div>

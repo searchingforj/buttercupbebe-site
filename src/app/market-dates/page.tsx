@@ -22,10 +22,6 @@ const marketDates: MarketCity[] = [
   {
     city: "Dallas",
     events: [
-      { date: "Jan 7-13", show: "Gift" },
-      { date: "Jan 19-23", show: "Kidsworld" },
-      { date: "Mar 24-27", show: "Kidsworld" },
-      { date: "Jun 16-19", show: "Apparel" },
       { date: "Jun 24-27", show: "Kidsworld" },
       { date: "Jun 24-30", show: "Gift" },
       { date: "Aug 18-21", show: "Apparel + Kidsworld" },
@@ -36,10 +32,6 @@ const marketDates: MarketCity[] = [
   {
     city: "Atlanta",
     events: [
-      { date: "Jan 13-19", show: "Gift" },
-      { date: "Feb 3-5", show: "Apparel" },
-      { date: "Mar 30-Apr 1", show: "Apparel" },
-      { date: "Jun 9-14", show: "Gift + Apparel" },
       { date: "Aug 3-6", show: "Apparel" },
       { date: "Oct 6-9", show: "Apparel" },
     ],
@@ -47,7 +39,6 @@ const marketDates: MarketCity[] = [
   {
     city: "Nashville",
     events: [
-      { date: "Mar 13-15", show: "Dixie Children's Show" },
       { date: "Aug 14-16", show: "Dixie Children's Show" },
     ],
   },
@@ -62,6 +53,14 @@ export default function MarketDatesPage() {
         <p className="mx-auto max-w-2xl text-sm leading-7 text-[var(--ink-muted)] sm:text-base">
           Confirm dates early so your appointments stay focused, intentional, and easy to navigate in market.
         </p>
+        <a
+          href={BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={buttonStyles({ variant: "secondary", size: "sm", className: "mt-1" })}
+        >
+          Book Appointment
+        </a>
       </div>
 
       <div className="mt-12 grid gap-5 lg:grid-cols-3">
