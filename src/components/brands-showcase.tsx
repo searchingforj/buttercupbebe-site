@@ -53,6 +53,10 @@ const HERO_DESCRIPTION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
 
 const HERO_CONTAINED_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {};
 
+const BRAND_CARD_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
+  "nella-june": "47% center",
+};
+
 const HERO_ROTATION_MS = 9000;
 const MOBILE_HERO_ROTATION_MS = 7500;
 const MOBILE_HERO_MEDIA_QUERY = "(max-width: 639px)";
@@ -88,6 +92,10 @@ const heroDescriptionFor = (brand: Brand) =>
 const heroContainedImagePositionFor = (brand: Brand) =>
   HERO_CONTAINED_IMAGE_POSITION_BY_SLUG[brand.slug] ?? "center center";
 const usesContainedHeroImage = (brand: Brand) => Boolean(HERO_CONTAINED_IMAGE_POSITION_BY_SLUG[brand.slug]);
+const brandCardImagePositionFor = (brand: Brand) =>
+  BRAND_CARD_IMAGE_POSITION_BY_SLUG[brand.slug] ?? "center center";
+const modalImagePositionFor = (brand: Brand, imageIndex: number) =>
+  imageIndex === 0 ? brandCardImagePositionFor(brand) : "center center";
 
 function ThumbnailStrip({
   brand,
@@ -99,7 +107,7 @@ function ThumbnailStrip({
   onSelect: (index: number) => void;
 }) {
   return (
-    <div className="flex max-w-full items-center gap-2 overflow-x-auto px-4 py-2 sm:px-5 sm:py-3">
+    <div className="hidden max-w-full items-center gap-2 overflow-x-auto px-4 py-2 sm:flex sm:px-5 sm:py-3">
       {brand.images.map((image, index) => (
         <button
           key={`${brand.slug}-${image}`}
@@ -572,6 +580,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     decoding="async"
                     className="object-cover transition duration-500 ease-out group-hover:scale-[1.035]"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
+                    style={{ objectPosition: brandCardImagePositionFor(brand) }}
                   />
                   <div className="pointer-events-none absolute inset-0 bg-[rgba(28,24,20,0.13)] opacity-0 transition duration-300 group-hover:opacity-100" />
                 </div>
@@ -642,6 +651,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     decoding="async"
                     className="object-cover"
                     sizes="(max-width: 640px) 96vw, (max-width: 1024px) 92vw, (max-width: 1280px) 64vw, 720px"
+                    style={{ objectPosition: modalImagePositionFor(activeBrand, activeImageIndex) }}
                     loading="eager"
                     fetchPriority="high"
                   />
@@ -719,7 +729,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                         Order Now
                       </Link>
                     )}
-                    <Link href="/contact" className={buttonStyles({ variant: "secondary", size: "md" })}>
+                    <Link
+                      href="/contact"
+                      className={buttonStyles({ variant: "secondary", size: "md", className: "max-sm:hidden" })}
+                    >
                       Contact
                     </Link>
                   </div>
