@@ -99,7 +99,7 @@ function ThumbnailStrip({
   onSelect: (index: number) => void;
 }) {
   return (
-    <div className="flex items-center gap-2 overflow-x-auto px-4 py-3 sm:px-5">
+    <div className="flex max-w-full items-center gap-2 overflow-x-auto px-4 py-2 sm:px-5 sm:py-3">
       {brand.images.map((image, index) => (
         <button
           key={`${brand.slug}-${image}`}
@@ -614,7 +614,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             aria-modal="true"
             aria-labelledby="quick-view-title"
             aria-describedby="quick-view-description"
-            className="relative max-h-[92dvh] w-full max-w-6xl overflow-hidden rounded-[24px] border border-white/35 bg-[var(--surface)] shadow-[0_30px_80px_rgba(12,10,8,0.35)] sm:max-h-[94vh]"
+            className="relative max-h-[92dvh] w-[calc(100vw-1.5rem)] max-w-6xl overflow-hidden rounded-[24px] border border-white/35 bg-[var(--surface)] shadow-[0_30px_80px_rgba(12,10,8,0.35)] sm:max-h-[94vh] sm:w-full"
             onClick={(event) => event.stopPropagation()}
           >
             <Button
@@ -627,8 +627,8 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
               Close
             </Button>
 
-            <div className="grid max-h-[92dvh] overflow-y-auto lg:grid-cols-[minmax(0,1.18fr)_minmax(340px,0.82fr)]">
-              <div className="bg-[var(--surface)]">
+            <div className="grid max-h-[92dvh] min-w-0 overflow-y-auto lg:grid-cols-[minmax(0,1.18fr)_minmax(340px,0.82fr)]">
+              <div className="min-w-0 bg-[var(--surface)]">
                 <div
                   className="group relative h-[55vh] min-h-[360px] overflow-hidden bg-[var(--surface-strong)] sm:h-[62vh] lg:h-[620px] lg:min-h-0"
                   onTouchStart={handleGalleryTouchStart}
@@ -677,7 +677,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 ) : null}
               </div>
 
-              <div className="flex min-h-full flex-col justify-center px-6 py-8 sm:px-8 lg:px-10">
+              <div className="flex min-h-full min-w-0 flex-col justify-start px-6 py-5 sm:px-8 sm:py-8 lg:justify-center lg:px-10">
                 <div className="space-y-5">
                   <div className="space-y-3">
                     <h2
