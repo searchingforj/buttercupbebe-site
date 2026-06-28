@@ -16,6 +16,6 @@ export const CONTACT_PHONE_LINKS = {
 export const INSTAGRAM_URL = "https://www.instagram.com/buttercupbebe_/";
 
 export const SHOWROOM_LOCATIONS = [
-  "AmericasMart Atlanta Building 3 #13S346B",
-  "Dallas Market Center #8404",
+  "AmericasMart Atlanta, Building 3, Showroom #13S346B",
+  "Dallas Market Center, Showroom #8404",
 ] as const;
