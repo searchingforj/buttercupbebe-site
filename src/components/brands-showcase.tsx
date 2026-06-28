@@ -67,7 +67,7 @@ const BRAND_LOGO_SCALE_BY_SLUG: Partial<Record<Brand["slug"], number>> = {
   "little-paper-kids": 1.14,
   mishmoccs: 1.12,
   "sawyer-and-spade": 1.14,
-  "southern-proper-blanks": 1.14,
+  "southern-proper-blanks": 1.28,
   "velvet-fawn": 1.14,
   "weisinger-bamboo": 1.14,
   yogababy: 1.14,

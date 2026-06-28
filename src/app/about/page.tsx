@@ -101,7 +101,7 @@ export default function AboutPage() {
 
       <div className="mt-12 grid gap-6 md:grid-cols-2">
         <article className="flex h-full flex-col rounded-[22px] bg-[var(--surface)] p-6 shadow-[0_14px_35px_rgba(37,31,24,0.08)] sm:p-7">
-          <p className="section-eyebrow">Co-Founder</p>
+          <p className="section-eyebrow">Co-Owner</p>
           <h2 className="mt-2 font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-4xl">Madi</h2>
           <p className="mt-4 text-sm leading-8 text-[var(--ink-muted)]">
             Madi was raised in the world of boutique retail and earned her degree in Fashion Merchandising & Textiles.
@@ -130,7 +130,7 @@ export default function AboutPage() {
         </article>
 
         <article className="flex h-full flex-col rounded-[22px] bg-[var(--surface)] p-6 shadow-[0_14px_35px_rgba(37,31,24,0.08)] sm:p-7">
-          <p className="section-eyebrow">Co-Founder</p>
+          <p className="section-eyebrow">Co-Owner</p>
           <h2 className="mt-2 font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-4xl">Marci</h2>
           <p className="mt-4 text-sm leading-8 text-[var(--ink-muted)]">
             Marci brings over 25 years of experience in children&apos;s fashion, including 14 years owning and operating her own boutique. She
