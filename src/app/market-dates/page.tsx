@@ -40,7 +40,7 @@ const marketEvents: MarketEvent[] = [
     date: "August 9-10",
     show: "Lafayette Show",
     city: "Lafayette, LA",
-    address: "CAJUNDOME Convention Center",
+    address: "Cajundome Convention Center",
   },
   {
     date: "August 14-15",
@@ -79,7 +79,7 @@ export default function MarketDatesPage() {
     <section className="mx-auto max-w-6xl px-4 pb-16 pt-10 sm:px-6 lg:px-10 lg:pb-20 lg:pt-14">
       <div className="mx-auto max-w-3xl space-y-4 text-center">
         <p className="section-eyebrow">2026 Market Dates</p>
-        <h1 className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Plan your buying calendar.</h1>
+        <h1 className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Plan your market calendar.</h1>
         <a
           href={BOOKING_URL}
           target="_blank"

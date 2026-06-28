@@ -79,6 +79,7 @@ const MOBILE_HERO_ROTATION_MS = 7500;
 const MOBILE_HERO_MEDIA_QUERY = "(max-width: 639px)";
 const SWIPE_THRESHOLD_PX = 44;
 const BRAND_SWIPE_THRESHOLD_PX = 76;
+const BRAND_DISMISS_THRESHOLD_PX = 92;
 const BRAND_SWIPE_GAP_PX = 12;
 const BRAND_SWIPE_SETTLE_MS = 220;
 
@@ -115,8 +116,13 @@ const usesContainedHeroImage = (brand: Brand) => Boolean(HERO_CONTAINED_IMAGE_PO
 const brandCardImagePositionFor = (brand: Brand) =>
   BRAND_CARD_IMAGE_POSITION_BY_SLUG[brand.slug] ?? "center center";
 const brandLogoScaleFor = (brand: Brand) => BRAND_LOGO_SCALE_BY_SLUG[brand.slug] ?? 1;
-const modalImagePositionFor = (brand: Brand, imageIndex: number) =>
-  imageIndex === 0 ? brandCardImagePositionFor(brand) : "center center";
+const modalImagePositionFor = (brand: Brand, imageIndex: number, isMobileLayout: boolean) => {
+  if (!isMobileLayout && brand.slug === "mishmoccs" && imageIndex === 1) {
+    return "center bottom";
+  }
+
+  return imageIndex === 0 ? brandCardImagePositionFor(brand) : "center center";
+};
 const clampBrandSwipeOffset = (offset: number, maxOffset: number) =>
   Math.max(-maxOffset, Math.min(maxOffset, offset));
 const brandSwipeProgress = (offset: number) =>
@@ -228,6 +234,8 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const galleryTouchDidSwipe = useRef(false);
   const brandTouchStartX = useRef<number | null>(null);
   const brandTouchStartY = useRef<number | null>(null);
+  const modalDismissStartX = useRef<number | null>(null);
+  const modalDismissStartY = useRef<number | null>(null);
   const brandSwipeOffsetRef = useRef(0);
   const brandSwipeSettleTimer = useRef<number | null>(null);
 
@@ -259,6 +267,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
     setActiveBrand(null);
     setActiveImageIndex(0);
+    brandTouchStartX.current = null;
+    brandTouchStartY.current = null;
+    modalDismissStartX.current = null;
+    modalDismissStartY.current = null;
     brandSwipeOffsetRef.current = 0;
     setBrandSwipeIsSettling(false);
     setBrandSwipeOffset(0);
@@ -433,6 +445,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   };
 
   const handleBrandTouchEnd = () => {
+    if (brandTouchStartX.current === null || brandTouchStartY.current === null) {
+      return;
+    }
+
     const distance = brandSwipeOffsetRef.current;
     brandTouchStartX.current = null;
     brandTouchStartY.current = null;
@@ -460,6 +476,36 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       setBrandSwipeIsSettling(false);
       brandSwipeSettleTimer.current = null;
     }, BRAND_SWIPE_SETTLE_MS);
+  };
+
+  const handleModalDismissTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    if (!isMobileHeroLayout) {
+      return;
+    }
+
+    const touch = event.changedTouches[0];
+    modalDismissStartX.current = touch?.clientX ?? null;
+    modalDismissStartY.current = touch?.clientY ?? null;
+  };
+
+  const handleModalDismissTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    if (!isMobileHeroLayout || modalDismissStartX.current === null || modalDismissStartY.current === null) {
+      return;
+    }
+
+    const touch = event.changedTouches[0];
+    if (!touch) {
+      return;
+    }
+
+    const distanceX = touch.clientX - modalDismissStartX.current;
+    const distanceY = touch.clientY - modalDismissStartY.current;
+    modalDismissStartX.current = null;
+    modalDismissStartY.current = null;
+
+    if (distanceY > BRAND_DISMISS_THRESHOLD_PX && distanceY > Math.abs(distanceX) * 1.35) {
+      closeModal();
+    }
   };
 
   const handleBrandPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -976,8 +1022,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             }}
             onClick={(event) => event.stopPropagation()}
             onTouchStart={handleBrandTouchStart}
+            onTouchStartCapture={handleModalDismissTouchStart}
             onTouchMove={handleBrandTouchMove}
             onTouchEnd={handleBrandTouchEnd}
+            onTouchEndCapture={handleModalDismissTouchEnd}
             onPointerDown={handleBrandPointerDown}
             onPointerMove={handleBrandPointerMove}
             onPointerUp={handleBrandPointerUp}
@@ -1010,7 +1058,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     decoding="async"
                     className="object-cover"
                     sizes="(max-width: 640px) 96vw, (max-width: 1024px) 92vw, (max-width: 1280px) 64vw, 720px"
-                    style={{ objectPosition: modalImagePositionFor(activeBrand, activeImageIndex) }}
+                    style={{ objectPosition: modalImagePositionFor(activeBrand, activeImageIndex, isMobileHeroLayout) }}
                     loading="eager"
                     fetchPriority="high"
                   />

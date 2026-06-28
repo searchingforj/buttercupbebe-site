@@ -3,7 +3,7 @@ import path from "node:path";
 import type { Metadata } from "next";
 import Image from "next/image";
 
-import { CONTACT_PHONE_LINKS, CONTACT_PHONES } from "@/lib/constants";
+import { CONTACT_EMAIL, CONTACT_PHONE_LINKS, CONTACT_PHONES } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "About",
@@ -137,10 +137,19 @@ export default function AboutPage() {
             has a sharp eye for high-performing lines and provides a wealth of market knowledge that buyers can rely on season after season.
           </p>
           <div className="mt-auto pt-6 text-sm text-[var(--ink-strong)]">
-            <a className="inline-flex items-center gap-2 hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.marci}`}>
-              <PhoneIcon />
-              <span>{CONTACT_PHONES.marci}</span>
-            </a>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <a className="inline-flex items-center gap-2 whitespace-nowrap hover:text-[var(--ink-muted)]" href={`tel:${CONTACT_PHONE_LINKS.marci}`}>
+                <PhoneIcon />
+                <span>{CONTACT_PHONES.marci}</span>
+              </a>
+              <a
+                className="inline-flex min-w-0 items-center gap-2 hover:text-[var(--ink-muted)] sm:ml-auto"
+                href={`mailto:${CONTACT_EMAIL}`}
+              >
+                <MailIcon />
+                <span className="break-all sm:text-right">{CONTACT_EMAIL}</span>
+              </a>
+            </div>
           </div>
         </article>
       </div>
