@@ -57,6 +57,23 @@ const BRAND_CARD_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> 
   "nella-june": "47% center",
 };
 
+const BRAND_LOGO_SCALE_BY_SLUG: Partial<Record<Brand["slug"], number>> = {
+  "american-jewel": 1.12,
+  "cape-point-co": 1.14,
+  "eight-thousand-miles": 1.14,
+  "glitter-option": 1.1,
+  larili: 1.14,
+  "little-miss-zoe": 1.12,
+  "little-paper-kids": 1.14,
+  mishmoccs: 1.12,
+  "sawyer-and-spade": 1.14,
+  "southern-proper-blanks": 1.14,
+  "velvet-fawn": 1.14,
+  "weisinger-bamboo": 1.14,
+  yogababy: 1.14,
+  "zsazsa-and-lolli": 1.14,
+};
+
 const HERO_ROTATION_MS = 9000;
 const MOBILE_HERO_ROTATION_MS = 7500;
 const MOBILE_HERO_MEDIA_QUERY = "(max-width: 639px)";
@@ -97,6 +114,7 @@ const heroContainedImagePositionFor = (brand: Brand) =>
 const usesContainedHeroImage = (brand: Brand) => Boolean(HERO_CONTAINED_IMAGE_POSITION_BY_SLUG[brand.slug]);
 const brandCardImagePositionFor = (brand: Brand) =>
   BRAND_CARD_IMAGE_POSITION_BY_SLUG[brand.slug] ?? "center center";
+const brandLogoScaleFor = (brand: Brand) => BRAND_LOGO_SCALE_BY_SLUG[brand.slug] ?? 1;
 const modalImagePositionFor = (brand: Brand, imageIndex: number) =>
   imageIndex === 0 ? brandCardImagePositionFor(brand) : "center center";
 const clampBrandSwipeOffset = (offset: number, maxOffset: number) =>
@@ -865,6 +883,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                         width={700}
                         height={220}
                         className="h-full w-full object-contain"
+                        style={{ transform: `scale(${brandLogoScaleFor(brand)})` }}
                         onError={() => hideLogo(brand.slug)}
                       />
                     </div>
