@@ -358,6 +358,21 @@ export const brands: Brand[] = [
     ],
   },
   {
+    slug: "mishmoccs",
+    name: "MishMoccs",
+    oneLiner:
+      "Handmade premium leather baby moccasins, Western boots, and children's footwear with soft, durable everyday comfort.",
+    websiteUrl: "https://www.mishmoccs.com/",
+    logoUrl: logoFor("mishmoccs"),
+    images: [
+      "/brands/mishmoccs/1.webp",
+      "/brands/mishmoccs/2.webp",
+      "/brands/mishmoccs/3.webp",
+      "/brands/mishmoccs/4.webp",
+      "/brands/mishmoccs/5.webp",
+    ],
+  },
+  {
     slug: "zsazsa-and-lolli",
     name: "ZsaZsa & LoLLi",
     oneLiner:

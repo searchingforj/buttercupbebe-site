@@ -61,8 +61,9 @@ const HERO_ROTATION_MS = 9000;
 const MOBILE_HERO_ROTATION_MS = 7500;
 const MOBILE_HERO_MEDIA_QUERY = "(max-width: 639px)";
 const SWIPE_THRESHOLD_PX = 44;
-const BRAND_SWIPE_THRESHOLD_PX = 82;
-const BRAND_SWIPE_MAX_OFFSET_PX = 120;
+const BRAND_SWIPE_THRESHOLD_PX = 76;
+const BRAND_SWIPE_GAP_PX = 12;
+const BRAND_SWIPE_SETTLE_MS = 220;
 
 const FOCUSABLE_SELECTOR = [
   "a[href]",
@@ -98,8 +99,8 @@ const brandCardImagePositionFor = (brand: Brand) =>
   BRAND_CARD_IMAGE_POSITION_BY_SLUG[brand.slug] ?? "center center";
 const modalImagePositionFor = (brand: Brand, imageIndex: number) =>
   imageIndex === 0 ? brandCardImagePositionFor(brand) : "center center";
-const clampBrandSwipeOffset = (offset: number) =>
-  Math.max(-BRAND_SWIPE_MAX_OFFSET_PX, Math.min(BRAND_SWIPE_MAX_OFFSET_PX, offset));
+const clampBrandSwipeOffset = (offset: number, maxOffset: number) =>
+  Math.max(-maxOffset, Math.min(maxOffset, offset));
 const brandSwipeProgress = (offset: number) =>
   Math.min(1, Math.abs(offset) / BRAND_SWIPE_THRESHOLD_PX);
 
@@ -107,27 +108,32 @@ function BrandSwipePreview({
   brand,
   side,
   swipeOffset,
+  isSettling,
 }: {
   brand: Brand | null;
   side: "left" | "right";
   swipeOffset: number;
+  isSettling: boolean;
 }) {
   if (!brand) {
     return null;
   }
 
   const isVisible = side === "right" ? swipeOffset < 0 : swipeOffset > 0;
-  const offset = side === "right" ? swipeOffset : -swipeOffset;
+  const progress = brandSwipeProgress(swipeOffset);
 
   return (
     <div
       aria-hidden="true"
       className={`pointer-events-none absolute top-0 z-0 hidden h-full w-full overflow-hidden rounded-[24px] border border-white/20 bg-[var(--surface)] shadow-[0_24px_64px_rgba(12,10,8,0.25)] max-sm:block ${
-        side === "right" ? "left-[calc(100%+0.75rem)]" : "right-[calc(100%+0.75rem)]"
+        side === "right" ? "left-[calc(100%+12px)]" : "right-[calc(100%+12px)]"
       }`}
       style={{
-        opacity: isVisible ? 0.36 + brandSwipeProgress(swipeOffset) * 0.5 : 0,
-        transform: `translateX(${offset}px)`,
+        opacity: isVisible ? 0.42 + progress * 0.58 : 0,
+        transform: `translateX(${swipeOffset}px)`,
+        transition: isSettling
+          ? `opacity ${BRAND_SWIPE_SETTLE_MS}ms ease-out, transform ${BRAND_SWIPE_SETTLE_MS}ms ease-out`
+          : undefined,
       }}
     >
       <div className="relative h-[70dvh] max-h-[calc(100dvh-10.5rem)] min-h-[390px] bg-[var(--surface-strong)]">
@@ -195,6 +201,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const [isMobileHeroLayout, setIsMobileHeroLayout] = useState(false);
   const [hiddenLogoSlugs, setHiddenLogoSlugs] = useState<Record<string, true>>({});
   const [brandSwipeOffset, setBrandSwipeOffset] = useState(0);
+  const [brandSwipeIsSettling, setBrandSwipeIsSettling] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);
   const heroTouchStartX = useRef<number | null>(null);
@@ -204,6 +211,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const brandTouchStartX = useRef<number | null>(null);
   const brandTouchStartY = useRef<number | null>(null);
   const brandSwipeOffsetRef = useRef(0);
+  const brandSwipeSettleTimer = useRef<number | null>(null);
 
   const orderedBrands = useMemo(() => alphabeticalBrandOrder(brands), [brands]);
   const featuredBrands = useMemo(() => orderFeaturedBrands(brands), [brands]);
@@ -226,10 +234,33 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   }, []);
 
   const closeModal = useCallback(() => {
+    if (brandSwipeSettleTimer.current !== null) {
+      window.clearTimeout(brandSwipeSettleTimer.current);
+      brandSwipeSettleTimer.current = null;
+    }
+
     setActiveBrand(null);
     setActiveImageIndex(0);
     brandSwipeOffsetRef.current = 0;
+    setBrandSwipeIsSettling(false);
     setBrandSwipeOffset(0);
+  }, []);
+
+  const clearBrandSwipeSettleTimer = useCallback(() => {
+    if (brandSwipeSettleTimer.current !== null) {
+      window.clearTimeout(brandSwipeSettleTimer.current);
+      brandSwipeSettleTimer.current = null;
+    }
+  }, []);
+
+  const brandSwipeDistance = useCallback(() => {
+    const modalWidth = modalRef.current?.getBoundingClientRect().width;
+
+    if (modalWidth && Number.isFinite(modalWidth)) {
+      return modalWidth + BRAND_SWIPE_GAP_PX;
+    }
+
+    return Math.min(window.innerWidth - 24, 420) + BRAND_SWIPE_GAP_PX;
   }, []);
 
   const advanceHeroSlide = useCallback(
@@ -282,19 +313,18 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       setActiveBrand(orderedBrands[nextIndex]);
       setActiveImageIndex(0);
       brandSwipeOffsetRef.current = 0;
+      setBrandSwipeIsSettling(false);
       setBrandSwipeOffset(0);
-      window.requestAnimationFrame(() => {
-        brandSwipeOffsetRef.current = 0;
-        setBrandSwipeOffset(0);
-      });
     },
     [activeBrand, orderedBrands],
   );
 
   const openBrandModal = (brand: Brand) => {
+    clearBrandSwipeSettleTimer();
     setActiveBrand(brand);
     setActiveImageIndex(0);
     brandSwipeOffsetRef.current = 0;
+    setBrandSwipeIsSettling(false);
     setBrandSwipeOffset(0);
   };
 
@@ -358,9 +388,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       return;
     }
 
+    clearBrandSwipeSettleTimer();
     brandTouchStartX.current = event.changedTouches[0]?.clientX ?? null;
     brandTouchStartY.current = event.changedTouches[0]?.clientY ?? null;
     brandSwipeOffsetRef.current = 0;
+    setBrandSwipeIsSettling(false);
     setBrandSwipeOffset(0);
   };
 
@@ -377,7 +409,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       return;
     }
 
-    const nextOffset = clampBrandSwipeOffset(distanceX);
+    const nextOffset = clampBrandSwipeOffset(distanceX, brandSwipeDistance());
     brandSwipeOffsetRef.current = nextOffset;
     setBrandSwipeOffset(nextOffset);
   };
@@ -388,12 +420,28 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     brandTouchStartY.current = null;
 
     if (Math.abs(distance) >= BRAND_SWIPE_THRESHOLD_PX) {
-      showAdjacentBrand(distance < 0 ? "next" : "previous");
+      const direction = distance < 0 ? "next" : "previous";
+      const targetOffset = direction === "next" ? -brandSwipeDistance() : brandSwipeDistance();
+
+      setBrandSwipeIsSettling(true);
+      brandSwipeOffsetRef.current = targetOffset;
+      setBrandSwipeOffset(targetOffset);
+      clearBrandSwipeSettleTimer();
+      brandSwipeSettleTimer.current = window.setTimeout(() => {
+        showAdjacentBrand(direction);
+        brandSwipeSettleTimer.current = null;
+      }, BRAND_SWIPE_SETTLE_MS);
       return;
     }
 
+    setBrandSwipeIsSettling(true);
     brandSwipeOffsetRef.current = 0;
     setBrandSwipeOffset(0);
+    clearBrandSwipeSettleTimer();
+    brandSwipeSettleTimer.current = window.setTimeout(() => {
+      setBrandSwipeIsSettling(false);
+      brandSwipeSettleTimer.current = null;
+    }, BRAND_SWIPE_SETTLE_MS);
   };
 
   const handleBrandPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -406,9 +454,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       return;
     }
 
+    clearBrandSwipeSettleTimer();
     brandTouchStartX.current = event.clientX;
     brandTouchStartY.current = event.clientY;
     brandSwipeOffsetRef.current = 0;
+    setBrandSwipeIsSettling(false);
     setBrandSwipeOffset(0);
     event.currentTarget.setPointerCapture(event.pointerId);
   };
@@ -425,7 +475,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       return;
     }
 
-    const nextOffset = clampBrandSwipeOffset(distanceX);
+    const nextOffset = clampBrandSwipeOffset(distanceX, brandSwipeDistance());
     brandSwipeOffsetRef.current = nextOffset;
     setBrandSwipeOffset(nextOffset);
   };
@@ -485,6 +535,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
     return () => mediaQuery.removeEventListener("change", updateMobileHeroLayout);
   }, []);
+
+  useEffect(() => {
+    return () => clearBrandSwipeSettleTimer();
+  }, [clearBrandSwipeSettleTimer]);
 
   useEffect(() => {
     if (featuredBrands.length < 2) {
@@ -673,7 +727,16 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
           </button>
 
           {activeHeroBrand ? (
-            <div className="relative z-10 flex min-h-[500px] items-end sm:min-h-[610px] lg:min-h-[680px]">
+            <button
+              type="button"
+              onClick={() => openBrandModal(activeHeroBrand)}
+              aria-label={`Open details for ${activeHeroBrand.name}`}
+              className="absolute inset-0 z-[1] hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:block"
+            />
+          ) : null}
+
+          {activeHeroBrand ? (
+            <div className="pointer-events-none relative z-10 flex min-h-[500px] items-end sm:min-h-[610px] lg:min-h-[680px]">
               <div className="mx-auto w-full max-w-7xl px-4 pb-8 pt-24 sm:px-6 sm:pb-12 lg:px-10 lg:pb-16">
                 <div className="max-w-2xl space-y-3 text-white sm:space-y-5">
                   <p className="text-sm font-semibold text-white/84 sm:text-base">Featured Brands</p>
@@ -683,7 +746,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   <p className="hidden max-w-xl text-base leading-8 text-white/86 sm:block sm:text-lg">
                     {heroDescriptionFor(activeHeroBrand)}
                   </p>
-                  <div className="flex flex-wrap items-start gap-3 pt-1">
+                  <div className="pointer-events-auto flex flex-wrap items-start gap-3 pt-1">
                     <button
                       type="button"
                       onClick={() => openBrandModal(activeHeroBrand)}
@@ -862,9 +925,22 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
           ) : null}
 
           <div className="relative h-[calc(100dvh-1.5rem)] max-h-[92dvh] w-[calc(100vw-1.5rem)] max-w-5xl sm:h-auto sm:max-h-none sm:w-full">
-            <BrandSwipePreview brand={previousBrand} side="left" swipeOffset={brandSwipeOffset} />
-            <BrandSwipePreview brand={nextBrand} side="right" swipeOffset={brandSwipeOffset} />
+            <BrandSwipePreview
+              key={`previous-${previousBrand?.slug ?? "none"}`}
+              brand={previousBrand}
+              side="left"
+              swipeOffset={brandSwipeOffset}
+              isSettling={brandSwipeIsSettling}
+            />
+            <BrandSwipePreview
+              key={`next-${nextBrand?.slug ?? "none"}`}
+              brand={nextBrand}
+              side="right"
+              swipeOffset={brandSwipeOffset}
+              isSettling={brandSwipeIsSettling}
+            />
           <div
+            key={`active-${activeBrand.slug}`}
             ref={modalRef}
             role="dialog"
             aria-modal="true"
@@ -873,7 +949,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             className="relative z-10 h-full max-h-[92dvh] w-full overflow-hidden rounded-[24px] border border-white/35 bg-[var(--surface)] shadow-[0_24px_64px_rgba(12,10,8,0.32)] transition-transform duration-200 ease-out will-change-transform sm:h-auto sm:max-h-[94vh] sm:will-change-auto"
             style={{
               transform: brandSwipeOffset ? `translateX(${brandSwipeOffset}px)` : undefined,
-              transitionDuration: brandSwipeOffset ? "0ms" : undefined,
+              transitionDuration: brandSwipeIsSettling
+                ? `${BRAND_SWIPE_SETTLE_MS}ms`
+                : brandSwipeOffset
+                  ? "0ms"
+                  : undefined,
             }}
             onClick={(event) => event.stopPropagation()}
             onTouchStart={handleBrandTouchStart}
