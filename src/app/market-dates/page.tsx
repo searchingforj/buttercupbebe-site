@@ -25,9 +25,8 @@ const marketEvents: MarketEvent[] = [
   },
   {
     date: "Jul 26-28",
-    show: "NYC Market",
-    city: "NYC",
-    address: "New York, NY",
+    show: "Playtime New York",
+    city: "New York City",
     note: "(Courtside Kids only)",
   },
   {
@@ -80,9 +79,6 @@ export default function MarketDatesPage() {
       <div className="mx-auto max-w-3xl space-y-4 text-center">
         <p className="section-eyebrow">2026 Market Dates</p>
         <h1 className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Plan your buying calendar.</h1>
-        <p className="mx-auto max-w-2xl text-sm leading-7 text-[var(--ink-muted)] sm:text-base">
-          Find each market in chronological order, with the showroom location listed under the city.
-        </p>
         <a
           href={BOOKING_URL}
           target="_blank"
@@ -104,14 +100,20 @@ export default function MarketDatesPage() {
                 {event.date}
               </div>
               <div>
-                <h2 className="font-display text-3xl leading-none text-[var(--ink-strong)]">{event.city}</h2>
+                <h2 className="font-display text-3xl leading-none text-[var(--ink-strong)]">
+                  {event.city}
+                  {event.note ? (
+                    <span className="ml-2 align-middle font-sans text-xs font-semibold text-[var(--ink-muted)] sm:text-sm">
+                      {event.note}
+                    </span>
+                  ) : null}
+                </h2>
                 {event.address ? (
                   <p className="mt-1 text-xs leading-5 text-[var(--ink-muted)] sm:text-sm">{event.address}</p>
                 ) : null}
               </div>
               <div className="text-sm sm:text-right sm:text-base">
                 <p className="font-semibold text-[var(--ink-strong)]">{event.show}</p>
-                {event.note ? <p className="mt-1 text-xs text-[var(--ink-muted)] sm:text-sm">{event.note}</p> : null}
               </div>
             </li>
           ))}

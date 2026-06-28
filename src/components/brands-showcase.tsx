@@ -100,6 +100,54 @@ const modalImagePositionFor = (brand: Brand, imageIndex: number) =>
   imageIndex === 0 ? brandCardImagePositionFor(brand) : "center center";
 const clampBrandSwipeOffset = (offset: number) =>
   Math.max(-BRAND_SWIPE_MAX_OFFSET_PX, Math.min(BRAND_SWIPE_MAX_OFFSET_PX, offset));
+const brandSwipeProgress = (offset: number) =>
+  Math.min(1, Math.abs(offset) / BRAND_SWIPE_THRESHOLD_PX);
+
+function BrandSwipePreview({
+  brand,
+  side,
+  swipeOffset,
+}: {
+  brand: Brand | null;
+  side: "left" | "right";
+  swipeOffset: number;
+}) {
+  if (!brand) {
+    return null;
+  }
+
+  const isVisible = side === "right" ? swipeOffset < 0 : swipeOffset > 0;
+  const offset = side === "right" ? swipeOffset : -swipeOffset;
+
+  return (
+    <div
+      aria-hidden="true"
+      className={`pointer-events-none absolute top-0 z-0 hidden h-full w-full overflow-hidden rounded-[24px] border border-white/20 bg-[var(--surface)] shadow-[0_24px_64px_rgba(12,10,8,0.25)] max-sm:block ${
+        side === "right" ? "left-[calc(100%+0.75rem)]" : "right-[calc(100%+0.75rem)]"
+      }`}
+      style={{
+        opacity: isVisible ? 0.36 + brandSwipeProgress(swipeOffset) * 0.5 : 0,
+        transform: `translateX(${offset}px)`,
+      }}
+    >
+      <div className="relative h-[70dvh] max-h-[calc(100dvh-10.5rem)] min-h-[390px] bg-[var(--surface-strong)]">
+        <Image
+          src={brand.images[0]}
+          alt=""
+          fill
+          unoptimized
+          decoding="async"
+          className="object-cover"
+          sizes="96vw"
+          style={{ objectPosition: brandCardImagePositionFor(brand) }}
+        />
+      </div>
+      <div className="px-5 py-3">
+        <p className="font-display text-[2rem] leading-none text-[var(--ink-strong)]">{brand.name}</p>
+      </div>
+    </div>
+  );
+}
 
 function ThumbnailStrip({
   brand,
@@ -235,6 +283,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       setActiveImageIndex(0);
       brandSwipeOffsetRef.current = 0;
       setBrandSwipeOffset(0);
+      window.requestAnimationFrame(() => {
+        brandSwipeOffsetRef.current = 0;
+        setBrandSwipeOffset(0);
+      });
     },
     [activeBrand, orderedBrands],
   );
@@ -769,19 +821,58 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
       {activeBrand ? (
         <div
-          className="fixed inset-0 z-50 flex items-start justify-center bg-[rgba(18,16,14,0.64)] p-3 backdrop-blur-sm sm:items-center sm:p-4"
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-hidden bg-[rgba(18,16,14,0.64)] p-3 sm:items-center sm:p-4 sm:backdrop-blur-sm"
           style={{ paddingTop: "max(1.5rem, calc(env(safe-area-inset-top) + 0.75rem))" }}
           onClick={closeModal}
         >
+          {previousBrand ? (
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                showAdjacentBrand("previous");
+              }}
+              aria-label={`View previous brand, ${previousBrand.name}`}
+              className="fixed top-1/2 z-20 hidden max-w-[6rem] -translate-y-1/2 items-center gap-1.5 text-left text-xs font-semibold text-white/74 drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white xl:flex"
+              style={{ left: "max(1rem, calc((100vw - 64rem) / 2 - 7rem))" }}
+            >
+              <span className="text-4xl font-light leading-none" aria-hidden="true">
+                &lsaquo;
+              </span>
+              <span className="leading-tight">{previousBrand.name}</span>
+            </button>
+          ) : null}
+
+          {nextBrand ? (
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                showAdjacentBrand("next");
+              }}
+              aria-label={`View next brand, ${nextBrand.name}`}
+              className="fixed top-1/2 z-20 hidden max-w-[6rem] -translate-y-1/2 items-center gap-1.5 text-right text-xs font-semibold text-white/74 drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white xl:flex"
+              style={{ right: "max(1rem, calc((100vw - 64rem) / 2 - 7rem))" }}
+            >
+              <span className="leading-tight">{nextBrand.name}</span>
+              <span className="text-4xl font-light leading-none" aria-hidden="true">
+                &rsaquo;
+              </span>
+            </button>
+          ) : null}
+
+          <div className="relative h-[calc(100dvh-1.5rem)] max-h-[92dvh] w-[calc(100vw-1.5rem)] max-w-5xl sm:h-auto sm:max-h-none sm:w-full">
+            <BrandSwipePreview brand={previousBrand} side="left" swipeOffset={brandSwipeOffset} />
+            <BrandSwipePreview brand={nextBrand} side="right" swipeOffset={brandSwipeOffset} />
           <div
             ref={modalRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="quick-view-title"
             aria-describedby="quick-view-description"
-            className="relative h-[calc(100dvh-1.5rem)] max-h-[92dvh] w-[calc(100vw-1.5rem)] max-w-6xl overflow-hidden rounded-[24px] border border-white/35 bg-[var(--surface)] shadow-[0_30px_80px_rgba(12,10,8,0.35)] transition-transform duration-200 ease-out sm:h-auto sm:max-h-[94vh] sm:w-full"
+            className="relative z-10 h-full max-h-[92dvh] w-full overflow-hidden rounded-[24px] border border-white/35 bg-[var(--surface)] shadow-[0_24px_64px_rgba(12,10,8,0.32)] transition-transform duration-200 ease-out will-change-transform sm:h-auto sm:max-h-[94vh] sm:will-change-auto"
             style={{
-              transform: brandSwipeOffset ? `translateX(${brandSwipeOffset}px) rotate(${brandSwipeOffset / 36}deg)` : undefined,
+              transform: brandSwipeOffset ? `translateX(${brandSwipeOffset}px)` : undefined,
               transitionDuration: brandSwipeOffset ? "0ms" : undefined,
             }}
             onClick={(event) => event.stopPropagation()}
@@ -803,39 +894,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
               Close
             </Button>
 
-            {previousBrand ? (
-              <button
-                type="button"
-                onClick={() => showAdjacentBrand("previous")}
-                aria-label={`View previous brand, ${previousBrand.name}`}
-                className="absolute left-4 top-1/2 z-20 hidden max-w-[8rem] -translate-y-1/2 items-center gap-2 text-left text-sm font-semibold text-white/76 drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white lg:flex"
-              >
-                <span className="text-4xl font-light leading-none" aria-hidden="true">
-                  &lsaquo;
-                </span>
-                <span className="leading-tight">{previousBrand.name}</span>
-              </button>
-            ) : null}
-
-            {nextBrand ? (
-              <button
-                type="button"
-                onClick={() => showAdjacentBrand("next")}
-                aria-label={`View next brand, ${nextBrand.name}`}
-                className="absolute right-4 top-1/2 z-20 hidden max-w-[8rem] -translate-y-1/2 items-center gap-2 text-right text-sm font-semibold text-white/76 drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white lg:flex"
-              >
-                <span className="leading-tight">{nextBrand.name}</span>
-                <span className="text-4xl font-light leading-none" aria-hidden="true">
-                  &rsaquo;
-                </span>
-              </button>
-            ) : null}
-
             <div className="grid h-full max-h-full min-w-0 overflow-hidden sm:max-h-[94vh] sm:overflow-y-auto lg:grid-cols-[minmax(0,1.18fr)_minmax(340px,0.82fr)]">
               <div className="min-w-0 bg-[var(--surface)]">
                 <div
                   data-gallery-area
-                  className="group relative h-[58dvh] min-h-0 shrink-0 overflow-hidden bg-[var(--surface-strong)] sm:h-[62vh] sm:min-h-[360px] lg:h-[620px] lg:min-h-0"
+                  className="group relative h-[70dvh] max-h-[calc(100dvh-10.5rem)] min-h-[390px] shrink-0 overflow-hidden bg-[var(--surface-strong)] sm:h-[62vh] sm:max-h-none sm:min-h-[360px] lg:h-[620px] lg:min-h-0"
                   onClick={handleGalleryTap}
                   onTouchStart={handleGalleryTouchStart}
                   onTouchEnd={handleGalleryTouchEnd}
@@ -906,18 +969,18 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 ) : null}
               </div>
 
-              <div className="flex min-h-0 min-w-0 flex-col justify-start px-5 py-4 sm:min-h-full sm:px-8 sm:py-8 lg:justify-center lg:px-10">
-                <div className="space-y-3 sm:space-y-5">
-                  <div className="space-y-2 sm:space-y-3">
+              <div className="flex min-h-0 min-w-0 flex-col justify-start px-5 py-2 sm:min-h-full sm:px-8 sm:py-8 lg:justify-center lg:px-10">
+                <div className="space-y-2 sm:space-y-5">
+                  <div className="space-y-1.5 sm:space-y-3">
                     <h2
                       id="quick-view-title"
-                      className="font-display text-3xl leading-none text-[var(--ink-strong)] sm:text-5xl sm:leading-tight"
+                      className="font-display text-[2rem] leading-none text-[var(--ink-strong)] sm:text-5xl sm:leading-tight"
                     >
                       {activeBrand.name}
                     </h2>
                     <p
                       id="quick-view-description"
-                      className="max-h-10 overflow-hidden text-xs leading-5 text-[var(--ink-muted)] sm:max-h-none sm:text-base sm:leading-7"
+                      className="max-h-9 overflow-hidden text-xs leading-[1.15rem] text-[var(--ink-muted)] sm:max-h-none sm:text-base sm:leading-7"
                     >
                       {activeBrand.oneLiner}
                     </p>
@@ -928,12 +991,12 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     ) : null}
                   </div>
 
-                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                  <div className="flex flex-wrap gap-2 pt-0.5 sm:gap-3 sm:pt-0">
                     <a
                       href={BOOKING_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={buttonStyles({ variant: "primary", size: "md", className: "px-4 py-2 text-[0.68rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
+                      className={buttonStyles({ variant: "primary", size: "md", className: "px-4 py-1.5 text-[0.66rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
                     >
                       Book Appointment
                     </a>
@@ -942,14 +1005,14 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                         href={activeOrderUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={buttonStyles({ variant: "secondary", size: "md", className: "px-4 py-2 text-[0.68rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
+                        className={buttonStyles({ variant: "secondary", size: "md", className: "px-4 py-1.5 text-[0.66rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
                       >
                         Order Now
                       </a>
                     ) : (
                       <Link
                         href={activeOrderUrl}
-                        className={buttonStyles({ variant: "secondary", size: "md", className: "px-4 py-2 text-[0.68rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
+                        className={buttonStyles({ variant: "secondary", size: "md", className: "px-4 py-1.5 text-[0.66rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
                       >
                         Order Now
                       </Link>
@@ -964,6 +1027,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       ) : null}
