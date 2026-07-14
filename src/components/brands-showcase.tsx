@@ -1164,12 +1164,6 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                         Order Now
                       </Link>
                     )}
-                    <Link
-                      href="/contact"
-                      className={buttonStyles({ variant: "secondary", size: "md", className: "max-sm:hidden" })}
-                    >
-                      Contact
-                    </Link>
                   </div>
                 </div>
               </div>
