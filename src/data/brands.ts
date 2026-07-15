@@ -342,6 +342,7 @@ export const brands: Brand[] = [
     name: "Lemon Loves Lime",
     oneLiner:
       "Bright, story-driven girls' apparel with boutique-friendly silhouettes and whimsical details that celebrate childhood joy and affectionate design.",
+    orderUrl: "https://lemonloveslime.orderspace.com/login",
     logoUrl: logoFor("lemon-loves-lime"),
     images: imagesFor("lemon-loves-lime"),
   },
