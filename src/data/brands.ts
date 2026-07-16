@@ -93,7 +93,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Outdoor-inspired children's apparel blending camo classics with everyday comfort.",
     websiteUrl: "https://velvetfawn.com/",
-    orderUrl: "https://wholesale.velvetfawn.com/signup",
+    orderUrl: "https://wholesale.velvetfawn.com/pages/16100-spring-summer-2027",
     logoUrl: logoFor("velvet-fawn"),
     images: [
       ...websiteCardImagesFor("velvet-fawn", 2),
@@ -165,7 +165,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Whimsical children's apparel pairing playful prints with timeless silhouettes.",
     websiteUrl: "https://nellajune.com/",
-    orderUrl: "https://www.brandboom.com/app/a/7889A08268E",
+    orderUrl: "https://www.brandboom.com/nellajune/a/9BC68B35480",
     logoUrl: logoFor("nella-june"),
     images: [
       ...websiteCardImagesFor("nella-june", 2),
@@ -209,7 +209,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Coastal-inspired children's clothing with hand-created patterns and versatile silhouettes.",
     websiteUrl: "https://www.mydeargeorgie.com/",
-    orderUrl: "https://www.brandboom.com/app/a/9ECB62240BC",
+    orderUrl: "http://www.brandboom.com/app/a/57B8B08A8D0",
     logoUrl: logoFor("dear-georgie"),
     images: [
       "/brands/dear-georgie/website-card-02.webp",
@@ -295,6 +295,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Bohemian-inspired apparel and accessories handcrafted using artisan techniques.",
     websiteUrl: "https://eightthousandmiles.com/",
+    orderUrl: "https://www.brandboom.com/app/a/ED836C20F1E",
     logoUrl: logoFor("eight-thousand-miles"),
     images: [
       ...websiteCardImagesFor("eight-thousand-miles", 2),
@@ -364,6 +365,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Handmade premium leather baby moccasins, Western boots, and children's footwear with soft, durable everyday comfort.",
     websiteUrl: "https://www.mishmoccs.com/",
+    orderUrl: "https://www.brandboom.com/app/a/56C6514EBDE",
     logoUrl: logoFor("mishmoccs"),
     images: [
       "/brands/mishmoccs/1.webp",
