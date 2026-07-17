@@ -319,7 +319,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Ultra-soft bamboo children's essentials designed for comfort and everyday wear.",
     websiteUrl: "https://www.weisingerbamboo.com/",
-    orderUrl: "https://www.brandboom.com/app/a/FB573684A3C",
+    orderUrl: "https://www.brandboom.com/app/a/BF723EE3D1D",
     logoUrl: logoFor("weisinger-bamboo"),
     images: [
       "/brands/weisinger-bamboo/2.webp",
