@@ -179,6 +179,15 @@ export const brands: Brand[] = [
     ],
   },
   {
+    slug: "rumi-house",
+    name: "Rumi House",
+    oneLiner:
+      "Timeless children's apparel pairing heirloom-inspired silhouettes with soft florals and thoughtful everyday details.",
+    orderUrl: "https://www.brandboom.com/app/a/F173E395156",
+    logoUrl: logoFor("rumi-house"),
+    images: imagesFor("rumi-house"),
+  },
+  {
     slug: "the-original-flap-happy",
     name: "The Original Flap Happy",
     oneLiner:
