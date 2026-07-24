@@ -79,7 +79,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Performance-driven kids' activewear designed for movement, comfort, and durability.",
     websiteUrl: "https://yogababyclothing.com/",
-    orderUrl: "https://www.brandboom.com/app/a/6CC7BE69476",
+    orderUrl: "http://www.brandboom.com/app/a/2D7C1741391",
     logoUrl: logoFor("yogababy"),
     images: [
       ...websiteCardImagesFor("yogababy", 2),
@@ -232,7 +232,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Sustainably made children's clothing featuring natural fabrics and modern classics.",
     websiteUrl: "https://beet-world.com/",
-    orderUrl: "https://www.brandboom.com/app/a/B5E99B578C3",
+    orderUrl: "https://www.brandboom.com/app/a/D142D496992",
     logoUrl: logoFor("beet-world"),
     images: [
       ...websiteCardImagesFor("beet-world", 2),
