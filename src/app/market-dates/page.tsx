@@ -18,19 +18,6 @@ type MarketEvent = {
 
 const marketEvents: MarketEvent[] = [
   {
-    date: "June 24-30",
-    show: "Kidsworld + Gift",
-    city: "Dallas, TX",
-    address: "Dallas Market Center, Showroom #8404",
-  },
-  {
-    date: "July 26-28",
-    show: "Playtime New York",
-    city: "New York City, NY",
-    address: "Metropolitan Pavilion",
-    note: "(Courtside Kids only)",
-  },
-  {
     date: "August 3-6",
     show: "Apparel",
     city: "Atlanta, GA",
