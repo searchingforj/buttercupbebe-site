@@ -24,7 +24,7 @@ const FEATURED_BRAND_ORDER = [
 const HERO_IMAGE_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
   "courtside-kids": "/brands/courtside-kids/hero-user-baseball-bat.webp",
   "bushel-and-a-peck": "/brands/bushel-and-a-peck/hero-fw26-731a7708.webp",
-  "little-paper-kids": "/brands/little-paper-kids/hero-user-croquet.webp",
+  "little-paper-kids": "/brands/little-paper-kids/hero-shop-bottoms.webp",
   smockingbird: "/brands/smockingbird/hero-website-jmf-0233.webp",
   yogababy: "/brands/yogababy/hero-website-img-8295.webp",
 };
@@ -37,7 +37,7 @@ const MOBILE_HERO_IMAGE_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
 const HERO_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
   "courtside-kids": "center 46%",
   "bushel-and-a-peck": "center 68%",
-  "little-paper-kids": "center 46%",
+  "little-paper-kids": "center top",
   smockingbird: "center 48%",
   yogababy: "center 50%",
 };
@@ -699,8 +699,6 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
           {featuredBrands.map((brand, index) => {
             const isActive = activeSlideIndex === index;
             const heroImage = isMobileHeroLayout ? mobileHeroImageFor(brand) : heroImageFor(brand);
-            const cropsLittlePaperKidsGirl =
-              brand.slug === "little-paper-kids" && !isMobileHeroLayout;
             const heroImagePosition = isMobileHeroLayout
               ? mobileHeroImagePositionFor(brand)
               : heroImagePositionFor(brand);
@@ -739,16 +737,12 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   decoding="async"
                   className={`transition-transform duration-[9000ms] ease-out ${
                     usesContainedImage ? "object-contain" : "object-cover"
-                  }`}
+                  } ${isActive ? "scale-[1.018]" : "scale-100"}`}
                   sizes="100vw"
                   style={{
                     objectPosition: usesContainedImage
                       ? heroContainedImagePositionFor(brand)
                       : heroImagePosition,
-                    transform: cropsLittlePaperKidsGirl
-                      ? `scale(${isActive ? 1.56 : 1.54})`
-                      : `scale(${isActive ? 1.018 : 1})`,
-                    transformOrigin: cropsLittlePaperKidsGirl ? "left center" : "center center",
                   }}
                 />
               </div>
