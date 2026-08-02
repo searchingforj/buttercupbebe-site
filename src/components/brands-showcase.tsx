@@ -699,6 +699,8 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
           {featuredBrands.map((brand, index) => {
             const isActive = activeSlideIndex === index;
             const heroImage = isMobileHeroLayout ? mobileHeroImageFor(brand) : heroImageFor(brand);
+            const cropsLittlePaperKidsGirl =
+              brand.slug === "little-paper-kids" && !isMobileHeroLayout;
             const heroImagePosition = isMobileHeroLayout
               ? mobileHeroImagePositionFor(brand)
               : heroImagePositionFor(brand);
@@ -737,12 +739,16 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   decoding="async"
                   className={`transition-transform duration-[9000ms] ease-out ${
                     usesContainedImage ? "object-contain" : "object-cover"
-                  } ${isActive ? "scale-[1.018]" : "scale-100"}`}
+                  }`}
                   sizes="100vw"
                   style={{
                     objectPosition: usesContainedImage
                       ? heroContainedImagePositionFor(brand)
                       : heroImagePosition,
+                    transform: cropsLittlePaperKidsGirl
+                      ? `scale(${isActive ? 1.56 : 1.54})`
+                      : `scale(${isActive ? 1.018 : 1})`,
+                    transformOrigin: cropsLittlePaperKidsGirl ? "left center" : "center center",
                   }}
                 />
               </div>
