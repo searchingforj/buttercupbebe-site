@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
 
-type ButtonVariant = "primary" | "secondary" | "ghost" | "light" | "glass";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "light" | "glass" | "club";
 type ButtonSize = "sm" | "md" | "lg";
 
 type ButtonStyleOptions = {
@@ -23,6 +23,8 @@ const variantStyles: Record<ButtonVariant, string> = {
     "border border-white bg-white text-[var(--ink-strong)] shadow-[0_16px_36px_rgba(0,0,0,0.16)] hover:-translate-y-0.5 hover:bg-[var(--surface-strong)] hover:text-[var(--ink-strong)]",
   glass:
     "border border-white/55 bg-white/12 text-white shadow-[0_16px_36px_rgba(0,0,0,0.14)] backdrop-blur-md hover:-translate-y-0.5 hover:bg-white/22 hover:text-white",
+  club:
+    "border border-[#0b513f] bg-[#0b513f] !text-white shadow-[0_14px_32px_rgba(11,81,63,0.18)] hover:-translate-y-0.5 hover:border-[#073d30] hover:bg-[#073d30] hover:!text-white",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { buttonStyles } from "@/components/ui/button";
 import { BOOKING_URL } from "@/lib/constants";
 
+const CLUB_LANDING_PATH = "/courtside-kids-for-clubs";
+
 const navItems = [
   { label: "Brands", href: "/#brands-section" },
   { label: "Market Dates", href: "/market-dates" },
@@ -93,6 +95,65 @@ export function SiteHeader() {
 
     scrollToTop("auto");
   }, [pathname]);
+
+  if (pathname === CLUB_LANDING_PATH) {
+    return (
+      <header
+        data-site-header
+        className="sticky top-0 z-40 border-b border-[#0b513f]/15 bg-[#fbfaf6]/94 backdrop-blur-md"
+      >
+        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 lg:px-10">
+          <Link
+            href="/"
+            aria-label="Visit the Buttercup Bebe showroom home page"
+            className="inline-flex shrink-0 items-center"
+          >
+            <Image
+              src="/brand/buttercup-bebe-logo.svg"
+              alt="Buttercup Bebe"
+              width={1180}
+              height={450}
+              priority
+              className="h-auto w-[130px] sm:w-[170px]"
+            />
+          </Link>
+
+          <div className="mx-auto hidden items-center gap-3 sm:flex">
+            <span className="text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-[#45665d]">
+              Wholesale representatives for
+            </span>
+            <Image
+              src="/brand-logos/courtside-kids.png"
+              alt="Courtside Kids"
+              width={478}
+              height={158}
+              priority
+              className="h-auto w-[112px]"
+            />
+          </div>
+
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonStyles({
+              variant: "club",
+              size: "sm",
+              className: "ml-auto shrink-0 normal-case",
+            })}
+          >
+            Talk to a rep
+          </a>
+        </div>
+
+        <div className="border-t border-[#0b513f]/10 px-4 py-2 text-center sm:hidden">
+          <p className="text-[0.57rem] font-semibold uppercase tracking-[0.16em] text-[#45665d]">
+            Wholesale representatives for Courtside Kids
+          </p>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header
