@@ -15,7 +15,7 @@ import {
   SHOWROOM_LOCATIONS,
 } from "@/lib/constants";
 
-const CLUB_LANDING_PATH = "/courtside-kids-for-clubs";
+const CLUB_LANDING_PATH = "/courtside-kids";
 
 export function SiteFooter() {
   const pathname = usePathname();

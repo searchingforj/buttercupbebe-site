@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { buttonStyles } from "@/components/ui/button";
 import { BOOKING_URL } from "@/lib/constants";
 
-const CLUB_LANDING_PATH = "/courtside-kids-for-clubs";
+const CLUB_LANDING_PATH = "/courtside-kids";
 
 const navItems = [
   { label: "Brands", href: "/#brands-section" },

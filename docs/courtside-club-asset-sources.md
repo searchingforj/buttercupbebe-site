@@ -1,6 +1,6 @@
 # Courtside Kids club landing page asset sources
 
-All photography on `/courtside-kids-for-clubs` is owned or published by Courtside Kids.
+All photography on `/courtside-kids` is owned or published by Courtside Kids.
 
 - `/public/brands/courtside-kids/1.webp`: Existing Courtside Kids brand asset supplied for the Buttercup Bebe site.
 - `/public/brands/courtside-kids/3.webp`: Existing Courtside Kids brand asset supplied for the Buttercup Bebe site.
