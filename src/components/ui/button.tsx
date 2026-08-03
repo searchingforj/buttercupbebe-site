@@ -20,7 +20,7 @@ const variantStyles: Record<ButtonVariant, string> = {
   ghost:
     "border border-transparent bg-transparent text-[var(--ink-muted)] hover:bg-[rgba(20,20,20,0.06)] hover:text-[var(--ink-strong)]",
   light:
-    "border border-white bg-white text-[var(--ink-strong)] shadow-[0_16px_36px_rgba(0,0,0,0.16)] hover:-translate-y-0.5 hover:bg-[var(--surface-strong)] hover:text-[var(--ink-strong)]",
+    "border border-white bg-white !text-[#112b24] visited:!text-[#112b24] shadow-[0_16px_36px_rgba(0,0,0,0.16)] hover:-translate-y-0.5 hover:bg-[var(--surface-strong)] hover:!text-[#112b24] active:!text-[#112b24]",
   glass:
     "border border-white/55 bg-white/12 text-white shadow-[0_16px_36px_rgba(0,0,0,0.14)] backdrop-blur-md hover:-translate-y-0.5 hover:bg-white/22 hover:text-white",
   club:
