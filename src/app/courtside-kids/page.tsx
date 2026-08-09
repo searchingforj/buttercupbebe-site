@@ -352,7 +352,7 @@ export default function CourtsideKidsForClubsPage() {
               Make it your club&apos;s.
             </h2>
             <p className="mt-6 max-w-2xl text-base leading-7 text-[#405b52] sm:text-lg sm:leading-8">
-              Courtside Kids can customize the collection with your club&apos;s logo, crest, or emblem—bringing a distinctive, elevated look to your junior assortment.
+              Courtside Kids can customize the collection with your club&apos;s logo, crest, or emblem, bringing a distinctive, elevated look to your junior assortment.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
