@@ -78,6 +78,30 @@ const lookbookSlides = [
     label: "The full collection",
     position: "center 45%",
   },
+  {
+    src: "/brands/courtside-kids/clubs/editorial/boys-tennis-court.webp",
+    alt: "Two boys wearing Courtside Kids performance apparel beside a tennis court",
+    label: "Between matches",
+    position: "center",
+  },
+  {
+    src: "/brands/courtside-kids/clubs/editorial/junior-tennis-team.webp",
+    alt: "Three boys in Courtside Kids tennis outfits standing at the net",
+    label: "Junior tennis",
+    position: "center",
+  },
+  {
+    src: "/brands/courtside-kids/clubs/editorial/girls-tennis-campaign.webp",
+    alt: "Girls in pastel Courtside Kids tennis outfits on a clay court",
+    label: "Girls' racquet",
+    position: "center",
+  },
+  {
+    src: "/brands/courtside-kids/clubs/editorial/boy-in-motion.webp",
+    alt: "Boy moving in a Courtside Kids polo and performance shorts",
+    label: "Made to move",
+    position: "center",
+  },
 ] as const;
 
 const faqs = [
@@ -113,79 +137,101 @@ export default function CourtsideKidsForClubsPage() {
     <div className="overflow-hidden bg-[#fbfaf6] text-[#112b24] selection:bg-[#b8dfce] selection:text-[#092f24]">
       <section className="relative isolate border-b border-[#0b513f]/10">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_5%,rgba(156,211,188,0.3),transparent_40%),linear-gradient(180deg,#f4f1e8_0%,#fbfaf6_100%)]" />
-        <div className="grid min-h-[calc(100svh-82px)] lg:grid-cols-[0.74fr_1.26fr]">
-          <div className="relative aspect-[5/4] w-full overflow-hidden bg-[#e5e2da] lg:order-2 lg:aspect-auto lg:min-h-[calc(100svh-82px)]">
-            <Image
-              src="/brands/courtside-kids/clubs/editorial/club-crew.webp"
-              alt="Boys and girls wearing coordinated Courtside Kids club attire"
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 63vw"
-              className="object-cover"
-              style={{ objectPosition: "center" }}
-            />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/78 via-[#082e24]/20 to-transparent px-5 pb-5 pt-24 text-white sm:px-7 sm:pb-7 lg:px-9 lg:pb-9">
-              <p className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/75">The complete junior collection</p>
-              <p className="mt-2 font-display text-2xl font-semibold sm:text-3xl">Golf. Tennis. Club days.</p>
+        <div className="mx-auto flex max-w-7xl flex-col px-4 py-9 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
+          <div className="order-2 grid gap-8 lg:order-1 lg:grid-cols-[1.02fr_0.98fr] lg:items-end lg:gap-16">
+            <div>
+              <p className="mb-5 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#0b7458]">
+                Courtside Kids × Buttercup Bebe
+              </p>
+              <Image
+                src="/brand-logos/courtside-kids.png"
+                alt="Courtside Kids"
+                width={478}
+                height={158}
+                priority
+                className="mb-6 h-auto w-[210px] sm:w-[245px]"
+              />
+              <h1 className="max-w-3xl font-display text-[3rem] font-semibold leading-[0.94] tracking-[-0.035em] text-[#0a382c] sm:text-[3.8rem] lg:text-[4.15rem]">
+                Kids&apos; activewear that earns its place in the shop.
+              </h1>
             </div>
-            <a
-              href="#golf-digest"
-              className="absolute right-4 top-4 rounded-full border border-white/70 bg-white/92 px-4 py-2 text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#0b513f] shadow-lg backdrop-blur transition hover:bg-white sm:right-6 sm:top-6"
-            >
-              Featured by Golf Digest
-            </a>
+
+            <div className="lg:pb-1">
+              <p className="max-w-xl text-base leading-7 text-[#4f625c] sm:text-lg sm:leading-8">
+                Courtside Kids pairs polished style with performance fabrics kids want to wear. It is an especially strong fit for golf shops, pro shops, and country club retail.
+              </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={buttonStyles({ variant: "club", size: "lg", className: "gap-2 normal-case" })}
+                >
+                  Talk to a representative <ArrowIcon />
+                </a>
+                <a
+                  href={COURTSIDE_WHOLESALE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={buttonStyles({
+                    variant: "secondary",
+                    size: "lg",
+                    className:
+                      "gap-2 border-[#0b513f]/35 bg-transparent normal-case text-[#0b513f] hover:border-[#0b513f] hover:bg-[#0b513f]",
+                  })}
+                >
+                  Order wholesale <ArrowIcon />
+                </a>
+              </div>
+            </div>
           </div>
 
-          <div className="relative z-10 flex items-center px-4 py-12 sm:px-8 sm:py-16 lg:order-1 lg:px-10 lg:py-20 xl:pl-[max(2.5rem,calc((100vw-80rem)/2))] xl:pr-14">
-            <div className="max-w-xl">
-            <p className="mb-6 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#0b7458]">
-              Courtside Kids × Buttercup Bebe
-            </p>
-            <Image
-              src="/brand-logos/courtside-kids.png"
-              alt="Courtside Kids"
-              width={478}
-              height={158}
-              priority
-              className="mb-7 h-auto w-[225px] sm:w-[270px]"
-            />
-            <h1 className="font-display text-[3.35rem] font-semibold leading-[0.92] tracking-[-0.035em] text-[#0a382c] sm:text-[4.3rem] lg:text-[4.25rem] xl:text-[4.75rem]">
-              Kids&apos; activewear that earns its place in the shop.
-            </h1>
-            <p className="mt-7 max-w-lg text-base leading-7 text-[#4f625c] sm:text-lg sm:leading-8">
-              Courtside Kids pairs polished style with performance fabrics kids want to wear. It is an especially strong fit for golf shops, pro shops, and country club retail.
-            </p>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={buttonStyles({ variant: "club", size: "lg", className: "gap-2 normal-case" })}
-              >
-                Talk to a representative <ArrowIcon />
-              </a>
-              <a
-                href={COURTSIDE_WHOLESALE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={buttonStyles({
-                  variant: "secondary",
-                  size: "lg",
-                  className:
-                    "gap-2 border-[#0b513f]/35 bg-transparent normal-case text-[#0b513f] hover:border-[#0b513f] hover:bg-[#0b513f]",
-                })}
-              >
-                Order wholesale <ArrowIcon />
-              </a>
-            </div>
-            </div>
+          <div className="order-1 mb-8 grid grid-cols-2 gap-3 lg:order-2 lg:mb-0 lg:mt-10 lg:h-[430px] lg:grid-cols-[1.08fr_0.92fr_0.92fr] lg:gap-4">
+            <figure className="group relative col-span-2 aspect-[5/4] overflow-hidden rounded-[1.5rem] bg-[#e5e2da] lg:col-span-1 lg:aspect-auto">
+              <Image
+                src="/brands/courtside-kids/clubs/editorial/club-crew.webp"
+                alt="Boys and girls wearing coordinated Courtside Kids club attire"
+                fill
+                priority
+                sizes="(max-width: 1024px) 92vw, 37vw"
+                className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/72 via-transparent to-transparent px-5 pb-5 pt-20 text-white">
+                <figcaption className="text-[0.63rem] font-bold uppercase tracking-[0.16em]">The club edit</figcaption>
+              </div>
+            </figure>
+            <figure className="group relative aspect-[3/4] overflow-hidden rounded-[1.5rem] bg-[#e5e2da] lg:aspect-auto">
+              <Image
+                src="/brands/courtside-kids/clubs/editorial/junior-golf-swing.webp"
+                alt="Boy in Courtside Kids apparel swinging a golf club"
+                fill
+                priority
+                sizes="(max-width: 1024px) 45vw, 31vw"
+                className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/72 via-transparent to-transparent px-5 pb-5 pt-20 text-white">
+                <figcaption className="text-[0.63rem] font-bold uppercase tracking-[0.16em]">Golf</figcaption>
+              </div>
+            </figure>
+            <figure className="group relative aspect-[3/4] overflow-hidden rounded-[1.5rem] bg-[#e5e2da] lg:aspect-auto">
+              <Image
+                src="/brands/courtside-kids/clubs/editorial/girls-tennis.webp"
+                alt="Girls in Courtside Kids tennis outfits beside a racquet"
+                fill
+                priority
+                sizes="(max-width: 1024px) 45vw, 31vw"
+                className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/72 via-transparent to-transparent px-5 pb-5 pt-20 text-white">
+                <figcaption className="text-[0.63rem] font-bold uppercase tracking-[0.16em]">Tennis</figcaption>
+              </div>
+            </figure>
           </div>
         </div>
       </section>
 
       <section id="golf-digest" className="scroll-mt-24 border-b border-[#0b513f]/10 bg-white">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.76fr_1.24fr] lg:items-center lg:gap-16 lg:px-10 lg:py-24">
+        <div className="mx-auto grid max-w-7xl gap-9 px-4 py-12 sm:px-6 sm:py-14 lg:grid-cols-[0.76fr_1.24fr] lg:items-center lg:gap-14 lg:px-10 lg:py-16">
           <div className="mx-auto w-full max-w-[440px] overflow-hidden rounded-[1.5rem] border border-[#0b513f]/10 bg-[#f4f1e9] p-2 shadow-[0_22px_60px_rgba(17,43,36,0.1)] lg:mx-0">
             <Image
               src="/brands/courtside-kids/clubs/golf-digest-feature.png"
@@ -197,9 +243,8 @@ export default function CourtsideKidsForClubsPage() {
           </div>
 
           <div className="max-w-2xl">
-            <p className="text-[0.66rem] font-bold uppercase tracking-[0.2em] text-[#168466]">Featured by Golf Digest</p>
-            <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.01] text-[#0a382c] sm:text-6xl">
-              One of seven great products for the youngest golfers.
+            <h2 className="font-display text-4xl font-semibold leading-[1.01] text-[#0a382c] sm:text-6xl">
+              Featured by Golf Digest
             </h2>
             <p className="mt-6 text-base leading-7 text-[#556861] sm:text-lg sm:leading-8">
               Golf Digest highlighted Courtside Kids for its quality, versatility, and ability to keep up both on and off the course.
@@ -216,8 +261,8 @@ export default function CourtsideKidsForClubsPage() {
         </div>
       </section>
 
-      <section id="lookbook" className="py-20 sm:py-24 lg:py-28">
-        <div className="mx-auto mb-10 grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:px-10">
+      <section id="lookbook" className="py-14 sm:py-16 lg:py-20">
+        <div className="mx-auto mb-8 grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:px-10">
           <div>
             <p className="text-[0.66rem] font-bold uppercase tracking-[0.2em] text-[#168466]">The collection</p>
             <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.02] text-[#0a382c] sm:text-5xl">From first tee to match point.</h2>
@@ -229,7 +274,7 @@ export default function CourtsideKidsForClubsPage() {
 
         <ClubLookbookCarousel slides={lookbookSlides} />
 
-        <div className="mx-auto mt-16 grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-6 lg:px-10">
+        <div className="mx-auto mt-12 grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-6 lg:px-10">
           <ClubCampaignVideo />
 
           <div className="grid gap-5 sm:grid-cols-2 sm:grid-rows-[1fr_1fr] lg:gap-6">
@@ -277,16 +322,19 @@ export default function CourtsideKidsForClubsPage() {
       </section>
 
       <section className="border-y border-[#0b513f]/10 bg-[#dfeee6]">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16 lg:px-10 lg:py-24">
+        <div className="mx-auto grid max-w-7xl gap-9 px-4 py-12 sm:px-6 sm:py-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-14 lg:px-10 lg:py-16">
           <figure className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] bg-[#e7e3dc] shadow-[0_26px_65px_rgba(17,43,36,0.12)] lg:aspect-[4/4.2]">
             <Image
-              src="/brands/courtside-kids/clubs/gallery/khaki-short-logo.jpg"
-              alt="Close-up of Courtside Kids performance shorts with embroidered branding"
+              src="/brands/courtside-kids/clubs/editorial/embroiderable-polo.webp"
+              alt="Close-up of a Courtside Kids polo suitable for custom club embroidery"
               fill
               sizes="(max-width: 1024px) 92vw, 42vw"
               className="object-cover"
               style={{ objectPosition: "center" }}
             />
+            <figcaption className="absolute bottom-4 left-4 rounded-full bg-[#0a382c]/88 px-4 py-2 text-[0.62rem] font-bold uppercase tracking-[0.15em] text-white backdrop-blur sm:bottom-6 sm:left-6">
+              Club-logo embroidery available
+            </figcaption>
           </figure>
 
           <div>
@@ -295,7 +343,7 @@ export default function CourtsideKidsForClubsPage() {
               Make it your club&apos;s.
             </h2>
             <p className="mt-6 max-w-2xl text-base leading-7 text-[#405b52] sm:text-lg sm:leading-8">
-              Courtside Kids already provides custom embroidery for club partners. We can help identify eligible styles and coordinate placement, minimums, and timing.
+              Courtside Kids can add your club logo to select polos and tops, creating a polished junior assortment made specifically for your shop.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
@@ -322,7 +370,7 @@ export default function CourtsideKidsForClubsPage() {
       </section>
 
       <section className="bg-[#f4f1e9]">
-        <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.72fr_1.28fr] lg:px-10 lg:py-24">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 sm:py-14 lg:grid-cols-[0.72fr_1.28fr] lg:px-10 lg:py-16">
           <div>
             <p className="text-[0.66rem] font-bold uppercase tracking-[0.2em] text-[#168466]">Buyer FAQ</p>
             <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.02] text-[#0a382c] sm:text-5xl">A few useful details.</h2>
@@ -351,7 +399,7 @@ export default function CourtsideKidsForClubsPage() {
 
       <section className="relative isolate overflow-hidden bg-[#0a382c] text-white">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_80%_20%,rgba(77,177,139,0.25),transparent_35%)]" />
-        <div className="mx-auto max-w-5xl px-4 py-20 text-center sm:px-6 sm:py-24 lg:py-28">
+        <div className="mx-auto max-w-5xl px-4 py-16 text-center sm:px-6 sm:py-20">
           <p className="text-[0.66rem] font-bold uppercase tracking-[0.2em] text-[#9cd3bc]">Courtside Kids × Buttercup Bebe</p>
           <h2 className="mx-auto mt-5 max-w-4xl font-display text-4xl font-semibold leading-[0.98] sm:text-6xl">Interested in Courtside Kids?</h2>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/70">

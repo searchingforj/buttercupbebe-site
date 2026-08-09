@@ -30,14 +30,18 @@ function Arrow({ direction }: { direction: "previous" | "next" }) {
 
 export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const scrollFrameRef = useRef<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   function scrollToSlide(index: number) {
-    const nextIndex = (index + slides.length) % slides.length;
+    const nextIndex = Math.max(0, Math.min(index, slides.length - 1));
     const track = trackRef.current;
     const slide = track?.children[nextIndex] as HTMLElement | undefined;
+    if (!track || !slide) return;
 
-    slide?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    const centeredPosition = slide.offsetLeft - (track.clientWidth - slide.offsetWidth) / 2;
+    track.scrollTo({ left: Math.max(0, Math.min(centeredPosition, maxScroll)), behavior: "smooth" });
     setActiveIndex(nextIndex);
   }
 
@@ -45,25 +49,19 @@ export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
     const track = trackRef.current;
     if (!track) return;
 
-    if (track.scrollLeft <= 4) {
-      setActiveIndex(0);
-      return;
-    }
+    if (scrollFrameRef.current !== null) cancelAnimationFrame(scrollFrameRef.current);
+    scrollFrameRef.current = requestAnimationFrame(() => {
+      const trackCenter = track.scrollLeft + track.clientWidth / 2;
+      const slidesArray = Array.from(track.children) as HTMLElement[];
+      const closestIndex = slidesArray.reduce((closest, slide, index) => {
+        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+        const closestCenter = slidesArray[closest].offsetLeft + slidesArray[closest].offsetWidth / 2;
+        return Math.abs(slideCenter - trackCenter) < Math.abs(closestCenter - trackCenter) ? index : closest;
+      }, 0);
 
-    if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 4) {
-      setActiveIndex(slides.length - 1);
-      return;
-    }
-
-    const trackCenter = track.scrollLeft + track.clientWidth / 2;
-    const slidesArray = Array.from(track.children) as HTMLElement[];
-    const closestIndex = slidesArray.reduce((closest, slide, index) => {
-      const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
-      const closestCenter = slidesArray[closest].offsetLeft + slidesArray[closest].offsetWidth / 2;
-      return Math.abs(slideCenter - trackCenter) < Math.abs(closestCenter - trackCenter) ? index : closest;
-    }, 0);
-
-    setActiveIndex(closestIndex);
+      setActiveIndex(closestIndex);
+      scrollFrameRef.current = null;
+    });
   }
 
   return (
@@ -93,18 +91,15 @@ export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
         ))}
       </div>
 
-      <div className="mx-auto mt-5 flex max-w-7xl items-center justify-between gap-5 px-4 sm:px-6 lg:px-10">
-        <div className="flex items-center gap-2" aria-label={`Slide ${activeIndex + 1} of ${slides.length}`}>
-          {slides.map((slide, index) => (
-            <button
-              key={slide.src}
-              type="button"
-              onClick={() => scrollToSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-              aria-current={activeIndex === index ? "true" : undefined}
-              className={`h-1.5 rounded-full transition-all ${activeIndex === index ? "w-8 bg-[#0b513f]" : "w-1.5 bg-[#0b513f]/25 hover:bg-[#0b513f]/50"}`}
-            />
-          ))}
+      <div className="mx-auto mt-5 flex max-w-7xl items-center gap-5 px-4 sm:px-6 lg:px-10">
+        <p className="w-12 shrink-0 text-xs font-bold tabular-nums text-[#0b513f]" aria-live="polite">
+          {String(activeIndex + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
+        </p>
+        <div className="h-px flex-1 overflow-hidden bg-[#0b513f]/18" aria-hidden="true">
+          <div
+            className="h-full origin-left bg-[#0b513f] transition-[width] duration-300"
+            style={{ width: `${((activeIndex + 1) / slides.length) * 100}%` }}
+          />
         </div>
 
         <div className="flex gap-2">
@@ -112,7 +107,8 @@ export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
             type="button"
             onClick={() => scrollToSlide(activeIndex - 1)}
             aria-label="Previous slide"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#0b513f]/20 text-[#0b513f] transition hover:border-[#0b513f] hover:bg-[#0b513f] hover:text-white"
+            disabled={activeIndex === 0}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#0b513f]/20 text-[#0b513f] transition hover:border-[#0b513f] hover:bg-[#0b513f] hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-[#0b513f]/20 disabled:hover:bg-transparent disabled:hover:text-[#0b513f]"
           >
             <Arrow direction="previous" />
           </button>
@@ -120,7 +116,8 @@ export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
             type="button"
             onClick={() => scrollToSlide(activeIndex + 1)}
             aria-label="Next slide"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#0b513f]/20 text-[#0b513f] transition hover:border-[#0b513f] hover:bg-[#0b513f] hover:text-white"
+            disabled={activeIndex === slides.length - 1}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#0b513f]/20 text-[#0b513f] transition hover:border-[#0b513f] hover:bg-[#0b513f] hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-[#0b513f]/20 disabled:hover:bg-transparent disabled:hover:text-[#0b513f]"
           >
             <Arrow direction="next" />
           </button>
