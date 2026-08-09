@@ -71,10 +71,10 @@ export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
         onScroll={updateActiveSlide}
         className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-[max(1rem,calc((100vw-80rem)/2))] pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-5"
       >
-        {slides.map((slide) => (
+        {slides.map((slide, index) => (
           <figure
             key={slide.src}
-            className="group relative aspect-[4/5] w-[78vw] max-w-[410px] shrink-0 snap-center overflow-hidden rounded-[1.5rem] bg-[#e8e5de] sm:w-[44vw] lg:w-[31vw]"
+            className="group relative aspect-[4/5] w-[78vw] max-w-[410px] shrink-0 snap-center overflow-hidden border border-[#0b513f]/14 bg-[#e8e5de] sm:w-[44vw] lg:w-[31vw]"
           >
             <Image
               src={slide.src}
@@ -84,9 +84,10 @@ export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
               className="object-cover transition duration-700 ease-out group-hover:scale-[1.025]"
               style={{ objectPosition: slide.position ?? "center" }}
             />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/75 via-[#082e24]/20 to-transparent px-5 pb-5 pt-20 text-white">
-              <figcaption className="text-xs font-bold uppercase tracking-[0.16em]">{slide.label}</figcaption>
-            </div>
+            <figcaption className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-[#0b513f]/12 bg-[#f7f6f1]/94 px-4 py-3 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[#0a382c] backdrop-blur">
+              <span>{slide.label}</span>
+              <span className="text-[#0b7458]">{String(index + 1).padStart(2, "0")}</span>
+            </figcaption>
           </figure>
         ))}
       </div>
@@ -108,7 +109,7 @@ export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
             onClick={() => scrollToSlide(activeIndex - 1)}
             aria-label="Previous slide"
             disabled={activeIndex === 0}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#0b513f]/20 text-[#0b513f] transition hover:border-[#0b513f] hover:bg-[#0b513f] hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-[#0b513f]/20 disabled:hover:bg-transparent disabled:hover:text-[#0b513f]"
+            className="flex h-11 w-11 items-center justify-center border border-[#0b513f]/20 text-[#0b513f] transition hover:border-[#0b513f] hover:bg-[#0b513f] hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-[#0b513f]/20 disabled:hover:bg-transparent disabled:hover:text-[#0b513f]"
           >
             <Arrow direction="previous" />
           </button>
@@ -117,7 +118,7 @@ export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
             onClick={() => scrollToSlide(activeIndex + 1)}
             aria-label="Next slide"
             disabled={activeIndex === slides.length - 1}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#0b513f]/20 text-[#0b513f] transition hover:border-[#0b513f] hover:bg-[#0b513f] hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-[#0b513f]/20 disabled:hover:bg-transparent disabled:hover:text-[#0b513f]"
+            className="flex h-11 w-11 items-center justify-center border border-[#0b513f]/20 text-[#0b513f] transition hover:border-[#0b513f] hover:bg-[#0b513f] hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-[#0b513f]/20 disabled:hover:bg-transparent disabled:hover:text-[#0b513f]"
           >
             <Arrow direction="next" />
           </button>

@@ -41,7 +41,7 @@ export function ClubCampaignVideo() {
   }
 
   return (
-    <figure className="group relative aspect-[2/3] overflow-hidden rounded-[1.75rem] bg-[#0a382c] shadow-[0_28px_70px_rgba(17,43,36,0.17)]">
+    <figure className="group relative aspect-[2/3] overflow-hidden border border-[#0b513f]/14 bg-[#0a382c]">
       <video
         ref={videoRef}
         autoPlay
@@ -65,7 +65,7 @@ export function ClubCampaignVideo() {
         type="button"
         onClick={togglePlayback}
         aria-label={isPlaying ? "Pause campaign video" : "Play campaign video"}
-        className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/35 bg-[#082e24]/65 text-white backdrop-blur transition hover:bg-[#082e24] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center border border-white/35 bg-[#082e24]/65 text-white backdrop-blur transition hover:bg-[#082e24] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
       >
         {isPlaying ? <PauseIcon /> : <PlayIcon />}
       </button>

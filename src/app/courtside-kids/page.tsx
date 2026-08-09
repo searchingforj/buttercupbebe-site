@@ -113,7 +113,7 @@ const faqs = [
   {
     question: "Can Courtside Kids add our club logo?",
     answer:
-      "Yes. Custom club embroidery is available on select styles. Contact our team to discuss eligible products, placement, minimums, and timing.",
+      "Yes. Courtside Kids can embroider your club's logo, crest, or emblem to create a distinctive custom assortment. Contact our team to discuss the details, minimums, and timing.",
   },
   {
     question: "Can I order directly online?",
@@ -134,15 +134,17 @@ export default function CourtsideKidsForClubsPage() {
   const inquiryEmail = `mailto:${CONTACT_EMAIL}?subject=Courtside%20Kids%20for%20our%20club`;
 
   return (
-    <div className="overflow-hidden bg-[#fbfaf6] text-[#112b24] selection:bg-[#b8dfce] selection:text-[#092f24]">
+    <div className="overflow-hidden bg-[#f7f6f1] text-[#112b24] selection:bg-[#b8dfce] selection:text-[#092f24]">
       <section className="relative isolate border-b border-[#0b513f]/10">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_5%,rgba(156,211,188,0.3),transparent_40%),linear-gradient(180deg,#f4f1e8_0%,#fbfaf6_100%)]" />
+        <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(11,81,63,0.045)_1px,transparent_1px),linear-gradient(180deg,#eef2e9_0%,#f7f6f1_62%)] bg-[size:25%_100%,100%_100%]" />
         <div className="mx-auto flex max-w-7xl flex-col px-4 py-9 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
           <div className="order-2 grid gap-8 lg:order-1 lg:grid-cols-[1.02fr_0.98fr] lg:items-end lg:gap-16">
             <div>
-              <p className="mb-5 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#0b7458]">
-                Courtside Kids × Buttercup Bebe
-              </p>
+              <div className="mb-5 flex items-center gap-3 text-[0.62rem] font-bold uppercase tracking-[0.2em] text-[#0b7458]">
+                <span>01</span>
+                <span className="h-px w-10 bg-[#0b7458]/55" />
+                <span>Courtside Kids × Buttercup Bebe</span>
+              </div>
               <Image
                 src="/brand-logos/courtside-kids.png"
                 alt="Courtside Kids"
@@ -165,7 +167,7 @@ export default function CourtsideKidsForClubsPage() {
                   href={BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={buttonStyles({ variant: "club", size: "lg", className: "gap-2 normal-case" })}
+                  className={buttonStyles({ variant: "club", size: "lg", className: "gap-2 !rounded-none normal-case" })}
                 >
                   Talk to a representative <ArrowIcon />
                 </a>
@@ -177,7 +179,7 @@ export default function CourtsideKidsForClubsPage() {
                     variant: "secondary",
                     size: "lg",
                     className:
-                      "gap-2 border-[#0b513f]/35 bg-transparent normal-case text-[#0b513f] hover:border-[#0b513f] hover:bg-[#0b513f]",
+                      "gap-2 !rounded-none border-[#0b513f]/35 bg-transparent normal-case text-[#0b513f] hover:border-[#0b513f] hover:bg-[#0b513f]",
                   })}
                 >
                   Order wholesale <ArrowIcon />
@@ -186,8 +188,8 @@ export default function CourtsideKidsForClubsPage() {
             </div>
           </div>
 
-          <div className="order-1 mb-8 grid grid-cols-2 gap-3 lg:order-2 lg:mb-0 lg:mt-10 lg:h-[430px] lg:grid-cols-[1.08fr_0.92fr_0.92fr] lg:gap-4">
-            <figure className="group relative col-span-2 aspect-[5/4] overflow-hidden rounded-[1.5rem] bg-[#e5e2da] lg:col-span-1 lg:aspect-auto">
+          <div className="order-1 mb-8 grid grid-cols-2 gap-px border border-[#0b513f]/18 bg-[#0b513f]/18 lg:order-2 lg:mb-0 lg:mt-10 lg:h-[440px] lg:grid-cols-[1.08fr_0.92fr_0.92fr]">
+            <figure className="group relative col-span-2 aspect-[5/4] overflow-hidden bg-[#e5e2da] lg:col-span-1 lg:aspect-auto">
               <Image
                 src="/brands/courtside-kids/clubs/editorial/club-crew.webp"
                 alt="Boys and girls wearing coordinated Courtside Kids club attire"
@@ -196,11 +198,11 @@ export default function CourtsideKidsForClubsPage() {
                 sizes="(max-width: 1024px) 92vw, 37vw"
                 className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/72 via-transparent to-transparent px-5 pb-5 pt-20 text-white">
-                <figcaption className="text-[0.63rem] font-bold uppercase tracking-[0.16em]">The club edit</figcaption>
-              </div>
+              <figcaption className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-[#f7f6f1]/94 px-4 py-3 text-[0.6rem] font-bold uppercase tracking-[0.16em] text-[#0a382c] backdrop-blur">
+                <span>The club edit</span><span className="text-[#0b7458]">01 / 03</span>
+              </figcaption>
             </figure>
-            <figure className="group relative aspect-[3/4] overflow-hidden rounded-[1.5rem] bg-[#e5e2da] lg:aspect-auto">
+            <figure className="group relative aspect-[3/4] overflow-hidden bg-[#e5e2da] lg:aspect-auto">
               <Image
                 src="/brands/courtside-kids/clubs/editorial/junior-golf-swing.webp"
                 alt="Boy in Courtside Kids apparel swinging a golf club"
@@ -209,11 +211,11 @@ export default function CourtsideKidsForClubsPage() {
                 sizes="(max-width: 1024px) 45vw, 31vw"
                 className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/72 via-transparent to-transparent px-5 pb-5 pt-20 text-white">
-                <figcaption className="text-[0.63rem] font-bold uppercase tracking-[0.16em]">Golf</figcaption>
-              </div>
+              <figcaption className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-[#f7f6f1]/94 px-4 py-3 text-[0.6rem] font-bold uppercase tracking-[0.16em] text-[#0a382c] backdrop-blur">
+                <span>Golf</span><span className="text-[#0b7458]">02 / 03</span>
+              </figcaption>
             </figure>
-            <figure className="group relative aspect-[3/4] overflow-hidden rounded-[1.5rem] bg-[#e5e2da] lg:aspect-auto">
+            <figure className="group relative aspect-[3/4] overflow-hidden bg-[#e5e2da] lg:aspect-auto">
               <Image
                 src="/brands/courtside-kids/clubs/editorial/girls-tennis.webp"
                 alt="Girls in Courtside Kids tennis outfits beside a racquet"
@@ -222,9 +224,9 @@ export default function CourtsideKidsForClubsPage() {
                 sizes="(max-width: 1024px) 45vw, 31vw"
                 className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/72 via-transparent to-transparent px-5 pb-5 pt-20 text-white">
-                <figcaption className="text-[0.63rem] font-bold uppercase tracking-[0.16em]">Tennis</figcaption>
-              </div>
+              <figcaption className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-[#f7f6f1]/94 px-4 py-3 text-[0.6rem] font-bold uppercase tracking-[0.16em] text-[#0a382c] backdrop-blur">
+                <span>Tennis</span><span className="text-[#0b7458]">03 / 03</span>
+              </figcaption>
             </figure>
           </div>
         </div>
@@ -232,17 +234,20 @@ export default function CourtsideKidsForClubsPage() {
 
       <section id="golf-digest" className="scroll-mt-24 border-b border-[#0b513f]/10 bg-white">
         <div className="mx-auto grid max-w-7xl gap-9 px-4 py-12 sm:px-6 sm:py-14 lg:grid-cols-[0.76fr_1.24fr] lg:items-center lg:gap-14 lg:px-10 lg:py-16">
-          <div className="mx-auto w-full max-w-[440px] overflow-hidden rounded-[1.5rem] border border-[#0b513f]/10 bg-[#f4f1e9] p-2 shadow-[0_22px_60px_rgba(17,43,36,0.1)] lg:mx-0">
+          <div className="mx-auto w-full max-w-[440px] overflow-hidden border border-[#0b513f]/18 bg-[#f4f1e9] lg:mx-0">
             <Image
               src="/brands/courtside-kids/clubs/golf-digest-feature.png"
               alt="Courtside Kids announcement celebrating its Golf Digest feature"
               width={1194}
               height={1584}
-              className="h-auto w-full rounded-[1.1rem]"
+              className="h-auto w-full"
             />
           </div>
 
-          <div className="max-w-2xl">
+          <div className="max-w-2xl lg:border-l lg:border-[#0b513f]/18 lg:py-5 lg:pl-12">
+            <div className="mb-5 flex items-center gap-3 text-[0.62rem] font-bold uppercase tracking-[0.2em] text-[#168466]">
+              <span>02</span><span className="h-px w-10 bg-[#168466]/55" /><span>Press note</span>
+            </div>
             <h2 className="font-display text-4xl font-semibold leading-[1.01] text-[#0a382c] sm:text-6xl">
               Featured by Golf Digest
             </h2>
@@ -253,7 +258,7 @@ export default function CourtsideKidsForClubsPage() {
               href={GOLF_DIGEST_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#0b513f] underline decoration-[#0b513f]/25 underline-offset-4 hover:decoration-[#0b513f]"
+              className="mt-7 inline-flex items-center gap-2 border-b border-[#0b513f] pb-1 text-sm font-bold text-[#0b513f] transition hover:gap-3"
             >
               Read the Golf Digest feature <ArrowIcon />
             </a>
@@ -264,7 +269,9 @@ export default function CourtsideKidsForClubsPage() {
       <section id="lookbook" className="py-14 sm:py-16 lg:py-20">
         <div className="mx-auto mb-8 grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:px-10">
           <div>
-            <p className="text-[0.66rem] font-bold uppercase tracking-[0.2em] text-[#168466]">The collection</p>
+            <div className="flex items-center gap-3 text-[0.62rem] font-bold uppercase tracking-[0.2em] text-[#168466]">
+              <span>03</span><span className="h-px w-10 bg-[#168466]/55" /><span>The collection</span>
+            </div>
             <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.02] text-[#0a382c] sm:text-5xl">From first tee to match point.</h2>
           </div>
           <p className="max-w-xl text-base leading-7 text-[#556861] lg:justify-self-end">
@@ -278,7 +285,7 @@ export default function CourtsideKidsForClubsPage() {
           <ClubCampaignVideo />
 
           <div className="grid gap-5 sm:grid-cols-2 sm:grid-rows-[1fr_1fr] lg:gap-6">
-            <figure className="group relative min-h-[340px] overflow-hidden rounded-[1.75rem] bg-[#e7e3dc] sm:col-span-2 sm:min-h-0">
+            <figure className="group relative min-h-[340px] overflow-hidden bg-[#e7e3dc] sm:col-span-2 sm:min-h-0">
               <Image
                 src="/brands/courtside-kids/clubs/editorial/summer-club-crew.webp"
                 alt="Boys and girls wearing coordinated Courtside Kids activewear"
@@ -291,7 +298,7 @@ export default function CourtsideKidsForClubsPage() {
                 <figcaption className="font-display text-3xl font-semibold">A complete junior assortment.</figcaption>
               </div>
             </figure>
-            <figure className="group relative min-h-[380px] overflow-hidden rounded-[1.75rem] bg-[#e7e3dc] sm:min-h-0">
+            <figure className="group relative min-h-[380px] overflow-hidden bg-[#e7e3dc] sm:min-h-0">
               <Image
                 src="/brands/courtside-kids/clubs/editorial/traditions-golf-boy.webp"
                 alt="Boy wearing a green Courtside Kids golf-print set"
@@ -304,7 +311,7 @@ export default function CourtsideKidsForClubsPage() {
                 <figcaption className="text-[0.65rem] font-bold uppercase tracking-[0.16em]">Golf-ready</figcaption>
               </div>
             </figure>
-            <figure className="group relative min-h-[380px] overflow-hidden rounded-[1.75rem] bg-[#e7e3dc] sm:min-h-0">
+            <figure className="group relative min-h-[380px] overflow-hidden bg-[#e7e3dc] sm:min-h-0">
               <Image
                 src="/brands/courtside-kids/clubs/editorial/girls-tennis.webp"
                 alt="Girls wearing Courtside Kids tennis outfits"
@@ -323,34 +330,36 @@ export default function CourtsideKidsForClubsPage() {
 
       <section className="border-y border-[#0b513f]/10 bg-[#dfeee6]">
         <div className="mx-auto grid max-w-7xl gap-9 px-4 py-12 sm:px-6 sm:py-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-14 lg:px-10 lg:py-16">
-          <figure className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] bg-[#e7e3dc] shadow-[0_26px_65px_rgba(17,43,36,0.12)] lg:aspect-[4/4.2]">
+          <figure className="relative aspect-[4/3] overflow-hidden border border-[#0b513f]/18 bg-[#e7e3dc] lg:aspect-[4/4.2]">
             <Image
               src="/brands/courtside-kids/clubs/editorial/embroiderable-polo.webp"
-              alt="Close-up of a Courtside Kids polo suitable for custom club embroidery"
+              alt="Close-up of a blue Courtside Kids polo"
               fill
               sizes="(max-width: 1024px) 92vw, 42vw"
               className="object-cover"
               style={{ objectPosition: "center" }}
             />
-            <figcaption className="absolute bottom-4 left-4 rounded-full bg-[#0a382c]/88 px-4 py-2 text-[0.62rem] font-bold uppercase tracking-[0.15em] text-white backdrop-blur sm:bottom-6 sm:left-6">
-              Club-logo embroidery available
+            <figcaption className="absolute bottom-0 left-0 bg-[#0a382c] px-5 py-3 text-[0.62rem] font-bold uppercase tracking-[0.15em] text-white sm:px-6">
+              Add your club crest
             </figcaption>
           </figure>
 
           <div>
-            <p className="text-[0.66rem] font-bold uppercase tracking-[0.2em] text-[#0b7458]">Custom club embroidery</p>
+            <div className="flex items-center gap-3 text-[0.62rem] font-bold uppercase tracking-[0.2em] text-[#0b7458]">
+              <span>04</span><span className="h-px w-10 bg-[#0b7458]/55" /><span>Custom club embroidery</span>
+            </div>
             <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold leading-[0.99] text-[#0a382c] sm:text-6xl">
               Make it your club&apos;s.
             </h2>
             <p className="mt-6 max-w-2xl text-base leading-7 text-[#405b52] sm:text-lg sm:leading-8">
-              Courtside Kids can add your club logo to select polos and tops, creating a polished junior assortment made specifically for your shop.
+              Courtside Kids can customize the collection with your club&apos;s logo, crest, or emblem—bringing a distinctive, elevated look to your junior assortment.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href={BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={buttonStyles({ variant: "club", size: "lg", className: "gap-2 normal-case" })}
+                className={buttonStyles({ variant: "club", size: "lg", className: "gap-2 !rounded-none normal-case" })}
               >
                 Talk to a representative <ArrowIcon />
               </a>
@@ -359,7 +368,7 @@ export default function CourtsideKidsForClubsPage() {
                 className={buttonStyles({
                   variant: "secondary",
                   size: "lg",
-                  className: "border-[#0b513f]/30 bg-white/70 normal-case text-[#0b513f] hover:bg-[#0b513f]",
+                  className: "!rounded-none border-[#0b513f]/30 bg-white/70 normal-case text-[#0b513f] hover:bg-[#0b513f]",
                 })}
               >
                 Email our team
@@ -372,7 +381,9 @@ export default function CourtsideKidsForClubsPage() {
       <section className="bg-[#f4f1e9]">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 sm:py-14 lg:grid-cols-[0.72fr_1.28fr] lg:px-10 lg:py-16">
           <div>
-            <p className="text-[0.66rem] font-bold uppercase tracking-[0.2em] text-[#168466]">Buyer FAQ</p>
+            <div className="flex items-center gap-3 text-[0.62rem] font-bold uppercase tracking-[0.2em] text-[#168466]">
+              <span>05</span><span className="h-px w-10 bg-[#168466]/55" /><span>Buyer FAQ</span>
+            </div>
             <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.02] text-[#0a382c] sm:text-5xl">A few useful details.</h2>
             <p className="mt-5 max-w-md text-sm leading-6 text-[#556861]">
               Have another question? Email us at{" "}
@@ -382,7 +393,7 @@ export default function CourtsideKidsForClubsPage() {
 
           <div className="divide-y divide-[#0b513f]/12 border-y border-[#0b513f]/12">
             {faqs.map((faq) => (
-              <details key={faq.question} className="group py-5">
+              <details key={faq.question} className="group py-6">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-display text-xl font-semibold text-[#0a382c] marker:hidden sm:text-2xl">
                   {faq.question}
                   <span className="relative h-5 w-5 shrink-0 text-[#0b513f]">
@@ -410,7 +421,7 @@ export default function CourtsideKidsForClubsPage() {
               href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className={buttonStyles({ variant: "light", size: "lg", className: "gap-2 normal-case" })}
+              className={buttonStyles({ variant: "light", size: "lg", className: "gap-2 !rounded-none normal-case" })}
             >
               Talk to a representative <ArrowIcon />
             </a>
@@ -418,7 +429,7 @@ export default function CourtsideKidsForClubsPage() {
               href={COURTSIDE_WHOLESALE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className={buttonStyles({ variant: "glass", size: "lg", className: "gap-2 normal-case" })}
+              className={buttonStyles({ variant: "glass", size: "lg", className: "gap-2 !rounded-none normal-case" })}
             >
               Order wholesale <ArrowIcon />
             </a>
