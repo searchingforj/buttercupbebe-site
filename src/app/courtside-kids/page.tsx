@@ -113,8 +113,31 @@ export default function CourtsideKidsForClubsPage() {
     <div className="overflow-hidden bg-[#fbfaf6] text-[#112b24] selection:bg-[#b8dfce] selection:text-[#092f24]">
       <section className="relative isolate border-b border-[#0b513f]/10">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_5%,rgba(156,211,188,0.3),transparent_40%),linear-gradient(180deg,#f4f1e8_0%,#fbfaf6_100%)]" />
-        <div className="mx-auto grid min-h-[calc(100svh-82px)] max-w-7xl items-center gap-12 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:px-10 lg:py-20">
-          <div className="relative z-10 max-w-xl">
+        <div className="grid min-h-[calc(100svh-82px)] lg:grid-cols-[0.74fr_1.26fr]">
+          <div className="relative aspect-[5/4] w-full overflow-hidden bg-[#e5e2da] lg:order-2 lg:aspect-auto lg:min-h-[calc(100svh-82px)]">
+            <Image
+              src="/brands/courtside-kids/clubs/editorial/club-crew.webp"
+              alt="Boys and girls wearing coordinated Courtside Kids club attire"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 63vw"
+              className="object-cover"
+              style={{ objectPosition: "center" }}
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/78 via-[#082e24]/20 to-transparent px-5 pb-5 pt-24 text-white sm:px-7 sm:pb-7 lg:px-9 lg:pb-9">
+              <p className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/75">The complete junior collection</p>
+              <p className="mt-2 font-display text-2xl font-semibold sm:text-3xl">Golf. Tennis. Club days.</p>
+            </div>
+            <a
+              href="#golf-digest"
+              className="absolute right-4 top-4 rounded-full border border-white/70 bg-white/92 px-4 py-2 text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#0b513f] shadow-lg backdrop-blur transition hover:bg-white sm:right-6 sm:top-6"
+            >
+              Featured by Golf Digest
+            </a>
+          </div>
+
+          <div className="relative z-10 flex items-center px-4 py-12 sm:px-8 sm:py-16 lg:order-1 lg:px-10 lg:py-20 xl:pl-[max(2.5rem,calc((100vw-80rem)/2))] xl:pr-14">
+            <div className="max-w-xl">
             <p className="mb-6 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#0b7458]">
               Courtside Kids × Buttercup Bebe
             </p>
@@ -124,9 +147,9 @@ export default function CourtsideKidsForClubsPage() {
               width={478}
               height={158}
               priority
-              className="mb-7 h-auto w-[235px] sm:w-[285px]"
+              className="mb-7 h-auto w-[225px] sm:w-[270px]"
             />
-            <h1 className="font-display text-[3.35rem] font-semibold leading-[0.92] tracking-[-0.035em] text-[#0a382c] sm:text-[4.55rem] lg:text-[5.15rem]">
+            <h1 className="font-display text-[3.35rem] font-semibold leading-[0.92] tracking-[-0.035em] text-[#0a382c] sm:text-[4.3rem] lg:text-[4.25rem] xl:text-[4.75rem]">
               Kids&apos; activewear that earns its place in the shop.
             </h1>
             <p className="mt-7 max-w-lg text-base leading-7 text-[#4f625c] sm:text-lg sm:leading-8">
@@ -156,46 +179,7 @@ export default function CourtsideKidsForClubsPage() {
                 Order wholesale <ArrowIcon />
               </a>
             </div>
-          </div>
-
-          <div className="relative mx-auto h-[510px] w-full max-w-[650px] sm:h-[650px] lg:mx-0 lg:h-[690px]">
-            <figure className="absolute left-0 top-[7%] h-[86%] w-[64%] overflow-hidden rounded-[1.8rem] bg-[#e5e2da] shadow-[0_34px_90px_rgba(17,43,36,0.18)]">
-              <Image
-                src="/brands/courtside-kids/clubs/editorial/junior-golf-swing.webp"
-                alt="Young golfer swinging in a Courtside Kids polo and shorts"
-                fill
-                priority
-                sizes="(max-width: 1024px) 60vw, 35vw"
-                className="object-cover"
-                style={{ objectPosition: "center" }}
-              />
-            </figure>
-            <figure className="absolute right-0 top-0 h-[47%] w-[39%] overflow-hidden rounded-[1.5rem] border-[6px] border-[#fbfaf6] bg-[#e5e2da] shadow-[0_22px_60px_rgba(17,43,36,0.16)]">
-              <Image
-                src="/brands/courtside-kids/clubs/editorial/girls-golf-practice.webp"
-                alt="Girl in a green Courtside Kids golf outfit beside a bucket of balls"
-                fill
-                sizes="(max-width: 1024px) 38vw, 22vw"
-                className="object-cover"
-                style={{ objectPosition: "center" }}
-              />
-            </figure>
-            <figure className="absolute bottom-0 right-[2%] h-[43%] w-[42%] overflow-hidden rounded-[1.5rem] border-[6px] border-[#fbfaf6] bg-[#e5e2da] shadow-[0_22px_60px_rgba(17,43,36,0.16)]">
-              <Image
-                src="/brands/courtside-kids/clubs/editorial/club-crew.webp"
-                alt="Boys and girls in coordinated Courtside Kids club attire"
-                fill
-                sizes="(max-width: 1024px) 40vw, 24vw"
-                className="object-cover"
-                style={{ objectPosition: "center" }}
-              />
-            </figure>
-            <a
-              href="#golf-digest"
-              className="absolute bottom-[3%] left-[5%] z-10 rounded-full border border-white/70 bg-white/92 px-4 py-2 text-[0.62rem] font-bold uppercase tracking-[0.15em] text-[#0b513f] shadow-lg backdrop-blur transition hover:bg-white"
-            >
-              Featured by Golf Digest
-            </a>
+            </div>
           </div>
         </div>
       </section>
