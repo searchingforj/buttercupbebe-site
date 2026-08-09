@@ -45,6 +45,16 @@ export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
     const track = trackRef.current;
     if (!track) return;
 
+    if (track.scrollLeft <= 4) {
+      setActiveIndex(0);
+      return;
+    }
+
+    if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 4) {
+      setActiveIndex(slides.length - 1);
+      return;
+    }
+
     const trackCenter = track.scrollLeft + track.clientWidth / 2;
     const slidesArray = Array.from(track.children) as HTMLElement[];
     const closestIndex = slidesArray.reduce((closest, slide, index) => {

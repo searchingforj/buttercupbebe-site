@@ -11,5 +11,7 @@ All photography on `/courtside-kids` is owned or published by Courtside Kids.
 - `/public/brands/courtside-kids/clubs/gallery/blue-seersucker-short.jpg`: Courtside Kids product detail photography from the official website. Source URL: `https://courtsidekids.com/cdn/shop/files/0128Courtside9187.jpg?v=1740428710`.
 - `/public/brands/courtside-kids/clubs/gallery/history-of-sport.jpg`: Courtside Kids photography published on the brand's official Instagram account. Source post: `https://www.instagram.com/courtside.kids/p/DbdqD9QEaQY/`.
 - `/public/brands/courtside-kids/clubs/golf-digest-feature.png`: Courtside Kids' official Instagram announcement for its Golf Digest feature, supplied by the user. Source post: `https://www.instagram.com/courtside.kids/p/DbD2g9rxrf5/`. Referenced article: `https://www.golfdigest.com/story/toddler-little-kid-golf-gear`.
+- `/public/brands/courtside-kids/clubs/editorial/*.webp`: Selected Courtside Kids golf, tennis, and club-attire photography supplied by the user from the brand's official Instagram account, then resized and optimized for the web.
+- `/public/brands/courtside-kids/clubs/editorial/courtside-club-campaign.mp4`: Courtside Kids Traditions campaign video supplied by the user from the brand's official Instagram account, then compressed for web playback.
 
 The Courtside Kids logo is the existing brand logo at `/public/brand-logos/courtside-kids.png`.
