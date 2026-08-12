@@ -50,13 +50,13 @@ const lookbookSlides = [
   {
     src: "/brands/courtside-kids/clubs/editorial/tennis-portrait.webp",
     alt: "Girl in a navy and white Courtside Kids tennis dress",
-    label: "Racquet ready",
+    label: "Tennis dress",
     position: "center",
   },
   {
     src: "/brands/courtside-kids/clubs/editorial/girls-tennis.webp",
     alt: "Girls in Courtside Kids tennis outfits relaxing beside a racquet",
-    label: "For the court",
+    label: "Girls' tennis",
     position: "center",
   },
   {
@@ -70,12 +70,6 @@ const lookbookSlides = [
     alt: "Boy and girl wearing coordinated Courtside Kids outfits at a marina",
     label: "Club days",
     position: "center",
-  },
-  {
-    src: "/brands/courtside-kids/clubs/editorial/summer-club-crew.webp",
-    alt: "Boys and girls in coordinated Courtside Kids club attire",
-    label: "The full collection",
-    position: "center 35%",
   },
   {
     src: "/brands/courtside-kids/clubs/editorial/boys-tennis-court.webp",
@@ -112,6 +106,18 @@ const lookbookSlides = [
     alt: "Girls in pastel Courtside Kids tennis outfits on a clay court",
     label: "Girls' racquet",
     position: "center 35%",
+  },
+  {
+    src: "/brands/courtside-kids/clubs/editorial/little-golfer.webp",
+    alt: "Young boy wearing a blue gingham Courtside Kids polo and white shorts on the course",
+    label: "Golf ready",
+    position: "center 25%",
+  },
+  {
+    src: "/brands/courtside-kids/clubs/editorial/girls-pastel.webp",
+    alt: "Girls wearing pastel Courtside Kids performance outfits",
+    label: "Pastel performance",
+    position: "center 25%",
   },
 ] as const;
 
@@ -281,50 +287,22 @@ export default function CourtsideKidsForClubsPage() {
 
         <ClubLookbookCarousel slides={lookbookSlides} />
 
-        <div className="mx-auto mt-12 grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-[0.85fr_3fr] lg:items-start lg:gap-6 lg:px-10">
+        <div className="mx-auto mt-12 grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-start lg:gap-6 lg:px-10">
           <ClubCampaignVideo />
 
-          <div className="grid gap-5 sm:grid-cols-3 lg:gap-4">
-            <figure className="group relative aspect-[4/5] overflow-hidden bg-[#e7e3dc]">
-              <Image
-                src="/brands/courtside-kids/clubs/editorial/full-range.webp"
-                alt="Children of several ages wearing Courtside Kids activewear"
-                fill
-                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 30vw, 17vw"
-                className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
-                style={{ objectPosition: "center 28%" }}
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/68 via-[#082e24]/10 to-transparent px-6 pb-6 pt-24 text-white">
-                <figcaption className="font-display text-2xl font-semibold">A complete junior assortment.</figcaption>
-              </div>
-            </figure>
-            <figure className="group relative aspect-[4/5] overflow-hidden bg-[#e7e3dc]">
-              <Image
-                src="/brands/courtside-kids/clubs/editorial/little-golfer.webp"
-                alt="Young boy wearing a blue gingham Courtside Kids polo and white shorts on the course"
-                fill
-                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 30vw, 17vw"
-                className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
-                style={{ objectPosition: "center 25%" }}
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/68 via-transparent to-transparent px-5 pb-5 pt-20 text-white">
-                <figcaption className="text-[0.65rem] font-bold uppercase tracking-[0.16em]">Golf-ready</figcaption>
-              </div>
-            </figure>
-            <figure className="group relative aspect-[4/5] overflow-hidden bg-[#e7e3dc]">
-              <Image
-                src="/brands/courtside-kids/clubs/editorial/girls-pastel.webp"
-                alt="Girls wearing pastel Courtside Kids performance outfits"
-                fill
-                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 30vw, 17vw"
-                className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
-                style={{ objectPosition: "center 25%" }}
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/68 via-transparent to-transparent px-5 pb-5 pt-20 text-white">
-                <figcaption className="text-[0.65rem] font-bold uppercase tracking-[0.16em]">Court-ready</figcaption>
-              </div>
-            </figure>
-          </div>
+          <figure className="group relative aspect-[4/5] overflow-hidden bg-[#e7e3dc]">
+            <Image
+              src="/brands/courtside-kids/clubs/editorial/full-range.webp"
+              alt="Children of several ages wearing Courtside Kids activewear"
+              fill
+              sizes="(max-width: 1024px) 92vw, 42vw"
+              className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
+              style={{ objectPosition: "center 28%" }}
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/68 via-[#082e24]/10 to-transparent px-6 pb-6 pt-24 text-white">
+              <figcaption className="font-display text-3xl font-semibold">A complete junior assortment.</figcaption>
+            </div>
+          </figure>
         </div>
       </section>
 
