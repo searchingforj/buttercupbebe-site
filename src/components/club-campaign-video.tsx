@@ -41,7 +41,7 @@ export function ClubCampaignVideo() {
   }
 
   return (
-    <figure className="group relative aspect-[2/3] overflow-hidden border border-[#0b513f]/14 bg-[#0a382c]">
+    <figure className="group relative aspect-[2/3] overflow-hidden border border-[#0b513f]/14 bg-[#0a382c] lg:aspect-[15/16]">
       <video
         ref={videoRef}
         autoPlay
