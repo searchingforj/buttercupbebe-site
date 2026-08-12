@@ -11,7 +11,6 @@ import {
   CONTACT_EMAIL,
   CONTACT_PHONE_LINKS,
   CONTACT_PHONES,
-  COURTSIDE_WHOLESALE_URL,
   SHOWROOM_LOCATIONS,
 } from "@/lib/constants";
 
@@ -55,12 +54,12 @@ export function SiteFooter() {
               {CONTACT_EMAIL}
             </a>
             <a
-              href={COURTSIDE_WHOLESALE_URL}
+              href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-[#4f625c] hover:text-[#0b513f]"
             >
-              Courtside Kids wholesale portal ↗
+              Schedule a conversation ↗
             </a>
             <Link href="/" className="text-sm text-[#4f625c] hover:text-[#0b513f]">
               Visit the full Buttercup Bebe showroom

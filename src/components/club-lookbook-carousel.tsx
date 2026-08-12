@@ -68,6 +68,12 @@ export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
   const desktopPageCount = Math.ceil(slides.length / desktopPageSize);
   const desktopStartIndex = desktopPage * desktopPageSize;
   const desktopSlides = slides.slice(desktopStartIndex, desktopStartIndex + desktopPageSize);
+  const desktopGridClass =
+    desktopSlides.length === 1
+      ? "max-w-[28rem] grid-cols-1"
+      : desktopSlides.length === 2
+        ? "max-w-[54rem] grid-cols-2"
+        : "max-w-7xl grid-cols-3";
 
   function scrollToSlide(index: number) {
     const nextIndex = Math.max(0, Math.min(index, slides.length - 1));
@@ -154,7 +160,7 @@ export function ClubLookbookCarousel({ slides }: ClubLookbookCarouselProps) {
       </div>
 
       <div className="hidden lg:block">
-        <div className="mx-auto grid max-w-7xl grid-cols-3 gap-5 px-10">
+        <div className={`mx-auto grid gap-5 px-10 ${desktopGridClass}`}>
           {desktopSlides.map((slide, index) => (
             <LookbookCard
               key={slide.src}

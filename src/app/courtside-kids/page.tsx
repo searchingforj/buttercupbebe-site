@@ -9,7 +9,6 @@ import {
   CONTACT_EMAIL,
   CONTACT_PHONE_LINKS,
   CONTACT_PHONES,
-  COURTSIDE_WHOLESALE_URL,
 } from "@/lib/constants";
 
 const GOLF_DIGEST_URL = "https://www.golfdigest.com/story/toddler-little-kid-golf-gear";
@@ -30,6 +29,18 @@ export const metadata: Metadata = {
 };
 
 const lookbookSlides = [
+  {
+    src: "/brands/courtside-kids/clubs/editorial/boys-performance.webp",
+    alt: "Two boys wearing colorful Courtside Kids performance polos and shorts",
+    label: "Performance polos",
+    position: "center",
+  },
+  {
+    src: "/brands/courtside-kids/clubs/editorial/club-classics.webp",
+    alt: "Boys and girls wearing classic navy, white, and khaki Courtside Kids outfits",
+    label: "Club classics",
+    position: "center",
+  },
   {
     src: "/brands/courtside-kids/clubs/editorial/junior-golfer-putting.webp",
     alt: "Boy in a green Courtside Kids polo putting on a golf green",
@@ -67,12 +78,6 @@ const lookbookSlides = [
     position: "center 35%",
   },
   {
-    src: "/brands/courtside-kids/clubs/gallery/boys-in-motion.jpg",
-    alt: "Boys moving in Courtside Kids performance shirts and shorts",
-    label: "Built to move",
-    position: "center",
-  },
-  {
     src: "/brands/courtside-kids/clubs/editorial/boys-tennis-court.webp",
     alt: "Two boys wearing Courtside Kids performance apparel beside a tennis court",
     label: "Between matches",
@@ -85,12 +90,6 @@ const lookbookSlides = [
     position: "center",
   },
   {
-    src: "/brands/courtside-kids/clubs/editorial/boys-performance.webp",
-    alt: "Two boys wearing colorful Courtside Kids performance polos and shorts",
-    label: "Performance polos",
-    position: "center",
-  },
-  {
     src: "/brands/courtside-kids/clubs/editorial/baby-golf.webp",
     alt: "Baby girl in a pink Courtside Kids outfit holding a golf ball",
     label: "The youngest golfers",
@@ -100,12 +99,6 @@ const lookbookSlides = [
     src: "/brands/courtside-kids/clubs/editorial/summer-group.webp",
     alt: "Boys and girls in a colorful range of Courtside Kids club attire",
     label: "Boys & girls",
-    position: "center",
-  },
-  {
-    src: "/brands/courtside-kids/clubs/editorial/club-classics.webp",
-    alt: "Boys and girls wearing classic navy, white, and khaki Courtside Kids outfits",
-    label: "Club classics",
     position: "center",
   },
   {
@@ -134,9 +127,9 @@ const faqs = [
       "Yes. Courtside Kids can embroider your club's logo, crest, or emblem to create a distinctive custom assortment. Contact our team to discuss the details, minimums, and timing.",
   },
   {
-    question: "Can I order directly online?",
+    question: "How do I place an order?",
     answer:
-      "Yes. Approved wholesale buyers can sign in to the Courtside Kids wholesale portal. If you are new to the line, we can help you get set up and plan an opening order.",
+      "Email our team or schedule a conversation with us. We will answer questions, help you plan the right assortment, and coordinate your order directly.",
   },
 ] as const;
 
@@ -154,7 +147,7 @@ export default function CourtsideKidsForClubsPage() {
   return (
     <div className="overflow-hidden bg-[#f7f6f1] text-[#112b24] selection:bg-[#b8dfce] selection:text-[#092f24]">
       <section className="relative isolate border-b border-[#0b513f]/10">
-        <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(11,81,63,0.045)_1px,transparent_1px),linear-gradient(180deg,#eef2e9_0%,#f7f6f1_62%)] bg-[size:25%_100%,100%_100%]" />
+        <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,#edf2e9_0%,#f7f6f1_68%)]" />
         <div className="mx-auto flex max-w-7xl flex-col px-4 py-9 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
           <div className="order-2 grid gap-8 lg:order-1 lg:grid-cols-[1.02fr_0.98fr] lg:items-end lg:gap-16">
             <div>
@@ -190,9 +183,7 @@ export default function CourtsideKidsForClubsPage() {
                   Talk to a representative <ArrowIcon />
                 </a>
                 <a
-                  href={COURTSIDE_WHOLESALE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={inquiryEmail}
                   className={buttonStyles({
                     variant: "secondary",
                     size: "lg",
@@ -200,50 +191,40 @@ export default function CourtsideKidsForClubsPage() {
                       "gap-2 !rounded-none border-[#0b513f]/35 bg-transparent normal-case text-[#0b513f] hover:border-[#0b513f] hover:bg-[#0b513f]",
                   })}
                 >
-                  Order wholesale <ArrowIcon />
+                  Email our team <ArrowIcon />
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="order-1 mb-8 grid grid-cols-2 gap-px border border-[#0b513f]/18 bg-[#0b513f]/18 lg:order-2 lg:mb-0 lg:mt-10 lg:h-[460px] lg:grid-cols-[1.05fr_0.95fr_0.92fr_1.08fr]">
-            <figure className="group relative aspect-[3/4] overflow-hidden bg-[#e5e2da] lg:aspect-auto">
+          <div className="order-1 mb-8 grid grid-cols-2 gap-px border border-[#0b513f]/18 bg-[#0b513f]/18 lg:order-2 lg:mb-0 lg:mt-10 lg:h-[440px] lg:grid-cols-[1.265fr_0.713fr_0.759fr]">
+            <figure className="group relative col-span-2 aspect-[5/4] overflow-hidden bg-[#e5e2da] lg:col-span-1 lg:aspect-auto">
+              <Image
+                src="/brands/courtside-kids/clubs/editorial/club-crew.webp"
+                alt="Boys and girls wearing a colorful range of Courtside Kids club attire"
+                fill
+                priority
+                sizes="(max-width: 1024px) 92vw, 46vw"
+                className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
+              />
+            </figure>
+            <figure className="group relative aspect-[5/7] overflow-hidden bg-[#e5e2da] lg:aspect-auto">
               <Image
                 src="/brands/courtside-kids/clubs/editorial/hero-golf-boy.webp"
                 alt="Boy in a Courtside Kids gingham polo and khaki shorts with a golf club"
                 fill
                 priority
-                sizes="(max-width: 1024px) 46vw, 35vw"
+                sizes="(max-width: 1024px) 46vw, 26vw"
                 className="object-cover object-top transition duration-700 ease-out group-hover:scale-[1.02]"
               />
             </figure>
-            <figure className="group relative aspect-[3/4] overflow-hidden bg-[#e5e2da] lg:aspect-auto">
+            <figure className="group relative aspect-[5/7] overflow-hidden bg-[#e5e2da] lg:aspect-auto">
               <Image
                 src="/brands/courtside-kids/clubs/editorial/hero-golf-girl.webp"
                 alt="Girl wearing a green striped Courtside Kids golf outfit on the course"
                 fill
                 priority
-                sizes="(max-width: 1024px) 46vw, 32vw"
-                className="object-cover object-top transition duration-700 ease-out group-hover:scale-[1.02]"
-              />
-            </figure>
-            <figure className="group relative aspect-square overflow-hidden bg-[#e5e2da] lg:aspect-auto">
-              <Image
-                src="/brands/courtside-kids/clubs/editorial/junior-tennis-team.webp"
-                alt="Three boys in Courtside Kids tennis outfits standing at the net"
-                fill
-                priority
-                sizes="(max-width: 1024px) 46vw, 33vw"
-                className="object-cover object-top transition duration-700 ease-out group-hover:scale-[1.02]"
-              />
-            </figure>
-            <figure className="group relative aspect-square overflow-hidden bg-[#e5e2da] lg:aspect-auto">
-              <Image
-                src="/brands/courtside-kids/clubs/editorial/hero-all-sports.webp"
-                alt="Older kids wearing a range of Courtside Kids sport and club apparel"
-                fill
-                priority
-                sizes="(max-width: 1024px) 46vw, 33vw"
+                sizes="(max-width: 1024px) 46vw, 28vw"
                 className="object-cover object-top transition duration-700 ease-out group-hover:scale-[1.02]"
               />
             </figure>
@@ -300,29 +281,29 @@ export default function CourtsideKidsForClubsPage() {
 
         <ClubLookbookCarousel slides={lookbookSlides} />
 
-        <div className="mx-auto mt-12 grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-6 lg:px-10">
+        <div className="mx-auto mt-12 grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-[0.85fr_3fr] lg:items-start lg:gap-6 lg:px-10">
           <ClubCampaignVideo />
 
-          <div className="grid gap-5 sm:grid-cols-2 sm:grid-rows-[1fr_1fr] lg:gap-6">
-            <figure className="group relative min-h-[340px] overflow-hidden bg-[#e7e3dc] sm:col-span-2 sm:min-h-0">
+          <div className="grid gap-5 sm:grid-cols-3 lg:gap-4">
+            <figure className="group relative aspect-[4/5] overflow-hidden bg-[#e7e3dc]">
               <Image
                 src="/brands/courtside-kids/clubs/editorial/full-range.webp"
                 alt="Children of several ages wearing Courtside Kids activewear"
                 fill
-                sizes="(max-width: 1024px) 92vw, 50vw"
+                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 30vw, 17vw"
                 className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
-                style={{ objectPosition: "center 20%" }}
+                style={{ objectPosition: "center 28%" }}
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#082e24]/68 via-[#082e24]/10 to-transparent px-6 pb-6 pt-24 text-white">
-                <figcaption className="font-display text-3xl font-semibold">A complete junior assortment.</figcaption>
+                <figcaption className="font-display text-2xl font-semibold">A complete junior assortment.</figcaption>
               </div>
             </figure>
-            <figure className="group relative min-h-[380px] overflow-hidden bg-[#e7e3dc] sm:min-h-0">
+            <figure className="group relative aspect-[4/5] overflow-hidden bg-[#e7e3dc]">
               <Image
                 src="/brands/courtside-kids/clubs/editorial/little-golfer.webp"
                 alt="Young boy wearing a blue gingham Courtside Kids polo and white shorts on the course"
                 fill
-                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 25vw"
+                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 30vw, 17vw"
                 className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
                 style={{ objectPosition: "center 25%" }}
               />
@@ -330,12 +311,12 @@ export default function CourtsideKidsForClubsPage() {
                 <figcaption className="text-[0.65rem] font-bold uppercase tracking-[0.16em]">Golf-ready</figcaption>
               </div>
             </figure>
-            <figure className="group relative min-h-[380px] overflow-hidden bg-[#e7e3dc] sm:min-h-0">
+            <figure className="group relative aspect-[4/5] overflow-hidden bg-[#e7e3dc]">
               <Image
                 src="/brands/courtside-kids/clubs/editorial/girls-pastel.webp"
                 alt="Girls wearing pastel Courtside Kids performance outfits"
                 fill
-                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 25vw"
+                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 30vw, 17vw"
                 className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
                 style={{ objectPosition: "center 25%" }}
               />
@@ -445,12 +426,10 @@ export default function CourtsideKidsForClubsPage() {
               Talk to a representative <ArrowIcon />
             </a>
             <a
-              href={COURTSIDE_WHOLESALE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={inquiryEmail}
               className={buttonStyles({ variant: "glass", size: "lg", className: "gap-2 !rounded-none normal-case" })}
             >
-              Order wholesale <ArrowIcon />
+              Email our team <ArrowIcon />
             </a>
           </div>
           <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-white/62">
