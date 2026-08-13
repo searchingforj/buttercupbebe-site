@@ -45,7 +45,7 @@ const lookbookSlides = [
     src: "/brands/courtside-kids/clubs/editorial/junior-golfer-putting.webp",
     alt: "Boy in a green Courtside Kids polo putting on a golf green",
     label: "For the course",
-    position: "center",
+    position: "center bottom",
   },
   {
     src: "/brands/courtside-kids/clubs/editorial/tennis-portrait.webp",
@@ -72,9 +72,9 @@ const lookbookSlides = [
     position: "center",
   },
   {
-    src: "/brands/courtside-kids/clubs/editorial/boys-tennis-court.webp",
-    alt: "Two boys wearing Courtside Kids performance apparel beside a tennis court",
-    label: "Between matches",
+    src: "/brands/courtside-kids/clubs/editorial/junior-golf-driver.webp",
+    alt: "Boy in Courtside Kids golf attire completing a full swing on the course",
+    label: "Full swing",
     position: "center",
   },
   {
