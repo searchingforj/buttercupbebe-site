@@ -133,6 +133,15 @@ export const brands: Brand[] = [
     ],
   },
   {
+    slug: "little-labels-the-brand",
+    name: "Little Labels the Brand",
+    oneLiner:
+      "Mom-founded children's sleepwear featuring soft bamboo fabrics, classic Southern-inspired prints, and comfortable silhouettes made for bedtime, sibling matching, and gifting.",
+    websiteUrl: "https://littlelabelsthebrand.com/",
+    logoUrl: logoFor("little-labels-the-brand"),
+    images: imagesFor("little-labels-the-brand"),
+  },
+  {
     slug: "city-beautiful",
     name: "City Beautiful",
     oneLiner:
