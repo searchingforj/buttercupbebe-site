@@ -925,11 +925,6 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 <div className="border-t border-[var(--border-soft)] bg-[var(--surface)] px-5 py-4">
                   {hasLogo ? (
                     <div className="flex h-20 w-full flex-col px-1 py-1">
-                      {hasSisterLogo ? (
-                        <p className="text-center text-[0.55rem] font-semibold uppercase tracking-[0.24em] text-[var(--ink-muted)]">
-                          Sister Brands
-                        </p>
-                      ) : null}
                       <div
                         className={
                           hasSisterLogo
