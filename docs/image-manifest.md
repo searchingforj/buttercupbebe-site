@@ -162,3 +162,9 @@ No new external images were downloaded or published in this iteration. The refre
 | Little Labels the Brand | https://cdn.shopify.com/s/files/1/0721/9167/2373/files/surfs_up_model_resize_jpg.webp?v=1784778883 | `/brands/little-labels-the-brand/1.webp` | 1200x1800 | Lead card and gallery image sourced from the official brand storefront; child wearing the Toast + Jams bamboo sleepwear collection. Review ownership before production approval. |
 | Little Labels the Brand | https://cdn.shopify.com/s/files/1/0721/9167/2373/files/crawfish_siblings_jpg.webp?v=1784777396 | `/brands/little-labels-the-brand/2.webp` | 1800x1200 | Gallery image sourced from the official brand storefront; siblings wearing a matching bamboo sleepwear print. Review ownership before production approval. |
 | Little Labels the Brand | https://cdn.shopify.com/s/files/1/0721/9167/2373/files/51C7BBFF-441E-448E-8A48-34623F905520_jpg.webp?v=1784779031 | `/brands/little-labels-the-brand/3.webp` | 1350x1800 | Gallery image sourced from the official brand storefront; coordinated blue and pink zip pajamas. Review ownership before production approval. |
+
+## Toast + Jams Sister Brand Update - 2026-08-16
+
+| Brand | Source URL | Local Filename | Resolution | Notes |
+| --- | --- | --- | --- | --- |
+| Toast + Jams | User-provided local file: `/Users/jacksongray/Downloads/toast + jams logo.jpg` | `/brand-logos/toast-and-jams.png` | 881x113 | Supplied sister-brand logo, converted from JPEG to PNG and paired with Little Labels on their shared brand card. Confirm final usage rights before production approval. |

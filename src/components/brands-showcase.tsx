@@ -890,6 +890,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
         <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
           {orderedBrands.map((brand) => {
             const hasLogo = Boolean(brand.logoUrl?.trim()) && !hiddenLogoSlugs[brand.slug];
+            const hasSisterLogo = hasLogo && Boolean(brand.sisterLogoUrl?.trim());
 
             return (
               <article
@@ -923,16 +924,51 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
                 <div className="border-t border-[var(--border-soft)] bg-[var(--surface)] px-5 py-4">
                   {hasLogo ? (
-                    <div className="h-20 w-full px-1 py-1">
-                      <Image
-                        src={brand.logoUrl!}
-                        alt={`${brand.name} logo`}
-                        width={700}
-                        height={220}
-                        className="h-full w-full object-contain"
-                        style={{ transform: `scale(${brandLogoScaleFor(brand)})` }}
-                        onError={() => hideLogo(brand.slug)}
-                      />
+                    <div className="flex h-20 w-full flex-col px-1 py-1">
+                      {hasSisterLogo ? (
+                        <p className="text-center text-[0.55rem] font-semibold uppercase tracking-[0.24em] text-[var(--ink-muted)]">
+                          Sister Brands
+                        </p>
+                      ) : null}
+                      <div
+                        className={
+                          hasSisterLogo
+                            ? "grid min-h-0 flex-1 grid-cols-[minmax(0,0.8fr)_1px_minmax(0,1.35fr)] items-center gap-3"
+                            : "min-h-0 flex-1"
+                        }
+                      >
+                        <Image
+                          src={brand.logoUrl!}
+                          alt={`${hasSisterLogo ? "Little Labels" : brand.name} logo`}
+                          width={700}
+                          height={220}
+                          className={`h-full w-full object-contain ${
+                            hasSisterLogo ? "mix-blend-multiply" : ""
+                          }`}
+                          style={{
+                            transform: hasSisterLogo
+                              ? undefined
+                              : `scale(${brandLogoScaleFor(brand)})`,
+                          }}
+                          onError={() => hideLogo(brand.slug)}
+                        />
+                        {hasSisterLogo ? (
+                          <>
+                            <span
+                              aria-hidden="true"
+                              className="h-9 w-px bg-[var(--border-strong)]"
+                            />
+                            <Image
+                              src={brand.sisterLogoUrl!}
+                              alt="Toast + Jams logo"
+                              width={881}
+                              height={113}
+                              className="h-full w-full object-contain mix-blend-multiply"
+                              onError={() => hideLogo(brand.slug)}
+                            />
+                          </>
+                        ) : null}
+                      </div>
                     </div>
                   ) : (
                     <div className="flex h-20 w-full items-center justify-center px-1 py-1">

@@ -6,6 +6,7 @@ export type Brand = {
   orderUrl?: string;
   orderAccessNote?: string;
   logoUrl?: string;
+  sisterLogoUrl?: string;
   lookbookUrl?: string;
   lineSheetUrl?: string;
   images: string[];
@@ -134,11 +135,12 @@ export const brands: Brand[] = [
   },
   {
     slug: "little-labels-the-brand",
-    name: "Little Labels the Brand",
+    name: "Little Labels + Toast + Jams",
     oneLiner:
-      "Mom-founded children's sleepwear featuring soft bamboo fabrics, classic Southern-inspired prints, and comfortable silhouettes made for bedtime, sibling matching, and gifting.",
+      "Sister brands founded by two moms, pairing Little Labels' timeless children's style with Toast + Jams' soft bamboo sleepwear, classic Southern-inspired prints, and comfortable silhouettes.",
     websiteUrl: "https://littlelabelsthebrand.com/",
     logoUrl: logoFor("little-labels-the-brand"),
+    sisterLogoUrl: logoFor("toast-and-jams"),
     images: imagesFor("little-labels-the-brand"),
   },
   {
