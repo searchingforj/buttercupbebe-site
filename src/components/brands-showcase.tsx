@@ -64,6 +64,7 @@ const BRAND_LOGO_SCALE_BY_SLUG: Partial<Record<Brand["slug"], number>> = {
   "glitter-option": 1.1,
   larili: 1.14,
   "little-miss-zoe": 1.12,
+  "little-colette": 1.12,
   "little-labels-the-brand": 1.12,
   "little-paper-kids": 1.14,
   mishmoccs: 1.12,

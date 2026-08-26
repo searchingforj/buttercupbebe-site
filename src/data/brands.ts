@@ -149,9 +149,20 @@ export const brands: Brand[] = [
     oneLiner:
       "Sister brands founded by two moms, pairing Little Labels' timeless children's style with Toast + Jams' soft bamboo sleepwear, classic Southern-inspired prints, and comfortable silhouettes.",
     websiteUrl: "https://littlelabelsthebrand.com/",
+    orderUrl: "https://www.brandboom.com/ToastandJamsLLTB/a/20A9393FFA5",
     logoUrl: logoFor("little-labels-the-brand"),
     sisterLogoUrl: logoFor("toast-and-jams"),
     images: imagesFor("little-labels-the-brand"),
+  },
+  {
+    slug: "little-colette",
+    name: "Little Colette",
+    oneLiner:
+      "Mom-founded children's clothing with timeless silhouettes, practical comfort, and machine-washable ease for polished everyday wear.",
+    websiteUrl: "https://shoplittlecolette.com/",
+    orderUrl: "https://www.brandboom.com/LittleColette/a/EE2D9A70B2D",
+    logoUrl: logoFor("little-colette"),
+    images: imagesFor("little-colette"),
   },
   {
     slug: "city-beautiful",
