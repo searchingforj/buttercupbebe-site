@@ -145,7 +145,7 @@ export const brands: Brand[] = [
   },
   {
     slug: "little-labels-the-brand",
-    name: "Little Labels + Toast + Jams",
+    name: "Little Labels / Toast + Jams",
     oneLiner:
       "Sister brands founded by two moms, pairing Little Labels' timeless children's style with Toast + Jams' soft bamboo sleepwear, classic Southern-inspired prints, and comfortable silhouettes.",
     websiteUrl: "https://littlelabelsthebrand.com/",
