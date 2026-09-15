@@ -5,7 +5,7 @@ import { BOOKING_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Market Dates",
-  description: "Buttercup Bebe market schedule for 2026.",
+  description: "Buttercup Bebe market schedule for 2027.",
 };
 
 type MarketEvent = {
@@ -18,46 +18,75 @@ type MarketEvent = {
 
 const marketEvents: MarketEvent[] = [
   {
-    date: "August 3-6",
-    show: "Apparel",
+    date: "January 6-12",
+    show: "Gift",
+    city: "Dallas, TX",
+    address: "Dallas Market Center, Showroom #8404",
+  },
+  {
+    date: "January 12-17",
+    show: "Gift",
     city: "Atlanta, GA",
     address: "AmericasMart Atlanta, Building 3, Showroom #13S346B",
   },
   {
-    date: "August 9-10",
-    show: "Lafayette Show",
-    city: "Lafayette, LA",
-    address: "Cajundome Convention Center",
+    date: "January 19-22",
+    show: "KidsWorld",
+    city: "Dallas, TX",
+    address: "Dallas Market Center, Showroom #8404",
   },
   {
-    date: "August 14-15",
-    show: "Dixie Children's Show",
+    date: "February 2-5",
+    show: "Kids Apparel",
+    city: "Atlanta, GA",
+    address: "AmericasMart Atlanta, Building 3, Showroom #13S346B",
+  },
+  {
+    date: "March 12-14",
+    show: "Market",
     city: "Nashville, TN",
-    address: "Tennessee State Fairgrounds",
   },
   {
-    date: "August 18-21",
-    show: "Apparel + Kidsworld",
+    date: "March 16-19",
+    show: "KidsWorld",
     city: "Dallas, TX",
     address: "Dallas Market Center, Showroom #8404",
   },
   {
-    date: "September 15-17",
-    show: "Gift + Kidsworld",
-    city: "Dallas, TX",
-    address: "Dallas Market Center, Showroom #8404",
-  },
-  {
-    date: "October 6-9",
-    show: "Apparel",
+    date: "April 13-16",
+    show: "Kids Apparel",
     city: "Atlanta, GA",
     address: "AmericasMart Atlanta, Building 3, Showroom #13S346B",
   },
   {
-    date: "October 20-23",
-    show: "Apparel",
+    date: "June 23-29",
+    show: "KidsWorld",
     city: "Dallas, TX",
     address: "Dallas Market Center, Showroom #8404",
+  },
+  {
+    date: "July 13-18",
+    show: "Gift",
+    city: "Atlanta, GA",
+    address: "AmericasMart Atlanta, Building 3, Showroom #13S346B",
+  },
+  {
+    date: "August 2-6",
+    show: "Kids Apparel",
+    city: "Atlanta, GA",
+    address: "AmericasMart Atlanta, Building 3, Showroom #13S346B",
+  },
+  {
+    date: "August 24-27",
+    show: "KidsWorld",
+    city: "Dallas, TX",
+    address: "Dallas Market Center, Showroom #8404",
+  },
+  {
+    date: "October 12-15",
+    show: "Kids Apparel",
+    city: "Atlanta, GA",
+    address: "AmericasMart Atlanta, Building 3, Showroom #13S346B",
   },
 ];
 
@@ -65,7 +94,7 @@ export default function MarketDatesPage() {
   return (
     <section className="mx-auto max-w-6xl px-4 pb-16 pt-10 sm:px-6 lg:px-10 lg:pb-20 lg:pt-14">
       <div className="mx-auto max-w-3xl space-y-4 text-center">
-        <p className="section-eyebrow">2026 Market Dates</p>
+        <p className="section-eyebrow">2027 Market Dates</p>
         <h1 className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Plan your market calendar.</h1>
         <a
           href={BOOKING_URL}

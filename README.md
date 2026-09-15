@@ -28,7 +28,7 @@ npm run dev
 ## Routes
 
 - `/` Home (hero, brand showroom, quick view modal, contact section)
-- `/market-dates` 2026 market schedule
+- `/market-dates` 2027 market schedule
 - `/about` team + showroom background
 - `/contact` contact details + inquiry form
 
