@@ -135,7 +135,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Colorful, customizable children's jewelry and accessories handcrafted in the USA.",
     websiteUrl: "https://littlemisszoe.com/",
-    orderUrl: "https://www.brandboom.com/app/a/11F2D7172EB",
+    orderUrl: "http://www.brandboom.com/app/a/A2241C4E296",
     logoUrl: logoFor("little-miss-zoe"),
     images: [
       ...websiteCardImagesFor("little-miss-zoe", 2),
