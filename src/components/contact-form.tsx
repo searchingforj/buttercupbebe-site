@@ -15,7 +15,7 @@ const inquiryTypes = [
 ] as const;
 
 const fieldClass =
-  "w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--ink-strong)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/25";
+  "mt-2 w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2.5 text-base text-[var(--ink-strong)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/25 sm:text-sm";
 
 export function ContactForm() {
   const [status, setStatus] = useState<FormStatus>("idle");
@@ -68,32 +68,32 @@ export function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" aria-label="Contact form">
+    <form onSubmit={handleSubmit} className="space-y-4" aria-label="Contact form" aria-busy={status === "sending"}>
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="space-y-2 text-sm text-[var(--ink-muted)]">
+        <label className="block text-sm text-[var(--ink-muted)]">
           Name
-          <input type="text" name="name" required className={fieldClass} />
+          <input type="text" name="name" autoComplete="name" required className={fieldClass} />
         </label>
 
-        <label className="space-y-2 text-sm text-[var(--ink-muted)]">
+        <label className="block text-sm text-[var(--ink-muted)]">
           Store name
-          <input type="text" name="storeName" required className={fieldClass} />
+          <input type="text" name="storeName" autoComplete="organization" required className={fieldClass} />
         </label>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="space-y-2 text-sm text-[var(--ink-muted)]">
+        <label className="block text-sm text-[var(--ink-muted)]">
           Email
-          <input type="email" name="email" required className={fieldClass} />
+          <input type="email" name="email" autoComplete="email" required className={fieldClass} />
         </label>
 
-        <label className="space-y-2 text-sm text-[var(--ink-muted)]">
+        <label className="block text-sm text-[var(--ink-muted)]">
           Phone
-          <input type="tel" name="phone" required className={fieldClass} />
+          <input type="tel" name="phone" autoComplete="tel" required className={fieldClass} />
         </label>
       </div>
 
-      <label className="space-y-2 text-sm text-[var(--ink-muted)]">
+      <label className="block text-sm text-[var(--ink-muted)]">
         Appointment type
         <select name="inquiryType" required className={fieldClass} defaultValue="">
           <option value="" disabled>
@@ -107,7 +107,7 @@ export function ContactForm() {
         </select>
       </label>
 
-      <label className="space-y-2 text-sm text-[var(--ink-muted)]">
+      <label className="block text-sm text-[var(--ink-muted)]">
         Message
         <textarea name="message" required rows={5} className={fieldClass} />
       </label>
@@ -122,7 +122,7 @@ export function ContactForm() {
       />
 
       <div className="flex flex-wrap items-center gap-3">
-        <Button type="submit" variant="primary" size="md" disabled={status === "sending"}>
+        <Button type="submit" variant="primary" size="md" className="min-h-11" disabled={status === "sending"}>
           {status === "sending" ? "Sending..." : "Send Inquiry"}
         </Button>
         <p className="text-xs text-[var(--ink-muted)]">
@@ -131,12 +131,12 @@ export function ContactForm() {
       </div>
 
       {status === "sent" ? (
-        <p className="rounded-xl border border-[var(--border-soft)] bg-[var(--surface-strong)] px-4 py-3 text-sm text-[var(--ink-strong)]">
+        <p role="status" className="rounded-xl border border-[var(--border-soft)] bg-[var(--surface-strong)] px-4 py-3 text-sm text-[var(--ink-strong)]">
           Thanks, your inquiry was sent. We&apos;ll follow up as soon as possible.
         </p>
       ) : null}
       {status === "error" ? (
-        <p className="rounded-xl border border-[rgba(153,57,57,0.4)] bg-[rgba(153,57,57,0.08)] px-4 py-3 text-sm text-[rgb(112,42,42)]">
+        <p role="alert" className="rounded-xl border border-[rgba(153,57,57,0.4)] bg-[rgba(153,57,57,0.08)] px-4 py-3 text-sm text-[rgb(112,42,42)]">
           {errorMessage || `Unable to send inquiry right now. Please email ${CONTACT_EMAIL}.`}
         </p>
       ) : null}

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { buttonStyles } from "@/components/ui/button";
 import { BOOKING_URL } from "@/lib/constants";
@@ -20,7 +20,20 @@ const navItems = [
 
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", handleKeydown);
+    return () => document.removeEventListener("keydown", handleKeydown);
+  }, [mobileMenuOpen]);
 
   const scrollToTop = (behavior: ScrollBehavior = "smooth") => {
     window.scrollTo({ top: 0, behavior });
@@ -195,10 +208,11 @@ export function SiteHeader() {
                     href={item.href}
                     scroll={item.label !== "Brands"}
                     onClick={(event) => handleNavClick(event, item)}
+                    aria-current={pathname === item.href ? "page" : undefined}
                     className={buttonStyles({
                       variant: "ghost",
                       size: "sm",
-                      className: "normal-case",
+                      className: `normal-case ${pathname === item.href ? "bg-[var(--accent-soft)] text-[var(--ink-strong)]" : ""}`,
                     })}
                   >
                     {item.label}
@@ -223,14 +237,16 @@ export function SiteHeader() {
           </nav>
 
           <button
+            ref={menuButtonRef}
             type="button"
             aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
             className={buttonStyles({
               variant: "ghost",
               size: "sm",
               className:
-                "ml-auto gap-2 normal-case text-[var(--ink-strong)] hover:text-[var(--ink-strong)] md:hidden",
+                "ml-auto min-h-11 gap-2 normal-case text-[var(--ink-strong)] hover:text-[var(--ink-strong)] md:hidden",
             })}
             onClick={() => setMobileMenuOpen((current) => !current)}
           >
@@ -258,7 +274,7 @@ export function SiteHeader() {
 
       {mobileMenuOpen ? (
         <div className="border-t border-[var(--border-soft)] bg-[var(--surface)] md:hidden">
-          <nav aria-label="Mobile primary" className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
+          <nav id="mobile-navigation" aria-label="Mobile primary" className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
             <ul className="grid gap-2">
               {navItems.map((item) => (
                 <li key={item.label}>
@@ -266,10 +282,11 @@ export function SiteHeader() {
                     href={item.href}
                     scroll={item.label !== "Brands"}
                     onClick={(event) => handleNavClick(event, item)}
+                    aria-current={pathname === item.href ? "page" : undefined}
                     className={buttonStyles({
                       variant: "ghost",
                       size: "md",
-                      className: "w-full justify-start normal-case text-[var(--ink-strong)]",
+                      className: `min-h-11 w-full justify-start normal-case text-[var(--ink-strong)] ${pathname === item.href ? "bg-[var(--accent-soft)]" : ""}`,
                     })}
                   >
                     {item.label}

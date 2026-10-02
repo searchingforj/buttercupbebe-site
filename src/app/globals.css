@@ -85,3 +85,52 @@ a {
 .reveal {
   animation: rise 0.55s ease-out both;
 }
+
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 4px;
+}
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+.gallery-arrow {
+  display: flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgba(33, 31, 28, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--ink-strong);
+  box-shadow: 0 3px 12px rgba(33, 31, 28, 0.16);
+  transition: background-color 180ms, border-color 180ms, box-shadow 180ms;
+}
+
+.gallery-arrow:hover {
+  background: var(--surface-strong);
+  border-color: var(--ink-muted);
+  box-shadow: 0 4px 16px rgba(33, 31, 28, 0.22);
+}
+
+.gallery-thumbnails,
+.gallery-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

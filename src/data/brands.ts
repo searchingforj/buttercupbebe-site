@@ -300,11 +300,14 @@ export const brands: Brand[] = [
     oneLiner:
       "Wholesale monogram blanks and baby essentials made for personalization.",
     websiteUrl: "https://www.southernproperblanks.com/",
-    orderUrl: "https://www.brandboom.com/app/a/604C0A9CB10",
+    orderUrl: "http://www.brandboom.com/southernproperblanks/a/C18CF44BB3F",
     logoUrl: logoFor("southern-proper-blanks"),
     images: [
       ...websiteCardImagesFor("southern-proper-blanks", 2),
       ...imagesFor("southern-proper-blanks"),
+      "/brands/southern-proper-blanks/spb3.webp",
+      "/brands/southern-proper-blanks/spb4.webp",
+      "/brands/southern-proper-blanks/spb5.webp",
     ],
   },
   {
@@ -360,11 +363,13 @@ export const brands: Brand[] = [
     oneLiner:
       "Ultra-soft bamboo children's essentials designed for comfort and everyday wear.",
     websiteUrl: "https://www.weisingerbamboo.com/",
-    orderUrl: "https://www.brandboom.com/app/a/BF723EE3D1D",
+    orderUrl: "http://www.brandboom.com/weisingerbamboo/a/DF65CB4E375",
     logoUrl: logoFor("weisinger-bamboo"),
     images: [
-      "/brands/weisinger-bamboo/2.webp",
-      "/brands/weisinger-bamboo/3.webp",
+      "/brands/weisinger-bamboo/wb1.webp",
+      "/brands/weisinger-bamboo/wb2.webp",
+      "/brands/weisinger-bamboo/wb3.webp",
+      "/brands/weisinger-bamboo/wb4.webp",
     ],
   },
   {

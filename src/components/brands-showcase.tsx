@@ -118,6 +118,8 @@ const usesContainedHeroImage = (brand: Brand) => Boolean(HERO_CONTAINED_IMAGE_PO
 const brandCardImagePositionFor = (brand: Brand) =>
   BRAND_CARD_IMAGE_POSITION_BY_SLUG[brand.slug] ?? "center center";
 const brandLogoScaleFor = (brand: Brand) => BRAND_LOGO_SCALE_BY_SLUG[brand.slug] ?? 1;
+const usesContainedProductImages = (brand: Brand, image?: string) =>
+  brand.slug === "weisinger-bamboo" || Boolean(image?.match(/\/spb[345]\.webp$/));
 const modalImagePositionFor = (brand: Brand, imageIndex: number, isMobileLayout: boolean) => {
   if (!isMobileLayout && brand.slug === "mishmoccs" && imageIndex === 1) {
     return "center bottom";
@@ -129,6 +131,23 @@ const clampBrandSwipeOffset = (offset: number, maxOffset: number) =>
   Math.max(-maxOffset, Math.min(maxOffset, offset));
 const brandSwipeProgress = (offset: number) =>
   Math.min(1, Math.abs(offset) / BRAND_SWIPE_THRESHOLD_PX);
+
+function Chevron({ direction }: { direction: "previous" | "next" }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-5 w-5 shrink-0"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d={direction === "previous" ? "m15 18-6-6 6-6" : "m9 18 6-6-6-6"} />
+    </svg>
+  );
+}
 
 function BrandSwipePreview({
   brand,
@@ -162,14 +181,14 @@ function BrandSwipePreview({
           : undefined,
       }}
     >
-      <div className="relative h-[70dvh] max-h-[calc(100dvh-10.5rem)] min-h-[390px] bg-[var(--surface-strong)]">
+      <div className="relative h-[48dvh] min-h-[240px] bg-white">
         <Image
           src={brand.images[0]}
           alt=""
           fill
           unoptimized
           decoding="async"
-          className="object-cover"
+          className={usesContainedProductImages(brand, brand.images[0]) ? "object-contain" : "object-cover"}
           sizes="96vw"
           style={{ objectPosition: brandCardImagePositionFor(brand) }}
         />
@@ -190,14 +209,25 @@ function ThumbnailStrip({
   activeImageIndex: number;
   onSelect: (index: number) => void;
 }) {
+  const stripRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const strip = stripRef.current;
+    const thumbnail = strip?.children[activeImageIndex] as HTMLElement | undefined;
+    if (strip && thumbnail) {
+      strip.scrollTo({ left: thumbnail.offsetLeft - strip.offsetLeft - (strip.clientWidth - thumbnail.clientWidth) / 2 });
+    }
+  }, [activeImageIndex, brand.slug]);
+
   return (
-    <div className="hidden max-w-full items-center gap-2 overflow-x-auto px-4 py-2 sm:flex sm:px-5 sm:py-3">
+    <div ref={stripRef} className="gallery-thumbnails relative hidden max-w-full items-center gap-2 overflow-x-auto px-4 py-2 sm:flex sm:px-5 sm:py-3">
       {brand.images.map((image, index) => (
         <button
           key={`${brand.slug}-${image}`}
           type="button"
           onClick={() => onSelect(index)}
           aria-label={`View ${brand.name} image ${index + 1}`}
+          aria-pressed={activeImageIndex === index}
           className={`relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border transition sm:h-16 sm:w-16 ${
             activeImageIndex === index
               ? "border-[var(--accent-strong)] shadow-[0_0_0_2px_var(--accent-soft)]"
@@ -221,6 +251,9 @@ function ThumbnailStrip({
 
 export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const [activeBrand, setActiveBrand] = useState<Brand | null>(null);
+  const [brandQuery, setBrandQuery] = useState("");
+  const [heroPaused, setHeroPaused] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [heroRotationResetKey, setHeroRotationResetKey] = useState(0);
@@ -229,6 +262,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const [brandSwipeOffset, setBrandSwipeOffset] = useState(0);
   const [brandSwipeIsSettling, setBrandSwipeIsSettling] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
+  const modalContentRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);
   const heroTouchStartX = useRef<number | null>(null);
   const heroTouchDidSwipe = useRef(false);
@@ -242,6 +276,12 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const brandSwipeSettleTimer = useRef<number | null>(null);
 
   const orderedBrands = useMemo(() => alphabeticalBrandOrder(brands), [brands]);
+  const matchingBrands = useMemo(() => {
+    const query = brandQuery.trim().toLocaleLowerCase();
+    return orderedBrands.filter((brand) => brand.name.toLocaleLowerCase().includes(query));
+  }, [brandQuery, orderedBrands]);
+  const isModalOpen = Boolean(activeBrand);
+  const activeBrandSlug = activeBrand?.slug;
   const featuredBrands = useMemo(() => orderFeaturedBrands(brands), [brands]);
   const activeHeroBrand = featuredBrands[activeSlideIndex] ?? featuredBrands[0];
   const activeImageCount = activeBrand?.images.length ?? 0;
@@ -603,11 +643,23 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   }, []);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setPrefersReducedMotion(mediaQuery.matches);
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
     return () => clearBrandSwipeSettleTimer();
   }, [clearBrandSwipeSettleTimer]);
 
   useEffect(() => {
-    if (featuredBrands.length < 2) {
+    modalContentRef.current?.scrollTo({ top: 0 });
+  }, [activeBrandSlug]);
+
+  useEffect(() => {
+    if (featuredBrands.length < 2 || heroPaused || prefersReducedMotion || isModalOpen) {
       return;
     }
 
@@ -616,10 +668,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     }, isMobileHeroLayout ? MOBILE_HERO_ROTATION_MS : HERO_ROTATION_MS);
 
     return () => window.clearTimeout(rotation);
-  }, [activeSlideIndex, featuredBrands.length, heroRotationResetKey, isMobileHeroLayout]);
+  }, [activeSlideIndex, featuredBrands.length, heroRotationResetKey, isMobileHeroLayout, heroPaused, prefersReducedMotion, isModalOpen]);
 
   useEffect(() => {
-    if (!activeBrand || !modalRef.current) {
+    if (!isModalOpen || !modalRef.current) {
       return;
     }
 
@@ -632,7 +684,18 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       modalElement.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
     );
 
-    focusableElements[0]?.focus();
+    focusableElements.find((element) => element.getClientRects().length)?.focus();
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      previouslyFocusedElement.current?.focus({ preventScroll: true });
+    };
+  }, [isModalOpen]);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      return;
+    }
 
     const handleKeydown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -643,13 +706,15 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
       if (event.key === "ArrowRight") {
         event.preventDefault();
-        advanceImage("next");
+        if (event.shiftKey) showAdjacentBrand("next");
+        else advanceImage("next");
         return;
       }
 
       if (event.key === "ArrowLeft") {
         event.preventDefault();
-        advanceImage("previous");
+        if (event.shiftKey) showAdjacentBrand("previous");
+        else advanceImage("previous");
         return;
       }
 
@@ -657,9 +722,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
         return;
       }
 
+      const modalElement = modalRef.current;
+      if (!modalElement) return;
       const interactiveElements = Array.from(
         modalElement.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
-      ).filter((element) => !element.hasAttribute("disabled"));
+      ).filter((element) => !element.hasAttribute("disabled") && element.getClientRects().length > 0);
 
       if (!interactiveElements.length) {
         return;
@@ -681,10 +748,8 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
     return () => {
       document.removeEventListener("keydown", handleKeydown);
-      document.body.style.overflow = originalOverflow;
-      previouslyFocusedElement.current?.focus();
     };
-  }, [activeBrand, advanceImage, closeModal]);
+  }, [isModalOpen, advanceImage, closeModal, showAdjacentBrand]);
 
   const activeOrderUrl = activeBrand?.orderUrl?.trim() ? activeBrand.orderUrl : "/contact";
   const isOrderUrlExternal = activeOrderUrl.startsWith("http://") || activeOrderUrl.startsWith("https://");
@@ -696,6 +761,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
         onClick={handleMobileHeroClick}
         onTouchStart={handleHeroTouchStart}
         onTouchEnd={handleHeroTouchEnd}
+        onFocusCapture={() => setHeroPaused(true)}
       >
         <div className="relative min-h-[500px] sm:min-h-[610px] lg:min-h-[680px]">
           {featuredBrands.map((brand, index) => {
@@ -757,7 +823,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             type="button"
             onClick={() => advanceHeroSlide("previous")}
             aria-label="Show previous featured brand"
-            className="absolute left-3 top-[27%] z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/18 text-xl text-white shadow-[0_12px_28px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/28 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:left-5 sm:top-1/2 sm:flex lg:left-8"
+            className="absolute left-3 top-[27%] z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/20 bg-white/95 text-[var(--ink-strong)] shadow-[0_3px_12px_rgba(33,31,28,0.16)] transition hover:bg-[var(--surface-strong)] sm:left-5 sm:top-1/2 sm:flex lg:left-8"
           >
             <svg
               aria-hidden="true"
@@ -776,7 +842,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             type="button"
             onClick={() => advanceHeroSlide("next")}
             aria-label="Show next featured brand"
-            className="absolute right-3 top-[27%] z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/18 text-xl text-white shadow-[0_12px_28px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/28 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:right-5 sm:top-1/2 sm:flex lg:right-8"
+            className="absolute right-3 top-[27%] z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/20 bg-white/95 text-[var(--ink-strong)] shadow-[0_3px_12px_rgba(33,31,28,0.16)] transition hover:bg-[var(--surface-strong)] sm:right-5 sm:top-1/2 sm:flex lg:right-8"
           >
             <svg
               aria-hidden="true"
@@ -861,6 +927,30 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             </div>
           ) : null}
         </div>
+        <div className="absolute right-4 top-4 z-20 flex items-center gap-2 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 text-white backdrop-blur-md sm:right-6 sm:top-6">
+          {featuredBrands.map((brand, index) => (
+            <button
+              key={brand.slug}
+              type="button"
+              aria-label={`Show featured brand ${brand.name}`}
+              aria-pressed={activeSlideIndex === index}
+              onClick={() => { setActiveSlideIndex(index); resetHeroRotation(); }}
+              className="flex h-8 w-6 items-center justify-center rounded-full"
+            >
+              <span className={`h-1.5 rounded-full transition-all ${activeSlideIndex === index ? "w-5 bg-white" : "w-1.5 bg-white/50"}`} />
+            </button>
+          ))}
+          <button
+            type="button"
+            aria-label={heroPaused || prefersReducedMotion ? "Play featured brands" : "Pause featured brands"}
+            onClick={() => { setHeroPaused(!(heroPaused || prefersReducedMotion)); setPrefersReducedMotion(false); resetHeroRotation(); }}
+            className="flex h-8 w-8 items-center justify-center rounded-full border-l border-white/20"
+          >
+            <svg aria-hidden="true" viewBox="0 0 20 20" className="h-3.5 w-3.5" fill="currentColor">
+              {heroPaused || prefersReducedMotion ? <path d="M6 3.5 16 10 6 16.5Z" /> : <path d="M5 4h3v12H5zm7 0h3v12h-3z" />}
+            </svg>
+          </button>
+        </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
@@ -888,8 +978,34 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
           </a>
         </div>
 
+        <div className="mb-7 flex flex-wrap items-center justify-between gap-3">
+          <div className="relative w-full sm:max-w-sm">
+            <label htmlFor="brand-search" className="sr-only">Search brands</label>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--ink-muted)]">
+              <circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 4 4" />
+            </svg>
+            <input
+              id="brand-search"
+              type="search"
+              value={brandQuery}
+              onChange={(event) => setBrandQuery(event.target.value)}
+              placeholder="Find a brand…"
+              autoComplete="off"
+              className="h-12 w-full rounded-full border border-[var(--border-strong)] bg-[var(--surface)] pl-11 pr-4 text-base text-[var(--ink-strong)] placeholder:text-[var(--ink-muted)] sm:text-sm"
+            />
+          </div>
+          <p role="status" className="text-xs text-[var(--ink-muted)]">
+            {matchingBrands.length === orderedBrands.length ? `${orderedBrands.length} brands · A–Z` : `${matchingBrands.length} of ${orderedBrands.length} brands`}
+          </p>
+        </div>
+        {!matchingBrands.length ? (
+          <div className="rounded-[18px] border border-[var(--border-soft)] bg-[var(--surface)] px-6 py-12 text-center">
+            <p className="text-[var(--ink-muted)]">No brands match “{brandQuery.trim()}”.</p>
+            <Button variant="secondary" className="mt-4" onClick={() => setBrandQuery("")}>Show all brands</Button>
+          </div>
+        ) : null}
         <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-          {orderedBrands.map((brand) => {
+          {matchingBrands.map((brand) => {
             const hasLogo = Boolean(brand.logoUrl?.trim()) && !hiddenLogoSlugs[brand.slug];
             const hasSisterLogo = hasLogo && Boolean(brand.sisterLogoUrl?.trim());
 
@@ -908,15 +1024,16 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 role="button"
                 tabIndex={0}
                 aria-label={`Open details for ${brand.name}`}
+                aria-haspopup="dialog"
               >
-                <div className="relative aspect-[5/6] overflow-hidden bg-[var(--surface-strong)]">
+                <div className={`relative aspect-[5/6] overflow-hidden ${usesContainedProductImages(brand, brand.images[0]) ? "bg-white" : "bg-[var(--surface-strong)]"}`}>
                   <Image
                     src={brand.images[0]}
                     alt={`${brand.name} collection preview`}
                     fill
                     unoptimized
                     decoding="async"
-                    className="object-cover transition duration-500 ease-out group-hover:scale-[1.035]"
+                    className={`${usesContainedProductImages(brand, brand.images[0]) ? "object-contain p-4" : "object-cover"} transition duration-500 ease-out group-hover:scale-[1.035]`}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
                     style={{ objectPosition: brandCardImagePositionFor(brand) }}
                   />
@@ -986,43 +1103,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
           style={{ paddingTop: "max(1.5rem, calc(env(safe-area-inset-top) + 0.75rem))" }}
           onClick={closeModal}
         >
-          {previousBrand ? (
-            <button
-              type="button"
-              onClick={(event) => {
-                event.stopPropagation();
-                showAdjacentBrand("previous");
-              }}
-              aria-label={`View previous brand, ${previousBrand.name}`}
-              className="fixed top-1/2 z-20 hidden max-w-[6rem] -translate-y-1/2 items-center gap-1.5 text-left text-xs font-semibold text-white/74 drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white xl:flex"
-              style={{ left: "max(1rem, calc((100vw - 64rem) / 2 - 7rem))" }}
-            >
-              <span className="text-4xl font-light leading-none" aria-hidden="true">
-                &lsaquo;
-              </span>
-              <span className="leading-tight">{previousBrand.name}</span>
-            </button>
-          ) : null}
-
-          {nextBrand ? (
-            <button
-              type="button"
-              onClick={(event) => {
-                event.stopPropagation();
-                showAdjacentBrand("next");
-              }}
-              aria-label={`View next brand, ${nextBrand.name}`}
-              className="fixed top-1/2 z-20 hidden max-w-[6rem] -translate-y-1/2 items-center gap-1.5 text-right text-xs font-semibold text-white/74 drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white xl:flex"
-              style={{ right: "max(1rem, calc((100vw - 64rem) / 2 - 7rem))" }}
-            >
-              <span className="leading-tight">{nextBrand.name}</span>
-              <span className="text-4xl font-light leading-none" aria-hidden="true">
-                &rsaquo;
-              </span>
-            </button>
-          ) : null}
-
-          <div className="relative h-[calc(100dvh-1.5rem)] max-h-[92dvh] w-[calc(100vw-1.5rem)] max-w-5xl sm:h-auto sm:max-h-none sm:w-full">
+          <div className="relative w-full max-w-5xl">
             <BrandSwipePreview
               key={`previous-${previousBrand?.slug ?? "none"}`}
               brand={previousBrand}
@@ -1038,13 +1119,12 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
               isSettling={brandSwipeIsSettling}
             />
           <div
-            key={`active-${activeBrand.slug}`}
             ref={modalRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="quick-view-title"
             aria-describedby="quick-view-description"
-            className="relative z-10 h-full max-h-[92dvh] w-full overflow-hidden rounded-[24px] border border-white/35 bg-[var(--surface)] shadow-[0_24px_64px_rgba(12,10,8,0.32)] transition-transform duration-200 ease-out will-change-transform sm:h-auto sm:max-h-[94vh] sm:will-change-auto"
+            className="relative z-10 flex max-h-[calc(100dvh-3rem)] w-full flex-col overflow-hidden rounded-[24px] border border-white/35 bg-[var(--surface)] shadow-[0_24px_64px_rgba(12,10,8,0.32)] transition-transform duration-200 ease-out will-change-transform sm:will-change-auto"
             style={{
               transform: brandSwipeOffset ? `translateX(${brandSwipeOffset}px)` : undefined,
               transitionDuration: brandSwipeIsSettling
@@ -1074,11 +1154,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
               Close
             </Button>
 
-            <div className="grid h-full max-h-full min-w-0 overflow-hidden sm:max-h-[94vh] sm:overflow-y-auto lg:grid-cols-[minmax(0,1.18fr)_minmax(340px,0.82fr)]">
+            <div ref={modalContentRef} className="gallery-content grid min-h-0 min-w-0 overflow-y-auto overscroll-contain lg:grid-cols-[minmax(0,1.18fr)_minmax(340px,0.82fr)]">
               <div className="min-w-0 bg-[var(--surface)]">
                 <div
                   data-gallery-area
-                  className="group relative h-[70dvh] max-h-[calc(100dvh-10.5rem)] min-h-[390px] shrink-0 overflow-hidden bg-[var(--surface-strong)] sm:h-[62vh] sm:max-h-none sm:min-h-[360px] lg:h-[620px] lg:min-h-0"
+                  className={`group relative h-[48dvh] min-h-[240px] shrink-0 overflow-hidden sm:h-[min(56dvh,560px)] lg:h-[min(64dvh,620px)] ${usesContainedProductImages(activeBrand, activeBrand.images[activeImageIndex]) ? "bg-white" : "bg-[var(--surface-strong)]"}`}
                   onClick={handleGalleryTap}
                   onTouchStart={handleGalleryTouchStart}
                   onTouchEnd={handleGalleryTouchEnd}
@@ -1089,7 +1169,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     fill
                     unoptimized
                     decoding="async"
-                    className="object-cover"
+                    className={usesContainedProductImages(activeBrand, activeBrand.images[activeImageIndex]) ? "object-contain p-4 sm:p-6" : "object-cover"}
                     sizes="(max-width: 640px) 96vw, (max-width: 1024px) 92vw, (max-width: 1280px) 64vw, 720px"
                     style={{ objectPosition: modalImagePositionFor(activeBrand, activeImageIndex, isMobileHeroLayout) }}
                     loading="eager"
@@ -1102,42 +1182,23 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                         type="button"
                         onClick={() => advanceImage("previous")}
                         aria-label="View previous image"
-                        className="absolute left-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/35 bg-white/25 text-xl text-white shadow-[0_12px_30px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/38 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:flex sm:opacity-0 sm:group-hover:opacity-100"
+                        className="gallery-arrow absolute left-3 top-1/2 z-10 -translate-y-1/2 sm:left-4"
                       >
-                        <span aria-hidden="true">&larr;</span>
+                        <Chevron direction="previous" />
                       </button>
                       <button
                         type="button"
                         onClick={() => advanceImage("next")}
                         aria-label="View next image"
-                        className="absolute right-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/35 bg-white/25 text-xl text-white shadow-[0_12px_30px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-white/38 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:flex sm:opacity-0 sm:group-hover:opacity-100"
+                        className="gallery-arrow absolute right-3 top-1/2 z-10 -translate-y-1/2 sm:right-4"
                       >
-                        <span aria-hidden="true">&rarr;</span>
+                        <Chevron direction="next" />
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => advanceImage("previous")}
-                        aria-label="Tap left side for previous image"
-                        className="absolute inset-y-0 left-0 z-10 w-1/2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:hidden"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => advanceImage("next")}
-                        aria-label="Tap right side for next image"
-                        className="absolute inset-y-0 right-0 z-10 w-1/2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:hidden"
-                      />
-                      <div className="absolute bottom-3 left-4 right-4 z-20 flex gap-1.5 sm:hidden" aria-hidden="true">
-                        {activeBrand.images.map((image, index) => (
-                          <span
-                            key={`${activeBrand.slug}-mobile-indicator-${image}`}
-                            className={`h-1 flex-1 rounded-full ${
-                              index === activeImageIndex ? "bg-white" : "bg-white/38"
-                            }`}
-                          />
-                        ))}
-                      </div>
                     </>
                   ) : null}
+                  <p role="status" aria-label={`Image ${activeImageIndex + 1} of ${activeImageCount}`} className="pointer-events-none absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full border border-black/10 bg-white/95 px-3 py-1.5 text-[0.65rem] font-medium tabular-nums text-[var(--ink-strong)] shadow-sm">
+                    {activeImageIndex + 1} / {activeImageCount}
+                  </p>
                 </div>
 
                 {activeBrand.images.length > 1 ? (
@@ -1149,23 +1210,24 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 ) : null}
               </div>
 
-              <div className="flex min-h-0 min-w-0 flex-col justify-start px-5 py-2 sm:min-h-full sm:px-8 sm:py-8 lg:justify-center lg:px-10">
-                <div className="space-y-2 sm:space-y-5">
+              <div className="flex min-h-0 min-w-0 flex-col justify-start px-5 py-5 sm:min-h-full sm:px-8 sm:py-8 lg:justify-center lg:px-10">
+                <div className="space-y-4 sm:space-y-5">
                   <div className="space-y-1.5 sm:space-y-3">
                     <h2
                       id="quick-view-title"
-                      className="font-display text-[2rem] leading-none text-[var(--ink-strong)] sm:text-5xl sm:leading-tight"
+                      className="font-display text-[2rem] leading-[1.05] text-[var(--ink-strong)] sm:text-5xl sm:leading-tight"
+                      aria-live="polite"
                     >
                       {activeBrand.name}
                     </h2>
                     <p
                       id="quick-view-description"
-                      className="max-h-9 overflow-hidden text-xs leading-[1.15rem] text-[var(--ink-muted)] sm:max-h-none sm:text-base sm:leading-7"
+                      className="text-sm leading-6 text-[var(--ink-muted)] sm:text-base sm:leading-7"
                     >
                       {activeBrand.oneLiner}
                     </p>
                     {activeBrand.orderAccessNote ? (
-                      <p className="hidden whitespace-pre-line rounded-xl border border-[var(--border-soft)] bg-[var(--surface-strong)] px-3 py-2 text-xs leading-6 text-[var(--ink-strong)] sm:block">
+                      <p className="whitespace-pre-line rounded-xl border border-[var(--border-soft)] bg-[var(--surface-strong)] px-3 py-2 text-xs leading-6 text-[var(--ink-strong)]">
                         {activeBrand.orderAccessNote}
                       </p>
                     ) : null}
@@ -1176,7 +1238,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                       href={BOOKING_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={buttonStyles({ variant: "primary", size: "md", className: "px-4 py-1.5 text-[0.66rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
+                      className={buttonStyles({ variant: "primary", size: "md", className: "min-h-11 px-4 text-[0.66rem] sm:px-5 sm:text-[0.73rem]" })}
                     >
                       Book Appointment
                     </a>
@@ -1185,14 +1247,14 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                         href={activeOrderUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={buttonStyles({ variant: "secondary", size: "md", className: "px-4 py-1.5 text-[0.66rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
+                        className={buttonStyles({ variant: "secondary", size: "md", className: "min-h-11 px-4 text-[0.66rem] sm:px-5 sm:text-[0.73rem]" })}
                       >
                         Order Now
                       </a>
                     ) : (
                       <Link
                         href={activeOrderUrl}
-                        className={buttonStyles({ variant: "secondary", size: "md", className: "px-4 py-1.5 text-[0.66rem] sm:px-5 sm:py-2.5 sm:text-[0.73rem]" })}
+                        className={buttonStyles({ variant: "secondary", size: "md", className: "min-h-11 px-4 text-[0.66rem] sm:px-5 sm:text-[0.73rem]" })}
                       >
                         Order Now
                       </Link>
@@ -1201,6 +1263,21 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                 </div>
               </div>
             </div>
+            <nav aria-label="Browse brands" className="grid shrink-0 grid-cols-2 items-stretch border-t border-[var(--border-soft)] bg-[var(--surface)] sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+              {previousBrand ? (
+                <button type="button" onClick={() => showAdjacentBrand("previous")} aria-label={`View previous brand, ${previousBrand.name}`} className="group flex min-w-0 items-center gap-2 px-3 py-3 text-left transition hover:bg-[var(--surface-strong)] sm:gap-3 sm:px-5">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--border-strong)] text-[var(--ink-strong)] transition group-hover:border-[var(--accent-strong)] sm:h-9 sm:w-9"><Chevron direction="previous" /></span>
+                  <span className="min-w-0"><span className="block text-[0.6rem] font-medium text-[var(--ink-muted)]">Previous brand</span><span className="mt-0.5 block text-[0.68rem] font-medium leading-[1.15rem] text-[var(--ink-strong)] sm:text-sm sm:leading-5">{previousBrand.name}</span></span>
+                </button>
+              ) : null}
+              <button type="button" onClick={closeModal} className="hidden px-5 text-xs font-medium text-[var(--ink-muted)] transition hover:bg-[var(--surface-strong)] hover:text-[var(--ink-strong)] sm:block">Back to brands</button>
+              {nextBrand ? (
+                <button type="button" onClick={() => showAdjacentBrand("next")} aria-label={`View next brand, ${nextBrand.name}`} className="group flex min-w-0 items-center justify-end gap-2 border-l border-[var(--border-soft)] px-3 py-3 text-right transition hover:bg-[var(--surface-strong)] sm:gap-3 sm:border-l-0 sm:px-5">
+                  <span className="min-w-0"><span className="block text-[0.6rem] font-medium text-[var(--ink-muted)]">Next brand</span><span className="mt-0.5 block text-[0.68rem] font-medium leading-[1.15rem] text-[var(--ink-strong)] sm:text-sm sm:leading-5">{nextBrand.name}</span></span>
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--border-strong)] text-[var(--ink-strong)] transition group-hover:border-[var(--accent-strong)] sm:h-9 sm:w-9"><Chevron direction="next" /></span>
+                </button>
+              ) : null}
+            </nav>
           </div>
           </div>
         </div>
