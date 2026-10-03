@@ -40,3 +40,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generated from source photography before dev/build
+/public/optimized/
+/src/data/image-manifest.json
+/.playwright-cli/

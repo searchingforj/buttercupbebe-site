@@ -8,6 +8,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button, buttonStyles } from "@/components/ui/button";
 import type { Brand } from "@/data/brands";
 import { BOOKING_URL } from "@/lib/constants";
+import { imageDetails } from "@/lib/image-loader";
+import { canPrefetchImages, GALLERY_SIZES, prepareImage } from "@/lib/prepare-image";
 
 type BrandsShowcaseProps = {
   brands: Brand[];
@@ -81,7 +83,7 @@ const MOBILE_HERO_ROTATION_MS = 7500;
 const MOBILE_HERO_MEDIA_QUERY = "(max-width: 639px)";
 const SWIPE_THRESHOLD_PX = 44;
 const BRAND_SWIPE_THRESHOLD_PX = 76;
-const BRAND_DISMISS_THRESHOLD_PX = 92;
+const MOBILE_GALLERY_MEDIA_QUERY = "(max-width: 959px)";
 const BRAND_SWIPE_GAP_PX = 12;
 const BRAND_SWIPE_SETTLE_MS = 220;
 
@@ -91,6 +93,7 @@ const FOCUSABLE_SELECTOR = [
   "textarea:not([disabled])",
   "input:not([disabled])",
   "select:not([disabled])",
+  "summary",
   "[tabindex]:not([tabindex='-1'])",
 ].join(",");
 
@@ -120,13 +123,6 @@ const brandCardImagePositionFor = (brand: Brand) =>
 const brandLogoScaleFor = (brand: Brand) => BRAND_LOGO_SCALE_BY_SLUG[brand.slug] ?? 1;
 const usesContainedProductImages = (brand: Brand, image?: string) =>
   brand.slug === "weisinger-bamboo" || Boolean(image?.match(/\/spb[345]\.webp$/));
-const modalImagePositionFor = (brand: Brand, imageIndex: number, isMobileLayout: boolean) => {
-  if (!isMobileLayout && brand.slug === "mishmoccs" && imageIndex === 1) {
-    return "center bottom";
-  }
-
-  return imageIndex === 0 ? brandCardImagePositionFor(brand) : "center center";
-};
 const clampBrandSwipeOffset = (offset: number, maxOffset: number) =>
   Math.max(-maxOffset, Math.min(maxOffset, offset));
 const brandSwipeProgress = (offset: number) =>
@@ -170,7 +166,7 @@ function BrandSwipePreview({
   return (
     <div
       aria-hidden="true"
-      className={`pointer-events-none absolute top-0 z-0 hidden h-full w-full overflow-hidden rounded-[24px] border border-white/20 bg-[var(--surface)] shadow-[0_24px_64px_rgba(12,10,8,0.25)] max-sm:block ${
+      className={`pointer-events-none absolute top-0 z-0 hidden h-full w-full overflow-hidden rounded-[24px] border border-white/20 bg-[var(--surface)] shadow-[0_24px_64px_rgba(12,10,8,0.25)] max-[959px]:block ${
         side === "right" ? "left-[calc(100%+12px)]" : "right-[calc(100%+12px)]"
       }`}
       style={{
@@ -181,15 +177,14 @@ function BrandSwipePreview({
           : undefined,
       }}
     >
-      <div className="relative h-[48dvh] min-h-[240px] bg-white">
+      <div className="quick-view-preview-image">
         <Image
           src={brand.images[0]}
           alt=""
           fill
-          unoptimized
           decoding="async"
-          className={usesContainedProductImages(brand, brand.images[0]) ? "object-contain" : "object-cover"}
-          sizes="96vw"
+          className="object-contain"
+          sizes={GALLERY_SIZES}
           style={{ objectPosition: brandCardImagePositionFor(brand) }}
         />
       </div>
@@ -200,61 +195,16 @@ function BrandSwipePreview({
   );
 }
 
-function ThumbnailStrip({
-  brand,
-  activeImageIndex,
-  onSelect,
-}: {
-  brand: Brand;
-  activeImageIndex: number;
-  onSelect: (index: number) => void;
-}) {
-  const stripRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const strip = stripRef.current;
-    const thumbnail = strip?.children[activeImageIndex] as HTMLElement | undefined;
-    if (strip && thumbnail) {
-      strip.scrollTo({ left: thumbnail.offsetLeft - strip.offsetLeft - (strip.clientWidth - thumbnail.clientWidth) / 2 });
-    }
-  }, [activeImageIndex, brand.slug]);
-
-  return (
-    <div ref={stripRef} className="gallery-thumbnails relative hidden max-w-full items-center gap-2 overflow-x-auto px-4 py-2 sm:flex sm:px-5 sm:py-3">
-      {brand.images.map((image, index) => (
-        <button
-          key={`${brand.slug}-${image}`}
-          type="button"
-          onClick={() => onSelect(index)}
-          aria-label={`View ${brand.name} image ${index + 1}`}
-          aria-pressed={activeImageIndex === index}
-          className={`relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border transition sm:h-16 sm:w-16 ${
-            activeImageIndex === index
-              ? "border-[var(--accent-strong)] shadow-[0_0_0_2px_var(--accent-soft)]"
-              : "border-[var(--border-soft)] opacity-72 hover:opacity-100"
-          }`}
-        >
-          <Image
-            src={image}
-            alt=""
-            fill
-            unoptimized
-            decoding="async"
-            className="object-cover"
-            sizes="64px"
-          />
-        </button>
-      ))}
-    </div>
-  );
-}
-
 export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const [activeBrand, setActiveBrand] = useState<Brand | null>(null);
   const [brandQuery, setBrandQuery] = useState("");
   const [heroPaused, setHeroPaused] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [requestedImageIndex, setRequestedImageIndex] = useState(0);
+  const [imageError, setImageError] = useState(false);
+  const [imageRetry, setImageRetry] = useState(0);
+  const [isMobileGalleryLayout, setIsMobileGalleryLayout] = useState(false);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [heroRotationResetKey, setHeroRotationResetKey] = useState(0);
   const [isMobileHeroLayout, setIsMobileHeroLayout] = useState(false);
@@ -270,8 +220,8 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const galleryTouchDidSwipe = useRef(false);
   const brandTouchStartX = useRef<number | null>(null);
   const brandTouchStartY = useRef<number | null>(null);
-  const modalDismissStartX = useRef<number | null>(null);
-  const modalDismissStartY = useRef<number | null>(null);
+  const galleryTouchStartY = useRef<number | null>(null);
+  const heroTouchStartY = useRef<number | null>(null);
   const brandSwipeOffsetRef = useRef(0);
   const brandSwipeSettleTimer = useRef<number | null>(null);
 
@@ -309,10 +259,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
     setActiveBrand(null);
     setActiveImageIndex(0);
+    setRequestedImageIndex(0);
+    setImageError(false);
     brandTouchStartX.current = null;
     brandTouchStartY.current = null;
-    modalDismissStartX.current = null;
-    modalDismissStartY.current = null;
+
     brandSwipeOffsetRef.current = 0;
     setBrandSwipeIsSettling(false);
     setBrandSwipeOffset(0);
@@ -356,7 +307,8 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
         return;
       }
 
-      setActiveImageIndex((currentIndex) => {
+      setImageError(false);
+      setRequestedImageIndex((currentIndex) => {
         const maxIndex = activeImageCount - 1;
 
         if (direction === "next") {
@@ -375,6 +327,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
         return;
       }
 
+      clearBrandSwipeSettleTimer();
       const currentIndex = orderedBrands.findIndex((brand) => brand.slug === activeBrand.slug);
       if (currentIndex < 0) {
         return;
@@ -384,17 +337,21 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       const nextIndex = (currentIndex + offset + orderedBrands.length) % orderedBrands.length;
       setActiveBrand(orderedBrands[nextIndex]);
       setActiveImageIndex(0);
+      setRequestedImageIndex(0);
+      setImageError(false);
       brandSwipeOffsetRef.current = 0;
       setBrandSwipeIsSettling(false);
       setBrandSwipeOffset(0);
     },
-    [activeBrand, orderedBrands],
+    [activeBrand, orderedBrands, clearBrandSwipeSettleTimer],
   );
 
   const openBrandModal = (brand: Brand) => {
     clearBrandSwipeSettleTimer();
     setActiveBrand(brand);
     setActiveImageIndex(0);
+    setRequestedImageIndex(0);
+    setImageError(false);
     brandSwipeOffsetRef.current = 0;
     setBrandSwipeIsSettling(false);
     setBrandSwipeOffset(0);
@@ -412,6 +369,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
   const handleGalleryTouchStart = (event: TouchEvent<HTMLDivElement>) => {
     galleryTouchStartX.current = event.changedTouches[0]?.clientX ?? null;
+    galleryTouchStartY.current = event.changedTouches[0]?.clientY ?? null;
     galleryTouchDidSwipe.current = false;
   };
 
@@ -421,9 +379,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     }
 
     const distance = event.changedTouches[0].clientX - galleryTouchStartX.current;
+    const verticalDistance = event.changedTouches[0].clientY - (galleryTouchStartY.current ?? event.changedTouches[0].clientY);
     galleryTouchStartX.current = null;
+    galleryTouchStartY.current = null;
 
-    if (Math.abs(distance) < SWIPE_THRESHOLD_PX) {
+    if (Math.abs(distance) < SWIPE_THRESHOLD_PX || Math.abs(distance) < Math.abs(verticalDistance) * 1.25) {
       return;
     }
 
@@ -432,7 +392,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   };
 
   const handleGalleryTap = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!activeImageCount || !window.matchMedia(MOBILE_HERO_MEDIA_QUERY).matches) {
+    if (!activeImageCount || !window.matchMedia(MOBILE_GALLERY_MEDIA_QUERY).matches) {
       return;
     }
 
@@ -451,12 +411,12 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   };
 
   const handleBrandTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-    if (!isMobileHeroLayout || orderedBrands.length < 2) {
+    if (!isMobileGalleryLayout || orderedBrands.length < 2) {
       return;
     }
 
     const target = event.target as HTMLElement;
-    if (target.closest("[data-gallery-area], a, button")) {
+    if (target.closest("[data-gallery-area], a, button, summary, details")) {
       return;
     }
 
@@ -477,7 +437,11 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     const distanceX = touch.clientX - brandTouchStartX.current;
     const distanceY = touch.clientY - brandTouchStartY.current;
 
-    if (Math.abs(distanceY) > Math.abs(distanceX) * 1.15) {
+    if (Math.abs(distanceY) > 8 && Math.abs(distanceY) > Math.abs(distanceX) * 1.15) {
+      brandTouchStartX.current = null;
+      brandTouchStartY.current = null;
+      brandSwipeOffsetRef.current = 0;
+      setBrandSwipeOffset(0);
       return;
     }
 
@@ -497,6 +461,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
     if (Math.abs(distance) >= BRAND_SWIPE_THRESHOLD_PX) {
       const direction = distance < 0 ? "next" : "previous";
+      if (prefersReducedMotion) {
+        showAdjacentBrand(direction);
+        return;
+      }
       const targetOffset = direction === "next" ? -brandSwipeDistance() : brandSwipeDistance();
 
       setBrandSwipeIsSettling(true);
@@ -520,43 +488,13 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     }, BRAND_SWIPE_SETTLE_MS);
   };
 
-  const handleModalDismissTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-    if (!isMobileHeroLayout) {
-      return;
-    }
-
-    const touch = event.changedTouches[0];
-    modalDismissStartX.current = touch?.clientX ?? null;
-    modalDismissStartY.current = touch?.clientY ?? null;
-  };
-
-  const handleModalDismissTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
-    if (!isMobileHeroLayout || modalDismissStartX.current === null || modalDismissStartY.current === null) {
-      return;
-    }
-
-    const touch = event.changedTouches[0];
-    if (!touch) {
-      return;
-    }
-
-    const distanceX = touch.clientX - modalDismissStartX.current;
-    const distanceY = touch.clientY - modalDismissStartY.current;
-    modalDismissStartX.current = null;
-    modalDismissStartY.current = null;
-
-    if (distanceY > BRAND_DISMISS_THRESHOLD_PX && distanceY > Math.abs(distanceX) * 1.35) {
-      closeModal();
-    }
-  };
-
   const handleBrandPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!isMobileHeroLayout || event.pointerType !== "mouse" || orderedBrands.length < 2) {
+    if (!isMobileGalleryLayout || event.pointerType !== "mouse" || orderedBrands.length < 2) {
       return;
     }
 
     const target = event.target as HTMLElement;
-    if (target.closest("[data-gallery-area], a, button")) {
+    if (target.closest("[data-gallery-area], a, button, summary, details")) {
       return;
     }
 
@@ -570,14 +508,18 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   };
 
   const handleBrandPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!isMobileHeroLayout || event.pointerType !== "mouse" || brandTouchStartX.current === null || brandTouchStartY.current === null) {
+    if (!isMobileGalleryLayout || event.pointerType !== "mouse" || brandTouchStartX.current === null || brandTouchStartY.current === null) {
       return;
     }
 
     const distanceX = event.clientX - brandTouchStartX.current;
     const distanceY = event.clientY - brandTouchStartY.current;
 
-    if (Math.abs(distanceY) > Math.abs(distanceX) * 1.15) {
+    if (Math.abs(distanceY) > 8 && Math.abs(distanceY) > Math.abs(distanceX) * 1.15) {
+      brandTouchStartX.current = null;
+      brandTouchStartY.current = null;
+      brandSwipeOffsetRef.current = 0;
+      setBrandSwipeOffset(0);
       return;
     }
 
@@ -587,7 +529,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   };
 
   const handleBrandPointerUp = () => {
-    if (!isMobileHeroLayout || brandTouchStartX.current === null) {
+    if (!isMobileGalleryLayout || brandTouchStartX.current === null) {
       return;
     }
 
@@ -596,6 +538,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
   const handleHeroTouchStart = (event: TouchEvent<HTMLElement>) => {
     heroTouchStartX.current = event.changedTouches[0]?.clientX ?? null;
+    heroTouchStartY.current = event.changedTouches[0]?.clientY ?? null;
     heroTouchDidSwipe.current = false;
   };
 
@@ -605,9 +548,10 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
     }
 
     const distance = event.changedTouches[0].clientX - heroTouchStartX.current;
+    const verticalDistance = event.changedTouches[0].clientY - (heroTouchStartY.current ?? event.changedTouches[0].clientY);
     heroTouchStartX.current = null;
 
-    if (Math.abs(distance) < SWIPE_THRESHOLD_PX) {
+    if (Math.abs(distance) < SWIPE_THRESHOLD_PX || Math.abs(distance) < Math.abs(verticalDistance) * 1.25) {
       return;
     }
 
@@ -641,6 +585,46 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
 
     return () => mediaQuery.removeEventListener("change", updateMobileHeroLayout);
   }, []);
+
+  useEffect(() => {
+    const query = window.matchMedia(MOBILE_GALLERY_MEDIA_QUERY);
+    const update = () => setIsMobileGalleryLayout(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!activeBrand) return;
+    let cancelled = false;
+    // Decode first, then swap. Rapid clicks cannot let an older request win.
+    prepareImage(activeBrand.images[requestedImageIndex], GALLERY_SIZES, "high")
+      .then(() => {
+        if (!cancelled) {
+          setActiveImageIndex(requestedImageIndex);
+          setImageError(false);
+        }
+      })
+      .catch(() => { if (!cancelled) setImageError(true); });
+    return () => { cancelled = true; };
+  }, [activeBrand, requestedImageIndex, imageRetry]);
+
+  useEffect(() => {
+    if (!activeBrand || !canPrefetchImages()) return;
+    const timer = window.setTimeout(() => {
+      const count = activeBrand.images.length;
+      const upcoming = [
+        activeBrand.images[(requestedImageIndex + 1) % count],
+        activeBrand.images[(requestedImageIndex - 1 + count) % count],
+        previousBrand?.images[0],
+        nextBrand?.images[0],
+      ];
+      for (const src of new Set(upcoming)) {
+        if (src) void prepareImage(src).catch(() => {});
+      }
+    }, 180);
+    return () => window.clearTimeout(timer);
+  }, [activeBrand, requestedImageIndex, previousBrand, nextBrand]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -801,6 +785,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   alt={`${brand.name} featured collection`}
                   fill
                   priority={index === 0}
+                  loading={index === 0 || isActive ? "eager" : "lazy"}
                   quality={92}
                   decoding="async"
                   className={`transition-transform duration-[9000ms] ease-out ${
@@ -905,7 +890,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                       className={`${buttonStyles({
                         variant: "glass",
                         size: "lg",
-                      })} group relative overflow-hidden max-sm:!hidden sm:inline-flex`}
+                      })} group relative overflow-hidden max-sm:px-4 max-sm:py-2 max-sm:text-[0.66rem]`}
                     >
                       <span>Browse All Brands</span>
                       <svg
@@ -978,7 +963,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
           </a>
         </div>
 
-        <div className="mb-7 flex flex-wrap items-center justify-between gap-3">
+        <div className="brand-search-toolbar mb-7 flex flex-wrap items-center justify-between gap-3">
           <div className="relative w-full sm:max-w-sm">
             <label htmlFor="brand-search" className="sr-only">Search brands</label>
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--ink-muted)]">
@@ -1013,7 +998,9 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
               <article
                 id={`brand-${brand.slug}`}
                 key={brand.slug}
-                className="group relative cursor-pointer overflow-hidden rounded-[18px] border border-[var(--border-soft)] bg-[var(--surface)] shadow-[0_18px_42px_rgba(37,31,24,0.08)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-[0_24px_58px_rgba(37,31,24,0.13)]"
+                className="group relative cursor-pointer overflow-hidden rounded-[18px] border border-[var(--border-soft)] bg-[var(--surface)] shadow-[0_5px_20px_rgba(37,31,24,0.04)] transition duration-200 hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-[0_10px_28px_rgba(37,31,24,0.09)]"
+                onMouseEnter={() => { if (canPrefetchImages()) void prepareImage(brand.images[0]).catch(() => {}); }}
+                onFocus={() => { if (canPrefetchImages()) void prepareImage(brand.images[0]).catch(() => {}); }}
                 onClick={() => openBrandModal(brand)}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === " ") {
@@ -1030,8 +1017,9 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                   <Image
                     src={brand.images[0]}
                     alt={`${brand.name} collection preview`}
+                    placeholder={imageDetails(brand.images[0]) ? "blur" : "empty"}
+                    blurDataURL={imageDetails(brand.images[0])?.blur}
                     fill
-                    unoptimized
                     decoding="async"
                     className={`${usesContainedProductImages(brand, brand.images[0]) ? "object-contain p-4" : "object-cover"} transition duration-500 ease-out group-hover:scale-[1.035]`}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
@@ -1098,187 +1086,103 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
       </section>
 
       {activeBrand ? (
-        <div
-          className="fixed inset-0 z-50 flex items-start justify-center overflow-hidden bg-[rgba(18,16,14,0.64)] p-3 sm:items-center sm:p-4 sm:backdrop-blur-sm"
-          style={{ paddingTop: "max(1.5rem, calc(env(safe-area-inset-top) + 0.75rem))" }}
-          onClick={closeModal}
-        >
-          <div className="relative w-full max-w-5xl">
-            <BrandSwipePreview
-              key={`previous-${previousBrand?.slug ?? "none"}`}
-              brand={previousBrand}
-              side="left"
-              swipeOffset={brandSwipeOffset}
-              isSettling={brandSwipeIsSettling}
-            />
-            <BrandSwipePreview
-              key={`next-${nextBrand?.slug ?? "none"}`}
-              brand={nextBrand}
-              side="right"
-              swipeOffset={brandSwipeOffset}
-              isSettling={brandSwipeIsSettling}
-            />
-          <div
-            ref={modalRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="quick-view-title"
-            aria-describedby="quick-view-description"
-            className="relative z-10 flex max-h-[calc(100dvh-3rem)] w-full flex-col overflow-hidden rounded-[24px] border border-white/35 bg-[var(--surface)] shadow-[0_24px_64px_rgba(12,10,8,0.32)] transition-transform duration-200 ease-out will-change-transform sm:will-change-auto"
-            style={{
-              transform: brandSwipeOffset ? `translateX(${brandSwipeOffset}px)` : undefined,
-              transitionDuration: brandSwipeIsSettling
-                ? `${BRAND_SWIPE_SETTLE_MS}ms`
-                : brandSwipeOffset
-                  ? "0ms"
-                  : undefined,
-            }}
-            onClick={(event) => event.stopPropagation()}
-            onTouchStart={handleBrandTouchStart}
-            onTouchStartCapture={handleModalDismissTouchStart}
-            onTouchMove={handleBrandTouchMove}
-            onTouchEnd={handleBrandTouchEnd}
-            onTouchEndCapture={handleModalDismissTouchEnd}
-            onPointerDown={handleBrandPointerDown}
-            onPointerMove={handleBrandPointerMove}
-            onPointerUp={handleBrandPointerUp}
-            onPointerCancel={handleBrandPointerUp}
-          >
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={closeModal}
-              aria-label="Close quick view"
-              className="absolute right-3 top-3 z-20 bg-[rgba(255,255,255,0.88)] shadow-[0_10px_24px_rgba(0,0,0,0.12)] backdrop-blur-md"
+        <div className="quick-view-backdrop" onClick={closeModal}>
+          <div className="quick-view-shell">
+            <BrandSwipePreview brand={previousBrand} side="left" swipeOffset={brandSwipeOffset} isSettling={brandSwipeIsSettling} />
+            <BrandSwipePreview brand={nextBrand} side="right" swipeOffset={brandSwipeOffset} isSettling={brandSwipeIsSettling} />
+            <div
+              ref={modalRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="quick-view-title"
+              aria-describedby={isMobileGalleryLayout ? undefined : "quick-view-description"}
+              className="quick-view"
+              style={{
+                transform: brandSwipeOffset ? `translateX(${brandSwipeOffset}px)` : undefined,
+                transitionDuration: brandSwipeIsSettling ? `${BRAND_SWIPE_SETTLE_MS}ms` : brandSwipeOffset ? "0ms" : undefined,
+              }}
+              onClick={(event) => event.stopPropagation()}
+              onTouchStart={handleBrandTouchStart}
+              onTouchMove={handleBrandTouchMove}
+              onTouchEnd={handleBrandTouchEnd}
+              onTouchCancel={() => { brandSwipeOffsetRef.current = 0; handleBrandTouchEnd(); }}
+              onPointerDown={handleBrandPointerDown}
+              onPointerMove={handleBrandPointerMove}
+              onPointerUp={handleBrandPointerUp}
+              onPointerCancel={handleBrandPointerUp}
             >
-              Close
-            </Button>
+              <button type="button" onClick={closeModal} aria-label="Close quick view" className="quick-view-close">
+                <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><path d="m6 6 12 12M18 6 6 18" /></svg>
+              </button>
 
-            <div ref={modalContentRef} className="gallery-content grid min-h-0 min-w-0 overflow-y-auto overscroll-contain lg:grid-cols-[minmax(0,1.18fr)_minmax(340px,0.82fr)]">
-              <div className="min-w-0 bg-[var(--surface)]">
-                <div
-                  data-gallery-area
-                  className={`group relative h-[48dvh] min-h-[240px] shrink-0 overflow-hidden sm:h-[min(56dvh,560px)] lg:h-[min(64dvh,620px)] ${usesContainedProductImages(activeBrand, activeBrand.images[activeImageIndex]) ? "bg-white" : "bg-[var(--surface-strong)]"}`}
-                  onClick={handleGalleryTap}
-                  onTouchStart={handleGalleryTouchStart}
-                  onTouchEnd={handleGalleryTouchEnd}
-                >
-                  <Image
-                    src={activeBrand.images[activeImageIndex]}
-                    alt={`${activeBrand.name} image ${activeImageIndex + 1}`}
-                    fill
-                    unoptimized
-                    decoding="async"
-                    className={usesContainedProductImages(activeBrand, activeBrand.images[activeImageIndex]) ? "object-contain p-4 sm:p-6" : "object-cover"}
-                    sizes="(max-width: 640px) 96vw, (max-width: 1024px) 92vw, (max-width: 1280px) 64vw, 720px"
-                    style={{ objectPosition: modalImagePositionFor(activeBrand, activeImageIndex, isMobileHeroLayout) }}
-                    loading="eager"
-                    fetchPriority="high"
-                  />
-
-                  {activeBrand.images.length > 1 ? (
-                    <>
-                      <button
-                        type="button"
-                        onClick={() => advanceImage("previous")}
-                        aria-label="View previous image"
-                        className="gallery-arrow absolute left-3 top-1/2 z-10 -translate-y-1/2 sm:left-4"
-                      >
-                        <Chevron direction="previous" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => advanceImage("next")}
-                        aria-label="View next image"
-                        className="gallery-arrow absolute right-3 top-1/2 z-10 -translate-y-1/2 sm:right-4"
-                      >
-                        <Chevron direction="next" />
-                      </button>
-                    </>
-                  ) : null}
-                  <p role="status" aria-label={`Image ${activeImageIndex + 1} of ${activeImageCount}`} className="pointer-events-none absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full border border-black/10 bg-white/95 px-3 py-1.5 text-[0.65rem] font-medium tabular-nums text-[var(--ink-strong)] shadow-sm">
-                    {activeImageIndex + 1} / {activeImageCount}
-                  </p>
-                </div>
-
-                {activeBrand.images.length > 1 ? (
-                  <ThumbnailStrip
-                    brand={activeBrand}
-                    activeImageIndex={activeImageIndex}
-                    onSelect={setActiveImageIndex}
-                  />
+              <div
+                data-gallery-area
+                className="quick-view-gallery"
+                aria-busy={requestedImageIndex !== activeImageIndex}
+                onClick={handleGalleryTap}
+                onTouchStart={handleGalleryTouchStart}
+                onTouchEnd={handleGalleryTouchEnd}
+                onTouchCancel={() => { galleryTouchStartX.current = null; galleryTouchStartY.current = null; }}
+              >
+                <Image
+                  src={activeBrand.images[activeImageIndex]}
+                  alt={`${activeBrand.name} image ${activeImageIndex + 1}`}
+                  fill
+                  className="object-contain"
+                  sizes={GALLERY_SIZES}
+                  placeholder={imageDetails(activeBrand.images[activeImageIndex]) ? "blur" : "empty"}
+                  blurDataURL={imageDetails(activeBrand.images[activeImageIndex])?.blur}
+                  loading="eager"
+                  fetchPriority="high"
+                />
+                {activeImageCount > 1 ? (
+                  <>
+                    <button type="button" onClick={() => advanceImage("previous")} aria-label="View previous image" className="gallery-arrow absolute left-3 top-1/2 z-10 -translate-y-1/2"><Chevron direction="previous" /></button>
+                    <button type="button" onClick={() => advanceImage("next")} aria-label="View next image" className="gallery-arrow absolute right-3 top-1/2 z-10 -translate-y-1/2"><Chevron direction="next" /></button>
+                  </>
                 ) : null}
               </div>
 
-              <div className="flex min-h-0 min-w-0 flex-col justify-start px-5 py-5 sm:min-h-full sm:px-8 sm:py-8 lg:justify-center lg:px-10">
-                <div className="space-y-4 sm:space-y-5">
-                  <div className="space-y-1.5 sm:space-y-3">
-                    <h2
-                      id="quick-view-title"
-                      className="font-display text-[2rem] leading-[1.05] text-[var(--ink-strong)] sm:text-5xl sm:leading-tight"
-                      aria-live="polite"
-                    >
-                      {activeBrand.name}
-                    </h2>
-                    <p
-                      id="quick-view-description"
-                      className="text-sm leading-6 text-[var(--ink-muted)] sm:text-base sm:leading-7"
-                    >
-                      {activeBrand.oneLiner}
-                    </p>
-                    {activeBrand.orderAccessNote ? (
-                      <p className="whitespace-pre-line rounded-xl border border-[var(--border-soft)] bg-[var(--surface-strong)] px-3 py-2 text-xs leading-6 text-[var(--ink-strong)]">
-                        {activeBrand.orderAccessNote}
-                      </p>
-                    ) : null}
+              <div ref={modalContentRef} className="quick-view-details" data-brand-swipe-area>
+                <div className="quick-view-copy">
+                  <div className="quick-view-heading">
+                    <h2 id="quick-view-title" className="font-display" aria-live="polite">{activeBrand.name}</h2>
+                    <p className="quick-view-count" role="status" aria-label={`Image ${activeImageIndex + 1} of ${activeImageCount}`}>{activeImageIndex + 1} / {activeImageCount}</p>
                   </div>
-
-                  <div className="flex flex-wrap gap-2 pt-0.5 sm:gap-3 sm:pt-0">
-                    <a
-                      href={BOOKING_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={buttonStyles({ variant: "primary", size: "md", className: "min-h-11 px-4 text-[0.66rem] sm:px-5 sm:text-[0.73rem]" })}
-                    >
-                      Book Appointment
-                    </a>
+                  <p id="quick-view-description" className="quick-view-description">{activeBrand.oneLiner}</p>
+                  {activeBrand.orderAccessNote ? (
+                    <details key={activeBrand.slug} className="quick-view-order-note">
+                      <summary>Ordering details</summary>
+                      <p className="whitespace-pre-line">{activeBrand.orderAccessNote}</p>
+                    </details>
+                  ) : null}
+                  <div className="quick-view-actions">
                     {isOrderUrlExternal ? (
-                      <a
-                        href={activeOrderUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={buttonStyles({ variant: "secondary", size: "md", className: "min-h-11 px-4 text-[0.66rem] sm:px-5 sm:text-[0.73rem]" })}
-                      >
-                        Order Now
-                      </a>
+                      <a href={activeOrderUrl} target="_blank" rel="noopener noreferrer" className={buttonStyles({ variant: "primary", size: "md" })}>Order Now</a>
                     ) : (
-                      <Link
-                        href={activeOrderUrl}
-                        className={buttonStyles({ variant: "secondary", size: "md", className: "min-h-11 px-4 text-[0.66rem] sm:px-5 sm:text-[0.73rem]" })}
-                      >
-                        Order Now
-                      </Link>
+                      <Link href={activeOrderUrl} className={buttonStyles({ variant: "primary", size: "md" })}>Ordering Help</Link>
                     )}
+                    <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className={buttonStyles({ variant: "secondary", size: "md" })}>Book Appointment</a>
                   </div>
+                  {imageError ? (
+                    <p role="alert" className="mt-2 text-xs text-[var(--ink-muted)]">Photo couldn’t load. <button type="button" className="underline underline-offset-2" onClick={() => setImageRetry(value => value + 1)}>Try again</button></p>
+                  ) : null}
                 </div>
+
+                <nav aria-label="Browse brands" className="quick-view-brand-nav">
+                  <button type="button" onClick={() => showAdjacentBrand("previous")} aria-label={`View previous brand, ${previousBrand?.name}`} className="quick-view-brand-link">
+                    <Chevron direction="previous" />
+                    <span className="quick-view-adjacent-name"><span>Previous brand</span>{previousBrand?.name}</span>
+                  </button>
+                  <span className="quick-view-swipe-hint">Swipe between brands</span>
+                  <button type="button" onClick={() => showAdjacentBrand("next")} aria-label={`View next brand, ${nextBrand?.name}`} className="quick-view-brand-link quick-view-brand-next">
+                    <span className="quick-view-adjacent-name"><span>Next brand</span>{nextBrand?.name}</span>
+                    <Chevron direction="next" />
+                  </button>
+                  <button type="button" onClick={closeModal} className="quick-view-back">Back to brands</button>
+                </nav>
               </div>
             </div>
-            <nav aria-label="Browse brands" className="grid shrink-0 grid-cols-2 items-stretch border-t border-[var(--border-soft)] bg-[var(--surface)] sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
-              {previousBrand ? (
-                <button type="button" onClick={() => showAdjacentBrand("previous")} aria-label={`View previous brand, ${previousBrand.name}`} className="group flex min-w-0 items-center gap-2 px-3 py-3 text-left transition hover:bg-[var(--surface-strong)] sm:gap-3 sm:px-5">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--border-strong)] text-[var(--ink-strong)] transition group-hover:border-[var(--accent-strong)] sm:h-9 sm:w-9"><Chevron direction="previous" /></span>
-                  <span className="min-w-0"><span className="block text-[0.6rem] font-medium text-[var(--ink-muted)]">Previous brand</span><span className="mt-0.5 block text-[0.68rem] font-medium leading-[1.15rem] text-[var(--ink-strong)] sm:text-sm sm:leading-5">{previousBrand.name}</span></span>
-                </button>
-              ) : null}
-              <button type="button" onClick={closeModal} className="hidden px-5 text-xs font-medium text-[var(--ink-muted)] transition hover:bg-[var(--surface-strong)] hover:text-[var(--ink-strong)] sm:block">Back to brands</button>
-              {nextBrand ? (
-                <button type="button" onClick={() => showAdjacentBrand("next")} aria-label={`View next brand, ${nextBrand.name}`} className="group flex min-w-0 items-center justify-end gap-2 border-l border-[var(--border-soft)] px-3 py-3 text-right transition hover:bg-[var(--surface-strong)] sm:gap-3 sm:border-l-0 sm:px-5">
-                  <span className="min-w-0"><span className="block text-[0.6rem] font-medium text-[var(--ink-muted)]">Next brand</span><span className="mt-0.5 block text-[0.68rem] font-medium leading-[1.15rem] text-[var(--ink-strong)] sm:text-sm sm:leading-5">{nextBrand.name}</span></span>
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--border-strong)] text-[var(--ink-strong)] transition group-hover:border-[var(--accent-strong)] sm:h-9 sm:w-9"><Chevron direction="next" /></span>
-                </button>
-              ) : null}
-            </nav>
-          </div>
           </div>
         </div>
       ) : null}

@@ -35,6 +35,7 @@ export function SiteFooter() {
               <span className="h-8 w-px bg-[#0b513f]/20" aria-hidden="true" />
               <Image
                 src="/brand/buttercup-bebe-logo.svg"
+                unoptimized
                 alt="Buttercup Bebe"
                 width={1180}
                 height={450}

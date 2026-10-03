@@ -177,3 +177,9 @@ npm run lint
 npm run build
 npm run start
 ```
+
+## Responsive image delivery
+
+`npm run dev` and `npm run build` first generate responsive WebP files from the raster originals in `public/`. The generated files (`public/optimized/`) and lookup manifest (`src/data/image-manifest.json`) are intentionally ignored by Git; commit the originals and run `npm run images:generate` after adding photos while the dev server is running.
+
+The shared Next.js image loader chooses a pre-generated size. Content hashes in filenames allow a one-year immutable browser cache while new originals receive new URLs. Brand quick views prefetch nearby photos and brands, and decode the selected photo before replacing the displayed one. Mobile photo swipes change photos; the discreet navigation beneath the photo changes brands. Keyboard users can use left/right for photos, Shift + left/right for brands, and Escape to close.

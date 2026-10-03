@@ -16,10 +16,16 @@ const contentSecurityPolicy = [
 const nextConfig: NextConfig = {
   devIndicators: false,
   images: {
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
     qualities: [75, 92],
   },
   async headers() {
     return [
+      {
+        source: "/optimized/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
       {
         source: "/:path*",
         headers: [

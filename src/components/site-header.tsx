@@ -24,6 +24,16 @@ export function SiteHeader() {
   const pathname = usePathname();
 
   useEffect(() => {
+    const header = document.querySelector<HTMLElement>("[data-site-header]");
+    if (!header) return;
+    const update = () => document.documentElement.style.setProperty("--site-header-height", `${header.getBoundingClientRect().height}px`);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  useEffect(() => {
     if (!mobileMenuOpen) return;
     const handleKeydown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -82,7 +92,7 @@ export function SiteHeader() {
 
       event.preventDefault();
       window.history.replaceState(null, "", "/#brands-section");
-      scrollToBrandsSection("smooth");
+      requestAnimationFrame(() => scrollToBrandsSection("smooth"));
       return;
     }
 
@@ -123,6 +133,7 @@ export function SiteHeader() {
           >
             <Image
               src="/brand/buttercup-bebe-logo.svg"
+              unoptimized
               alt="Buttercup Bebe"
               width={1180}
               height={450}
@@ -192,6 +203,7 @@ export function SiteHeader() {
           >
             <Image
               src="/brand/buttercup-bebe-logo.svg"
+              unoptimized
               alt="Buttercup Bebe Logo"
               width={1180}
               height={450}
