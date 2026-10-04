@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { TouchEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { Button, buttonStyles } from "@/components/ui/button";
+import { buttonStyles } from "@/components/ui/button";
 import type { Brand } from "@/data/brands";
 import { BOOKING_URL } from "@/lib/constants";
 import { imageDetails } from "@/lib/image-loader";
@@ -197,7 +197,6 @@ function BrandSwipePreview({
 
 export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const [activeBrand, setActiveBrand] = useState<Brand | null>(null);
-  const [brandQuery, setBrandQuery] = useState("");
   const [heroPaused, setHeroPaused] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -226,10 +225,6 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
   const brandSwipeSettleTimer = useRef<number | null>(null);
 
   const orderedBrands = useMemo(() => alphabeticalBrandOrder(brands), [brands]);
-  const matchingBrands = useMemo(() => {
-    const query = brandQuery.trim().toLocaleLowerCase();
-    return orderedBrands.filter((brand) => brand.name.toLocaleLowerCase().includes(query));
-  }, [brandQuery, orderedBrands]);
   const isModalOpen = Boolean(activeBrand);
   const activeBrandSlug = activeBrand?.slug;
   const featuredBrands = useMemo(() => orderFeaturedBrands(brands), [brands]);
@@ -963,34 +958,8 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
           </a>
         </div>
 
-        <div className="brand-search-toolbar mb-7 flex flex-wrap items-center justify-between gap-3">
-          <div className="relative w-full sm:max-w-sm">
-            <label htmlFor="brand-search" className="sr-only">Search brands</label>
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--ink-muted)]">
-              <circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 4 4" />
-            </svg>
-            <input
-              id="brand-search"
-              type="search"
-              value={brandQuery}
-              onChange={(event) => setBrandQuery(event.target.value)}
-              placeholder="Find a brand…"
-              autoComplete="off"
-              className="h-12 w-full rounded-full border border-[var(--border-strong)] bg-[var(--surface)] pl-11 pr-4 text-base text-[var(--ink-strong)] placeholder:text-[var(--ink-muted)] sm:text-sm"
-            />
-          </div>
-          <p role="status" className="text-xs text-[var(--ink-muted)]">
-            {matchingBrands.length === orderedBrands.length ? `${orderedBrands.length} brands · A–Z` : `${matchingBrands.length} of ${orderedBrands.length} brands`}
-          </p>
-        </div>
-        {!matchingBrands.length ? (
-          <div className="rounded-[18px] border border-[var(--border-soft)] bg-[var(--surface)] px-6 py-12 text-center">
-            <p className="text-[var(--ink-muted)]">No brands match “{brandQuery.trim()}”.</p>
-            <Button variant="secondary" className="mt-4" onClick={() => setBrandQuery("")}>Show all brands</Button>
-          </div>
-        ) : null}
         <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-          {matchingBrands.map((brand) => {
+          {orderedBrands.map((brand) => {
             const hasLogo = Boolean(brand.logoUrl?.trim()) && !hiddenLogoSlugs[brand.slug];
             const hasSisterLogo = hasLogo && Boolean(brand.sisterLogoUrl?.trim());
 

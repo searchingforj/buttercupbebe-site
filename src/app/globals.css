@@ -122,18 +122,6 @@ button,
   scrollbar-color: var(--border-strong) transparent;
 }
 
-.brand-search-toolbar {
-  position: sticky;
-  top: var(--site-header-height, 110px);
-  z-index: 30;
-  padding-block: 12px;
-  background: var(--background);
-}
-
-@media (max-height: 500px) {
-  .brand-search-toolbar { position: static; }
-}
-
 .quick-view-backdrop {
   position: fixed;
   inset: 0;
