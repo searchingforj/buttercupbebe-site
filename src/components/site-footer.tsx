@@ -54,14 +54,12 @@ export function SiteFooter() {
             >
               {CONTACT_EMAIL}
             </a>
-            <a
+            <Link
               href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
               className="text-sm text-[#4f625c] hover:text-[#0b513f]"
             >
-              Schedule a conversation ↗
-            </a>
+              Schedule a conversation
+            </Link>
             <Link href="/" className="text-sm text-[#4f625c] hover:text-[#0b513f]">
               Visit the full Buttercup Bebe showroom
             </Link>
@@ -79,14 +77,12 @@ export function SiteFooter() {
           <p className="max-w-md text-sm leading-7 text-[var(--ink-muted)]">
             A curated children&apos;s wholesale showroom for boutique, specialty, and department store buyers.
           </p>
-          <a
+          <Link
             href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
             className={buttonStyles({ variant: "secondary", size: "md" })}
           >
             Book Appointment
-          </a>
+          </Link>
         </div>
 
         <div className="space-y-3">

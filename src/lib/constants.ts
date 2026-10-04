@@ -1,4 +1,6 @@
-export const BOOKING_URL =
+export const BOOKING_URL = "/book";
+
+export const GOOGLE_BOOKING_URL =
   "https://calendar.google.com/calendar/u/0/appointments/AcZssZ2yUWzn1OOAwM-UIAjoxhKebGNl9TqgvCjtMjI=?gv=true";
 
 export const COURTSIDE_WHOLESALE_URL = "https://courtsidekids.com/account";

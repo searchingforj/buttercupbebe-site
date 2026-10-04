@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import Image from "next/image";
 
@@ -180,14 +181,12 @@ export default function CourtsideKidsForClubsPage() {
                 Courtside Kids pairs polished style with performance fabrics kids want to wear. It is an especially strong fit for golf shops, pro shops, and country club retail.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <a
+                <Link
                   href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className={buttonStyles({ variant: "club", size: "lg", className: "gap-2 !rounded-none normal-case" })}
                 >
                   Talk to a representative <ArrowIcon />
-                </a>
+                </Link>
                 <a
                   href={inquiryEmail}
                   className={buttonStyles({
@@ -333,14 +332,12 @@ export default function CourtsideKidsForClubsPage() {
               Courtside Kids can customize the collection with your club&apos;s logo, crest, or emblem, bringing a distinctive, elevated look to your junior assortment.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
+              <Link
                 href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
                 className={buttonStyles({ variant: "club", size: "lg", className: "gap-2 !rounded-none normal-case" })}
               >
                 Talk to a representative <ArrowIcon />
-              </a>
+              </Link>
               <a
                 href={inquiryEmail}
                 className={buttonStyles({
@@ -395,14 +392,12 @@ export default function CourtsideKidsForClubsPage() {
             Talk with us about the collection, custom embroidery, or your first wholesale order.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <a
+            <Link
               href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
               className={buttonStyles({ variant: "light", size: "lg", className: "gap-2 !rounded-none normal-case" })}
             >
               Talk to a representative <ArrowIcon />
-            </a>
+            </Link>
             <a
               href={inquiryEmail}
               className={buttonStyles({ variant: "glass", size: "lg", className: "gap-2 !rounded-none normal-case" })}

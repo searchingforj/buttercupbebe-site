@@ -29,18 +29,49 @@ npm run dev
 
 - `/` Home (hero, brand showroom, quick view modal, contact section)
 - `/market-dates` 2027 market schedule
+- `/book` embedded Google appointment booking with market selection
 - `/about` team + showroom background
 - `/contact` contact details + inquiry form
 
 ## Booking CTA
 
-All booking CTAs use:
+All booking CTAs open `/book` in the same tab. The page embeds Google's **all
+booking pages** URL, so Google supplies the market list, dates, descriptions,
+availability, and booking form. No market records are duplicated in the website.
+No new scheduling subscription is required. Google still controls its calendar
+UI, starting date, booking form, and any email verification configured by the owner.
 
-`https://calendar.google.com/calendar/u/0/appointments/AcZssZ2yUWzn1OOAwM-UIAjoxhKebGNl9TqgvCjtMjI=?gv=true`
+The booking area is full width on a white page, without a sidebar or an outer
+card. The iframe has responsive fixed heights; Google's documented embed does
+not offer automatic content-height sizing. Inner scrolling remains available
+when Google's content is taller, especially on mobile or after adding schedules.
+Do not disable scrolling or crop the content to create the appearance of a
+single scrolling page. Completely removing nested scrolling would require a
+different booking experience rather than a styling change to this embed.
 
-The shared URL constant is in:
+New appointment schedules that appear on the same Google **all booking pages**
+listing appear in the embed on its next load without a website update. This is
+not a feed of ordinary calendar events, nor a continuously refreshing page:
+reload the page (or click "All appointments") to fetch updated Google content.
+Manage expired schedules and calendar conflict checking in Google. The separate
+`/market-dates` page is still manually maintained and is not synchronized by this
+embed. No Google APIs, scraper, or synchronization job is used.
 
-- `src/lib/constants.ts`
+The shared website route and Google all-pages URL are in `src/lib/constants.ts`.
+If the booking owner/account or all-pages URL changes, update that constant and
+redeploy. Old `?appointment=` parameters are ignored; all visitors see the live
+Google list. "All appointments" remounts the iframe to return to the list without
+depending on Google's internal navigation or reading cross-origin content.
+
+The site's content security policy allows frames only from
+`https://calendar.google.com`. An "Open in Google" link remains available if a
+browser blocks the embed. Fallback links remain visible above and below the iframe.
+No loading overlay covers Google content: cross-origin iframe load events cannot
+reliably tell us whether the booking UI is ready or successful. On `/book`,
+the site header is not sticky so it does not cover Google's appointment dialog
+when the browser scrolls a form field into view. For guest booking, review each schedule's Google
+"Booking form → Require email verification" setting: enabling it requires guests
+without a signed-in Google account to verify a code sent to their email.
 
 ## Edit Brand Data
 

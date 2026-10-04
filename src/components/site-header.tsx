@@ -146,10 +146,8 @@ export function SiteHeader() {
             />
           </div>
 
-          <a
+          <Link
             href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
             className={buttonStyles({
               variant: "club",
               size: "sm",
@@ -157,7 +155,7 @@ export function SiteHeader() {
             })}
           >
             Talk to a rep
-          </a>
+          </Link>
         </div>
 
         <div className="border-t border-[#0b513f]/10 px-4 py-2 text-center sm:hidden">
@@ -172,7 +170,7 @@ export function SiteHeader() {
   return (
     <header
       data-site-header
-      className="sticky top-0 z-40 border-b border-[var(--border-soft)] bg-[var(--surface-overlay)] backdrop-blur-md"
+      className={`${pathname === BOOKING_URL ? "relative" : "sticky top-0"} z-40 border-b border-[var(--border-soft)] bg-[var(--surface-overlay)] backdrop-blur-md`}
     >
       <div className="border-b border-[var(--border-soft)] bg-[var(--surface-strong)]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
@@ -222,10 +220,8 @@ export function SiteHeader() {
                 </li>
               ))}
               <li>
-                <a
+                <Link
                   href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className={buttonStyles({
                     variant: "secondary",
                     size: "sm",
@@ -233,7 +229,7 @@ export function SiteHeader() {
                   })}
                 >
                   Book Now
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
@@ -296,10 +292,8 @@ export function SiteHeader() {
                 </li>
               ))}
               <li>
-                <a
+                <Link
                   href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
                   className={buttonStyles({
                     variant: "secondary",
@@ -308,7 +302,7 @@ export function SiteHeader() {
                   })}
                 >
                   Book Now
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>

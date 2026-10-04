@@ -869,17 +869,15 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     >
                       View Brand
                     </button>
-                    <a
+                    <Link
                       href={BOOKING_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className={`${buttonStyles({
                         variant: "glass",
                         size: "md",
                       })} px-4 py-2 text-[0.66rem] sm:px-6 sm:py-3 sm:text-[0.78rem]`}
                     >
                       Book Appointment
-                    </a>
+                    </Link>
                     <a
                       href="#brands-section"
                       className={`${buttonStyles({
@@ -948,14 +946,12 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
               booking.
             </p>
           </div>
-          <a
+          <Link
             href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
             className={buttonStyles({ variant: "secondary", size: "md" })}
           >
             Book Appointment
-          </a>
+          </Link>
         </div>
 
         <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
@@ -1131,7 +1127,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     ) : (
                       <Link href={activeOrderUrl} className={buttonStyles({ variant: "primary", size: "md" })}>Ordering Help</Link>
                     )}
-                    <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className={buttonStyles({ variant: "secondary", size: "md" })}>Book Appointment</a>
+                    <Link href={BOOKING_URL} className={buttonStyles({ variant: "secondary", size: "md" })}>Book Appointment</Link>
                   </div>
                   {imageError ? (
                     <p role="alert" className="mt-2 text-xs text-[var(--ink-muted)]">Photo couldn’t load. <button type="button" className="underline underline-offset-2" onClick={() => setImageRetry(value => value + 1)}>Try again</button></p>

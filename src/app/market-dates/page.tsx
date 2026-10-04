@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 
 import { buttonStyles } from "@/components/ui/button";
@@ -96,14 +97,12 @@ export default function MarketDatesPage() {
       <div className="mx-auto max-w-3xl space-y-4 text-center">
         <p className="section-eyebrow">2027 Market Dates</p>
         <h1 className="font-display text-4xl text-[var(--ink-strong)] sm:text-5xl">Plan your market calendar.</h1>
-        <a
+        <Link
           href={BOOKING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
           className={buttonStyles({ variant: "secondary", size: "sm", className: "mt-1" })}
         >
           Book Appointment
-        </a>
+        </Link>
       </div>
 
       <div className="mt-12 overflow-hidden rounded-[22px] border border-[var(--border-soft)] bg-[var(--surface)] shadow-[0_18px_42px_rgba(37,31,24,0.08)]">
@@ -141,14 +140,12 @@ export default function MarketDatesPage() {
         <p className="mb-4 text-sm text-[var(--ink-muted)]">
           Reserve your market time in advance for a focused walkthrough.
         </p>
-        <a
+        <Link
           href={BOOKING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
           className={buttonStyles({ variant: "primary", size: "lg" })}
         >
           Book Market Appointment
-        </a>
+        </Link>
       </div>
     </section>
   );
