@@ -427,7 +427,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Southern-style monogram blanks and classic baby boutique essentials.",
     websiteUrl: "https://zsazsa-lolli.com/",
-    orderUrl: "https://www.brandboom.com/app/a/AFE80590EC0",
+    orderUrl: "https://www.brandboom.com/app/a/F674D5CC799",
     logoUrl: logoFor("zsazsa-and-lolli"),
     images: imagesFor("zsazsa-and-lolli"),
   },
