@@ -905,30 +905,7 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
             </div>
           ) : null}
         </div>
-        <div className="absolute right-4 top-4 z-20 flex items-center gap-2 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 text-white backdrop-blur-md sm:right-6 sm:top-6">
-          {featuredBrands.map((brand, index) => (
-            <button
-              key={brand.slug}
-              type="button"
-              aria-label={`Show featured brand ${brand.name}`}
-              aria-pressed={activeSlideIndex === index}
-              onClick={() => { setActiveSlideIndex(index); resetHeroRotation(); }}
-              className="flex h-8 w-6 items-center justify-center rounded-full"
-            >
-              <span className={`h-1.5 rounded-full transition-all ${activeSlideIndex === index ? "w-5 bg-white" : "w-1.5 bg-white/50"}`} />
-            </button>
-          ))}
-          <button
-            type="button"
-            aria-label={heroPaused || prefersReducedMotion ? "Play featured brands" : "Pause featured brands"}
-            onClick={() => { setHeroPaused(!(heroPaused || prefersReducedMotion)); setPrefersReducedMotion(false); resetHeroRotation(); }}
-            className="flex h-8 w-8 items-center justify-center rounded-full border-l border-white/20"
-          >
-            <svg aria-hidden="true" viewBox="0 0 20 20" className="h-3.5 w-3.5" fill="currentColor">
-              {heroPaused || prefersReducedMotion ? <path d="M6 3.5 16 10 6 16.5Z" /> : <path d="M5 4h3v12H5zm7 0h3v12h-3z" />}
-            </svg>
-          </button>
-        </div>
+
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
