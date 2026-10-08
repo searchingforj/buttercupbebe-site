@@ -30,6 +30,21 @@ const logoFor = (slug: string) => `/brand-logos/${slug}.png`;
 
 export const brands: Brand[] = [
   {
+    slug: "three-little-ducks",
+    name: "Three Little Ducks",
+    oneLiner:
+      "Classic children's clothing with playful prints and soft Pima cotton styles, from bubbles and play dresses to coordinating separates and lounge sets.",
+    websiteUrl: "https://shopthreelittleducks.com/collections/all",
+    logoUrl: logoFor("three-little-ducks-card"),
+    images: [
+      "/brands/three-little-ducks/beach-lifestyle.webp",
+      "/brands/three-little-ducks/sibling-lifestyle.webp",
+      "/brands/three-little-ducks/petal-hill-farm-crewneck.webp",
+      "/brands/three-little-ducks/pawty-pups-play-dress.webp",
+      "/brands/three-little-ducks/pawty-pups-lounge-set.webp",
+    ],
+  },
+  {
     slug: "courtside-kids",
     name: "Courtside Kids",
     oneLiner:
