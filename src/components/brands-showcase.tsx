@@ -81,6 +81,11 @@ const BRAND_LOGO_SCALE_BY_SLUG: Partial<Record<Brand["slug"], number>> = {
 const HERO_ROTATION_MS = 9000;
 const MOBILE_HERO_ROTATION_MS = 7500;
 const MOBILE_HERO_MEDIA_QUERY = "(max-width: 639px)";
+const heroCtaStyles = buttonStyles({
+  variant: "glass",
+  size: "md",
+  className: "sm:px-6 sm:py-3 sm:text-[0.78rem]",
+});
 const SWIPE_THRESHOLD_PX = 44;
 const BRAND_SWIPE_THRESHOLD_PX = 76;
 const MOBILE_GALLERY_MEDIA_QUERY = "(max-width: 959px)";
@@ -871,19 +876,13 @@ export function BrandsShowcase({ brands }: BrandsShowcaseProps) {
                     </button>
                     <Link
                       href={BOOKING_URL}
-                      className={`${buttonStyles({
-                        variant: "glass",
-                        size: "md",
-                      })} px-4 py-2 text-[0.66rem] sm:px-6 sm:py-3 sm:text-[0.78rem]`}
+                      className={heroCtaStyles}
                     >
                       Book Appointment
                     </Link>
                     <a
                       href="#brands-section"
-                      className={`${buttonStyles({
-                        variant: "glass",
-                        size: "lg",
-                      })} group relative overflow-hidden max-sm:px-4 max-sm:py-2 max-sm:text-[0.66rem]`}
+                      className={`${heroCtaStyles} group relative overflow-hidden`}
                     >
                       <span>Browse All Brands</span>
                       <svg
