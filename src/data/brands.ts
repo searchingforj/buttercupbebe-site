@@ -35,6 +35,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Classic children's clothing with playful prints and soft Pima cotton styles, from bubbles and play dresses to coordinating separates and lounge sets.",
     websiteUrl: "https://shopthreelittleducks.com/collections/all",
+    orderUrl: "http://www.brandboom.com/threelittleduckswholesale/a/7867FF69158",
     logoUrl: logoFor("three-little-ducks-card"),
     images: [
       "/brands/three-little-ducks/beach-lifestyle.webp",
