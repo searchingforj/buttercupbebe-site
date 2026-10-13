@@ -30,6 +30,20 @@ const logoFor = (slug: string) => `/brand-logos/${slug}.png`;
 
 export const brands: Brand[] = [
   {
+    slug: "beyond-creations",
+    name: "Beyond Creations",
+    oneLiner:
+      "Handcrafted hair bows and soft headbands in classic colors and playful styles, adding a sweet finishing touch for babies and girls.",
+    websiteUrl: "https://beyondcreations.com/",
+    logoUrl: logoFor("beyond-creations"),
+    images: [
+      "/brands/beyond-creations/classic-bow-lifestyle.webp",
+      "/brands/beyond-creations/white-headband-lifestyle.webp",
+      "/brands/beyond-creations/white-hair-bow-lifestyle.webp",
+      "/brands/beyond-creations/pink-headband-lifestyle.webp",
+    ],
+  },
+  {
     slug: "three-little-ducks",
     name: "Three Little Ducks",
     oneLiner:
