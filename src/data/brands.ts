@@ -33,12 +33,11 @@ export const brands: Brand[] = [
     slug: "beyond-creations",
     name: "Beyond Creations",
     oneLiner:
-      "Handcrafted hair bows and soft headbands in classic colors and playful styles, adding a sweet finishing touch for babies and girls.",
+      "Classic children's accessories, from handcrafted hair bows and headbands to pacifier clips, boys' belts and suspenders, socks, tights, and gift sets for everyday wear and special occasions.",
     websiteUrl: "https://beyondcreations.com/",
     logoUrl: logoFor("beyond-creations"),
     images: [
       "/brands/beyond-creations/classic-bow-lifestyle.webp",
-      "/brands/beyond-creations/white-headband-lifestyle.webp",
       "/brands/beyond-creations/white-hair-bow-lifestyle.webp",
       "/brands/beyond-creations/pink-headband-lifestyle.webp",
     ],
