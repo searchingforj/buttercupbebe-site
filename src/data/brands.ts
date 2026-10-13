@@ -38,8 +38,12 @@ export const brands: Brand[] = [
     logoUrl: logoFor("beyond-creations"),
     images: [
       "/brands/beyond-creations/classic-bow-lifestyle.webp",
+      "/brands/beyond-creations/garden-headband-lifestyle.webp",
+      "/brands/beyond-creations/blue-headband-lifestyle.webp",
       "/brands/beyond-creations/white-hair-bow-lifestyle.webp",
       "/brands/beyond-creations/pink-headband-lifestyle.webp",
+      "/brands/beyond-creations/two-tone-leather-belt.webp",
+      "/brands/beyond-creations/floral-pacifier-clip.webp",
     ],
   },
   {
