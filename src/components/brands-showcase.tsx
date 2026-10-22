@@ -20,7 +20,6 @@ const FEATURED_BRAND_ORDER = [
   "courtside-kids",
   "little-paper-kids",
   "smockingbird",
-  "yogababy",
 ] as const;
 
 const HERO_IMAGE_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
@@ -28,7 +27,6 @@ const HERO_IMAGE_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
   "bushel-and-a-peck": "/brands/bushel-and-a-peck/hero-fw26-731a7708.webp",
   "little-paper-kids": "/brands/little-paper-kids/hero-shop-bottoms.webp",
   smockingbird: "/brands/smockingbird/hero-website-jmf-0233.webp",
-  yogababy: "/brands/yogababy/hero-website-img-8295.webp",
 };
 
 const MOBILE_HERO_IMAGE_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
@@ -41,7 +39,6 @@ const HERO_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
   "bushel-and-a-peck": "center 68%",
   "little-paper-kids": "center top",
   smockingbird: "center 48%",
-  yogababy: "center 50%",
 };
 
 const MOBILE_HERO_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> = {
@@ -62,7 +59,6 @@ const BRAND_CARD_IMAGE_POSITION_BY_SLUG: Partial<Record<Brand["slug"], string>> 
 const BRAND_LOGO_SCALE_BY_SLUG: Partial<Record<Brand["slug"], number>> = {
   "american-jewel": 1.12,
   "cape-point-co": 1.14,
-  "eight-thousand-miles": 1.14,
   "glitter-option": 1.1,
   larili: 1.14,
   "little-miss-zoe": 1.12,
@@ -70,11 +66,9 @@ const BRAND_LOGO_SCALE_BY_SLUG: Partial<Record<Brand["slug"], number>> = {
   "little-labels-the-brand": 1.12,
   "little-paper-kids": 1.14,
   mishmoccs: 1.12,
-  "sawyer-and-spade": 1.14,
   "southern-proper-blanks": 1.28,
   "velvet-fawn": 1.14,
   "weisinger-bamboo": 1.14,
-  yogababy: 1.14,
   "zsazsa-and-lolli": 1.14,
 };
 

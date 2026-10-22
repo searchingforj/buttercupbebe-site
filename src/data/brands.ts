@@ -30,6 +30,46 @@ const logoFor = (slug: string) => `/brand-logos/${slug}.png`;
 
 export const brands: Brand[] = [
   {
+    slug: "hug-me-first",
+    name: "Hug Me First",
+    oneLiner:
+      "Soft Pima cotton baby clothing with timeless designs, delicate hand-smocking, and embroidered details, from cozy gowns and footies to sweet everyday rompers.",
+    websiteUrl: "https://www.facebook.com/hugmefirstbabyclothes/about",
+    images: [
+      "/brands/hug-me-first/ruffle-bubble-portrait.webp",
+      "/brands/hug-me-first/smocked-bonnet-portrait.webp",
+      "/brands/hug-me-first/blue-pima-romper.webp",
+      "/brands/hug-me-first/pink-pima-romper.webp",
+    ],
+  },
+  {
+    slug: "peachie-prep",
+    name: "Peachie Prep",
+    oneLiner:
+      "Preppy, sporty apparel for girls, pairing comfortable performance fabrics with playful, feminine prints and thoughtful details for the court, the field, and everyday adventures.",
+    websiteUrl: "https://peachieprep.com/",
+    logoUrl: logoFor("peachie-prep"),
+    images: [
+      "/brands/peachie-prep/pink-tennis-lifestyle.webp",
+      "/brands/peachie-prep/floral-athletic-lifestyle.webp",
+      "/brands/peachie-prep/gingham-gameday-lifestyle.webp",
+    ],
+  },
+  {
+    slug: "little-eight",
+    name: "little eight",
+    oneLiner:
+      "Created by two moms of eight littles, little eight makes thoughtfully designed clothing for babies, girls, and boys, built around real life and family adventures. Better options, less to pack, and more to enjoy.",
+    websiteUrl: "https://shoplittleeight.com/",
+    logoUrl: logoFor("little-eight"),
+    images: [
+      "/brands/little-eight/cowgirl-lifestyle.webp",
+      "/brands/little-eight/girls-coastal-lifestyle.webp",
+      "/brands/little-eight/baby-terry-romper.webp",
+      "/brands/little-eight/boys-seaside-lifestyle.webp",
+    ],
+  },
+  {
     slug: "beyond-creations",
     name: "Beyond Creations",
     oneLiner:
@@ -104,20 +144,6 @@ export const brands: Brand[] = [
     images: [
       ...websiteCardImagesFor("yo-baby", 2),
       ...imagesFor("yo-baby"),
-    ],
-    featured: true,
-  },
-  {
-    slug: "yogababy",
-    name: "Yoga Baby",
-    oneLiner:
-      "Performance-driven kids' activewear designed for movement, comfort, and durability.",
-    websiteUrl: "https://yogababyclothing.com/",
-    orderUrl: "http://www.brandboom.com/app/a/2D7C1741391",
-    logoUrl: logoFor("yogababy"),
-    images: [
-      ...websiteCardImagesFor("yogababy", 2),
-      ...imagesFor("yogababy"),
     ],
     featured: true,
   },
@@ -292,19 +318,6 @@ export const brands: Brand[] = [
     ],
   },
   {
-    slug: "beet-world",
-    name: "Beet World",
-    oneLiner:
-      "Sustainably made children's clothing featuring natural fabrics and modern classics.",
-    websiteUrl: "https://beet-world.com/",
-    orderUrl: "https://www.brandboom.com/app/a/D142D496992",
-    logoUrl: logoFor("beet-world"),
-    images: [
-      ...websiteCardImagesFor("beet-world", 2),
-      ...imagesFor("beet-world"),
-    ],
-  },
-  {
     slug: "larili",
     name: "LARILI",
     oneLiner:
@@ -354,32 +367,6 @@ export const brands: Brand[] = [
     images: imagesFor("cape-point-co"),
   },
   {
-    slug: "sawyer-and-spade",
-    name: "Sawyer & Spade",
-    oneLiner:
-      "Mom-owned Houston children's brand creating thoughtfully designed embroidered styles with handpicked fabrics, custom charm, and playful everyday polish.",
-    websiteUrl: "https://sawyerandspade.com/",
-    orderUrl: "https://www.brandboom.com/app/a/878C710A8DE",
-    logoUrl: logoFor("sawyer-and-spade"),
-    images: [
-      ...websiteCardImagesFor("sawyer-and-spade", 2),
-      "/brands/sawyer-and-spade/3.webp",
-    ],
-  },
-  {
-    slug: "eight-thousand-miles",
-    name: "Eight Thousand Miles",
-    oneLiner:
-      "Bohemian-inspired apparel and accessories handcrafted using artisan techniques.",
-    websiteUrl: "https://eightthousandmiles.com/",
-    orderUrl: "https://www.brandboom.com/app/a/ED836C20F1E",
-    logoUrl: logoFor("eight-thousand-miles"),
-    images: [
-      ...websiteCardImagesFor("eight-thousand-miles", 2),
-      ...imagesFor("eight-thousand-miles"),
-    ],
-  },
-  {
     slug: "maddie-and-connor",
     name: "Maddie & Connor",
     oneLiner:
@@ -425,18 +412,6 @@ export const brands: Brand[] = [
     orderUrl: "https://lemonloveslime.orderspace.com/login",
     logoUrl: logoFor("lemon-loves-lime"),
     images: imagesFor("lemon-loves-lime"),
-  },
-  {
-    slug: "ml-kids",
-    name: "ML Kids",
-    oneLiner:
-      "Trend-forward shabby chic styles for girls and tweens, offering coordinated sets, statement dresses, and spirited seasonal collections.",
-    logoUrl: logoFor("ml-kids"),
-    images: [
-      "/brands/ml-kids/2.webp",
-      "/brands/ml-kids/1.webp",
-      "/brands/ml-kids/3.webp",
-    ],
   },
   {
     slug: "mishmoccs",
