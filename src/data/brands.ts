@@ -35,8 +35,8 @@ export const brands: Brand[] = [
     oneLiner:
       "Soft Pima cotton baby clothing with timeless designs, delicate hand-smocking, and embroidered details, from cozy gowns and footies to sweet everyday rompers.",
     websiteUrl: "https://www.facebook.com/hugmefirstbabyclothes/about",
+    logoUrl: logoFor("hug-me-first"),
     images: [
-      "/brands/hug-me-first/ruffle-bubble-portrait.webp",
       "/brands/hug-me-first/smocked-bonnet-portrait.webp",
       "/brands/hug-me-first/blue-pima-romper.webp",
       "/brands/hug-me-first/pink-pima-romper.webp",
@@ -299,8 +299,10 @@ export const brands: Brand[] = [
     orderUrl: "https://www.brandboom.com/app/a/0BB49A9DDE2",
     logoUrl: logoFor("glitter-option"),
     images: [
+      "/brands/glitter-option/1.webp",
       ...websiteCardImagesFor("glitter-option", 1),
-      ...imagesFor("glitter-option"),
+      "/brands/glitter-option/2.webp",
+      "/brands/glitter-option/3.webp",
     ],
   },
   {

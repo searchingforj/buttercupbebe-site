@@ -17,14 +17,20 @@ website, https://hugmefirst.com/, is password-protected as of this update.
 Public brand copy on [Faire](https://www.faire.com/brand/b_1d8hm04u6b) also
 describes its Pima cotton, hand-smocked, and embroidered baby apparel.
 
-- `ruffle-bubble-portrait.webp`: [brand photo](https://www.facebook.com/photo/?fbid=1171775639936973), 1000 × 1000 source.
 - `smocked-bonnet-portrait.webp`: [brand photo](https://www.facebook.com/photo/?fbid=449021803917205), 800 × 800 source.
 - `blue-pima-romper.webp`: [brand photo](https://www.facebook.com/photo/?fbid=1171788506602353), 798 × 960 source.
 - `pink-pima-romper.webp`: [brand photo](https://www.facebook.com/photo/?fbid=1171788206602383), 786 × 960 source.
 
 The best accessible photos were baby studio portraits and styled product
-photographs. The card uses the existing text heading fallback because the
-Facebook profile image is a baby portrait rather than a logo.
+photographs. At the owner's request, the ruffle bubble portrait was removed;
+the smocked bonnet portrait now leads both the card and gallery.
+`public/brand-logos/hug-me-first.png` is the owner-supplied
+`HF-Mockup Eti..png` (1034 × 315), copied unchanged with its transparency preserved.
+
+## Glitter Option photo order
+
+At the owner's request, the former second photo, `1.webp`, now leads the card
+and gallery. The remaining order is `website-card-01.webp`, `2.webp`, `3.webp`.
 
 ## Peachie Prep
 
