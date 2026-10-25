@@ -15,6 +15,6 @@ Added October 13, 2026. The showroom owner supplied the logo and confirmed that 
 
 The three original gallery photographs were upgraded from 640 × 640 versions to larger source originals. All images were visually inspected, transcoded to WebP at their native dimensions without upscaling, and retain the brand's existing watermarks. No promotional banners, size charts, or generated product mockups are included.
 
-Brand copy is based on the [official website](https://beyondcreations.com/) and covers the full accessories range: hair bows, headbands, pacifier clips, boys' belts and suspenders, socks, tights, and gift sets, including everyday and special-occasion styles. No showroom ordering link was supplied, so Ordering Help uses the existing contact-page fallback.
+Brand copy is based on the [official website](https://beyondcreations.com/) and covers the full accessories range: hair bows, headbands, pacifier clips, boys' belts and suspenders, socks, tights, and gift sets, including everyday and special-occasion styles. On October 24, 2026, the owner supplied the [Brandboom ordering link](http://www.brandboom.com/app/a/5DBEBD762E5); the quick view now offers Order Now.
 
 Images are stored locally and use the existing responsive image generation pipeline.

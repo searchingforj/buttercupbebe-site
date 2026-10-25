@@ -75,6 +75,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Classic children's accessories, from handcrafted hair bows and headbands to pacifier clips, boys' belts and suspenders, socks, tights, and gift sets for everyday wear and special occasions.",
     websiteUrl: "https://beyondcreations.com/",
+    orderUrl: "http://www.brandboom.com/app/a/5DBEBD762E5",
     logoUrl: logoFor("beyond-creations"),
     images: [
       "/brands/beyond-creations/classic-bow-lifestyle.webp",
@@ -108,6 +109,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Polished boys' activewear with performance fabrics and a classic sport aesthetic.",
     websiteUrl: "https://courtsidekids.com/",
+    orderUrl: "https://app.next.nuorder.com/brand/67d05dde523d4e95d4e013d4",
     logoUrl: logoFor("courtside-kids"),
     images: [
       ...websiteCardImagesFor("courtside-kids", 2),
