@@ -61,6 +61,7 @@ export const brands: Brand[] = [
     oneLiner:
       "Created by two moms of eight littles, little eight makes thoughtfully designed clothing for babies, girls, and boys, built around real life and family adventures. Better options, less to pack, and more to enjoy.",
     websiteUrl: "https://shoplittleeight.com/",
+    orderUrl: "http://www.brandboom.com/app/a/907719CE266",
     logoUrl: logoFor("little-eight"),
     images: [
       "/brands/little-eight/cowgirl-lifestyle.webp",
